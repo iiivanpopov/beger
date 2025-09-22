@@ -1,6 +1,6 @@
 services:
   backend:
-    container_name: backend
+    container_name: beger-backend
     build:
       context: beger-backend
       dockerfile: Dockerfile
@@ -11,10 +11,13 @@ services:
     environment:
       - DB_HOST=postgres
       - DB_PORT=5432
-      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/beger
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+      - CACHE_URL=memcached:11211
     depends_on:
       postgres:
         condition: service_healthy
+      memcached:
+        condition: service_started
     networks:
       - beger-network
     restart: unless-stopped
@@ -37,7 +40,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - beger-pgdata:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
       interval: 10s
@@ -48,8 +51,17 @@ services:
       - beger-network
     restart: unless-stopped
 
+  memcached:
+    image: memcached:alpine
+    container_name: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - beger-network
+    restart: unless-stopped
+
 volumes:
-  pgdata:
+  beger-pgdata:
     driver: local
 
 networks:
