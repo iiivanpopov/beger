@@ -9,10 +9,8 @@ services:
     env_file:
       - .env
     environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
-      - CACHE_URL=memcached:11211
+      - DATABASE_URL=postgresql://DB_USER:DB_PASSWORD@postgres:5432/beger
+      - MEMCACHED_URL=memcached:11211
     depends_on:
       postgres:
         condition: service_healthy
@@ -34,15 +32,15 @@ services:
     env_file:
       - .env
     environment:
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=DB_USER
+      - POSTGRES_PASSWORD=DB_PASSWORD
+      - POSTGRES_DB=beger
     ports:
       - "5432:5432"
     volumes:
       - beger-pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      test: ["CMD-SHELL", "pg_isready -U DB_USER -d beger"]
       interval: 10s
       timeout: 5s
       retries: 5
