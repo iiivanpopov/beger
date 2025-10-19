@@ -1,6 +1,55 @@
 services:
+  postgres:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_USER=$DB_USER
+      - POSTGRES_PASSWORD=$DB_PASSWORD
+      - POSTGRES_DB=beger
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - network
+    restart: unless-stopped
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - network
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: beger-backend
+      dockerfile: Dockerfile
+      args:
+        - PORT=$PORT
+        - JWT_ACCESS_SECRET=$JWT_ACCESS_SECRET
+        - JWT_REFRESH_SECRET=$JWT_REFRESH_SECRET
+        - ADMIN_PASSWORD=$ADMIN_PASSWORD
+        - SHEET_URL=$SHEET_URL
+        - REDIS_URL=redis:6379
+        - DATABASE_URL=postgresql://$DB_USER:$DB_PASSWORD@postgres:5432/beger
+    ports:
+      - "$PORT:$PORT"
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=postgresql://$DB_USER:$DB_PASSWORD@postgres:5432/beger
+      - REDIS_URL=redis:6379
+    depends_on:
+      postgres:
+        condition: service_started
+      redis:
+        condition: service_started
+    networks:
+      - network
+    restart: unless-stopped
+
   frontend:
-    container_name: beger-frontend
     build:
       context: beger-frontend
       dockerfile: Dockerfile
@@ -12,58 +61,13 @@ services:
       backend:
         condition: service_started
     networks:
-      - beger-network
-    restart: unless-stopped
-
-  backend:
-    container_name: beger-backend
-    build:
-      context: beger-backend
-      dockerfile: Dockerfile
-    ports:
-      - "${PORT}:${PORT}"
-    env_file:
-      - .env
-    environment:
-      - DATABASE_URL=postgresql://DB_USER:DB_PASSWORD@postgres:5432/beger
-      - REDIS_URL=redis:6379
-    depends_on:
-      postgres:
-        condition: service_started
-      redis:
-        condition: service_started
-    networks:
-      - beger-network
-    restart: unless-stopped
-
-  postgres:
-    image: postgres:alpine
-    container_name: beger-postgres
-    environment:
-      - POSTGRES_USER=DB_USER
-      - POSTGRES_PASSWORD=DB_PASSWORD
-      - POSTGRES_DB=beger
-    ports:
-      - "5432:5432"
-    volumes:
-      - beger-pgdata:/var/lib/postgresql/data
-    networks:
-      - beger-network
-    restart: unless-stopped
-
-  redis:
-    image: redis:alpine
-    container_name: beger-redis
-    ports:
-      - "6379:6379"
-    networks:
-      - beger-network
+      - network
     restart: unless-stopped
 
 volumes:
-  beger-pgdata:
+  pgdata:
     driver: local
 
 networks:
-  beger-network:
+  network:
     driver: bridge
