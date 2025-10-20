@@ -9,7 +9,6 @@
 - [Tanstack Router](https://tanstack.com/router/latest) - file based routing
 - [Ky](https://github.com/sindresorhus/ky) - http client, provides convenient api
 - [Tanstack Query](https://tanstack.com/query/latest) - server state managing, used for comfortable data fetching
-- [Zustand](https://zustand.docs.pmnd.rs/getting-started/introduction) - client state managing. used for toasts and auth state, maybe overhead for this project. need to review
 - [React Hook Fom](https://react-hook-form.com/) - form state managing
 - [Valibot](https://valibot.dev/) - a light version of zod, used for form validations
 
@@ -117,20 +116,6 @@ Here is step by step guide how to get it
 3. In the modal menu select the **CSV** (Comma-Separated Values) data type instead of the default **Web Page**
 
 ![Modal Menu](/assets/get-sheet-url.png)
-
-## 👀 Preview
-
-![Login Page](/assets/login-page.png)
-![Login Modal](/assets/login-modal.png)
-
-### 🧑‍⚕️ User view
-
-![Repairs Page](/assets/repairs-page.png)
-![Test Results Page](/assets/test-results-page.png)
-
-### 👮 Admin view
-
-![Users Page](/assets/users-page.png)
 
 ## ✅ TODO
 
