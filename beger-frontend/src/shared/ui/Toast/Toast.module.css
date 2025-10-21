@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  border: none;
+  border-radius: var(--radius-md);
+  outline: none;
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  color: var(--background-primary);
+  transition: transform 0.2s ease-in-out;
+  animation: appear 0.2s ease-in-out forwards;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+}
+
+.error {
+  background: var(--error);
+}
+
+.info {
+  background: var(--info);
+}
+
+.success {
+  background: var(--success);
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+    scale: 0;
+  }
+
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
+}

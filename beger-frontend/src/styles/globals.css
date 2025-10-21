@@ -1,0 +1,32 @@
+@import url('./fonts.css');
+@import url('./reset.css');
+@import url('./variables.css');
+
+a {
+  text-decoration: none;
+}
+
+.lucide {
+  stroke-width: 1.5;
+}
+
+body {
+  height: 100vh;
+  font-family: var(--font-body);
+  font-size: var(--font-size-md);
+  color: var(--text-primary);
+  background: var(--background-body);
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+@media (width <= 1024px) {
+  body {
+    background: var(--background-secondary);
+  }
+}

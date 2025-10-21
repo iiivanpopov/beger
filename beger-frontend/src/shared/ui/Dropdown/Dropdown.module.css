@@ -1,0 +1,50 @@
+.trigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  width: 100%;
+  height: var(--size-md);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: var(--font-size-md);
+  text-align: left;
+  cursor: pointer;
+
+  span {
+    flex: 1;
+    overflow: hidden;
+    text-wrap: nowrap;
+    color: var(--text-primary);
+  }
+
+  &.contained {
+    background: var(--background-primary);
+  }
+
+  svg {
+    color: var(--text-primary);
+  }
+
+  .dropdownArrow {
+    flex-shrink: 0;
+    color: #808080;
+  }
+
+  &.icon {
+    display: flex;
+    place-content: center center;
+    width: var(--size-md);
+    min-width: unset;
+    height: var(--size-md);
+    min-height: unset;
+    padding: 0;
+
+    span {
+      display: none;
+    }
+  }
+}

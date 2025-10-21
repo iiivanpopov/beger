@@ -1,0 +1,22 @@
+.textarea {
+  width: 100%;
+  padding: var(--spacing-md);
+  border: none;
+  border-radius: var(--radius-lg);
+  outline: none;
+  font-family: var(--font-body);
+  font-size: var(--font-size-md);
+  color: var(--text-primary);
+  background: var(--background-primary);
+  transition: border-color 0.2s ease-in-out;
+
+  &:disabled {
+    color: var(--background-tertiary);
+    background-color: var(--text-tertiary);
+    resize: none;
+
+    &::placeholder {
+      color: var(--background-tertiary);
+    }
+  }
+}

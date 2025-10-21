@@ -1,0 +1,12 @@
+.content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: var(--z-tooltip);
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  background: var(--background-primary);
+  box-shadow: 0 2px 4px rgb(0 0 0 /20%);
+}

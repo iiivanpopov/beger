@@ -1,0 +1,149 @@
+.button {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-sm);
+  border: none;
+  border-radius: 999px;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: var(--font-size-lg);
+  font-weight: 500;
+  background: none;
+  transition:
+    background-color 0.2s ease-in-out,
+    color 0.2s ease-in-out;
+  cursor: pointer;
+
+  &:disabled,
+  &.loading {
+    cursor: auto;
+  }
+
+  &.icon {
+    padding: 0;
+  }
+
+  svg {
+    flex-shrink: 0;
+    padding: 0;
+  }
+
+  .spinner {
+    display: none;
+  }
+
+  .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.primary {
+  &.contained {
+    color: var(--background-primary);
+    background: var(--accent);
+
+    &:hover {
+      background: var(--accent-hover);
+    }
+
+    &:disabled,
+    &.loading {
+      color: var(--background-tertiary);
+      background: var(--text-tertiary);
+    }
+  }
+
+  &.ghost {
+    color: var(--text-primary);
+
+    &:hover,
+    &:focus {
+      color: var(--accent-hover);
+    }
+  }
+}
+
+.white {
+  color: var(--text-primary);
+
+  &.contained {
+    color: var(--text-primary);
+    background: var(--background-primary);
+
+    &:hover {
+      background: var(--background-tertiary);
+    }
+
+    &:disabled,
+    &.loading {
+      color: var(--background-tertiary);
+      background: var(--text-tertiary);
+    }
+  }
+}
+
+.loading {
+  .content {
+    visibility: hidden;
+  }
+
+  .spinner {
+    position: absolute;
+    display: block;
+    animation: spin 1s linear infinite;
+  }
+}
+
+.small {
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: var(--font-size-md);
+
+  &.icon {
+    width: var(--size-sm);
+    height: var(--size-sm);
+
+    &.ghost {
+      width: var(--size-xs);
+      height: var(--size-xs);
+    }
+
+    svg {
+      width: var(--size-xs);
+      height: var(--size-xs);
+    }
+  }
+}
+
+.medium {
+  padding: var(--spacing-xs) var(--spacing-lg);
+  font-size: var(--font-size-lg);
+
+  &.icon {
+    width: var(--size-md);
+    height: var(--size-md);
+
+    &.ghost {
+      width: var(--size-2xs);
+      height: var(--size-2xs);
+    }
+
+    svg {
+      width: var(--size-2xs);
+      height: var(--size-2xs);
+    }
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

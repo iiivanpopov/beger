@@ -1,0 +1,40 @@
+{
+  "name": "beger-backend",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Beger Backend API",
+  "license": "MIT",
+  "module": "src/index.ts",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "bun ./build.script.ts",
+    "build:dev": "cross-env NODE_ENV=development bun run build",
+    "build:prod": "cross-env NODE_ENV=production bun run build",
+    "dev": "cross-env NODE_ENV=development bun --watch ./src/index.ts",
+    "dist:dev": "cross-env NODE_ENV=development bun ./dist/index.js",
+    "dist:prod": "bun ./dist/index.js",
+    "prepare": "husky || true"
+  },
+  "dependencies": {
+    "@hono/valibot-validator": "^0.5.3",
+    "drizzle-orm": "^0.44.6",
+    "hono": "^4.10.1",
+    "valibot": "^1.1.0"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^6.0.0",
+    "@types/bun": "^1.3.0",
+    "cpy-cli": "^6.0.0",
+    "cross-env": "^10.1.0",
+    "drizzle-kit": "^0.31.5",
+    "eslint": "^9.38.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.4",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.9.3"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
+  }
+}

@@ -1,0 +1,19 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.code {
+  font-size: var(--font-size-2xl);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.notFound {
+  font-size: var(--font-size-xl);
+  color: var(--text-secondary);
+}

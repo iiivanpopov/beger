@@ -1,0 +1,38 @@
+.trigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: var(--size-md);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  outline: none;
+  font-size: var(--font-size-md);
+  background: var(--background-primary);
+  cursor: pointer;
+
+  input {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-family: var(--font-body);
+    font-size: var(--font-size-md);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--text-primary);
+    background: none;
+
+    &::placeholder {
+      color: var(--text-tertiary);
+    }
+  }
+
+  svg {
+    color: var(--text-tertiary);
+  }
+
+  &.invalid {
+    border-color: var(--error);
+  }
+}

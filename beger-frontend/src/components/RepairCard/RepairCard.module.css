@@ -1,0 +1,16 @@
+.trigger {
+  display: grid; /* fix text overflow */
+}
+
+.title {
+  overflow: hidden;
+  border: none;
+  outline: none;
+  font-size: var(--font-size-md);
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-primary);
+  background: none;
+  cursor: pointer;
+}

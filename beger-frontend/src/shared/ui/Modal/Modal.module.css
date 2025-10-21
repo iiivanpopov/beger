@@ -1,0 +1,31 @@
+.backdrop {
+  position: fixed;
+  z-index: var(--z-dropdown);
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(0 0 0 / 20%);
+  backdrop-filter: blur(5px);
+}
+
+.content {
+  position: relative;
+  z-index: var(--z-modal);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-md);
+  width: 100%;
+}
+
+.close {
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  background: none;
+  cursor: pointer;
+}

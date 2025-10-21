@@ -1,0 +1,33 @@
+.typography {
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+
+  &.heading {
+    font-family: var(--font-title);
+    font-size: var(--font-size-2xl);
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  &.subheading {
+    font-family: var(--font-title);
+    font-size: var(--font-size-xl);
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  &.body {
+    font-family: var(--font-body);
+    font-size: var(--font-size-md);
+    font-weight: 400;
+    color: var(--text-primary);
+  }
+
+  &.caption {
+    font-family: var(--font-body);
+    font-size: var(--font-size-xs);
+    font-weight: 400;
+    color: var(--text-tertiary);
+  }
+}

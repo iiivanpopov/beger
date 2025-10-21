@@ -1,0 +1,36 @@
+.input {
+  width: 100%;
+  height: var(--size-md);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: var(--font-size-md);
+  color: var(--text-primary);
+  background: var(--background-primary);
+  transition: border-color 0.2s ease-in-out;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    appearance: none;
+  }
+
+  &::placeholder {
+    color: var(--text-tertiary);
+  }
+
+  &:disabled {
+    color: var(--background-tertiary);
+    background-color: var(--text-tertiary);
+    cursor: not-allowed;
+
+    &::placeholder {
+      color: var(--background-tertiary);
+    }
+  }
+}
+
+.invalid {
+  border-color: var(--error);
+}

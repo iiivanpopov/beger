@@ -1,0 +1,65 @@
+:root {
+  /* Colors */
+  --accent: #da4c32;
+  --accent-hover: #d43115;
+  --error: #dc3838;
+  --info: #3974ea;
+  --success: #47e684;
+  --text-primary: #2b2b2b;
+  --text-secondary: #3d3c3c;
+  --text-tertiary: #666;
+  --background-primary: #fff;
+  --background-secondary: #f5f5f5;
+  --background-tertiary: #e0e0e0;
+  --background-body: #7990a7;
+
+  /* Typography */
+  --font-title: 'Playfair Display', 'Times New Roman', serif;
+  --font-body: 'Inter', -apple-system, 'Segoe UI', roboto, sans-serif;
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 20px;
+  --font-size-xl: 28px;
+  --font-size-2xl: 40px;
+
+  /* Spacing */
+  --spacing-xs: 3px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 20px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  /* Radius */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 20px;
+
+  /* Sizes */
+  --size-xs: 20px;
+  --size-sm: 32px;
+  --size-md: 40px;
+  --size-lg: 48px;
+  --size-xl: 64px;
+
+  /* Widths */
+  --width-sm: 160px;
+  --width-md: 240px;
+  --width-lg: 360px;
+  --width-xl: 720px;
+  --width-2xl: 1080px;
+
+  /* Heights */
+  --height-sm: 240px;
+  --height-md: 480px;
+  --height-lg: 720px;
+
+  /* Z-index */
+  --z-dropdown: 100;
+  --z-modal: 200;
+  --z-toast: 1000;
+  --z-tooltip: 1100;
+}

@@ -1,0 +1,28 @@
+.badge {
+  width: fit-content;
+  border-radius: var(--radius-xs);
+  color: var(--background-primary);
+}
+
+.accent {
+  background: var(--accent);
+}
+
+.black {
+  color: var(--background-primary);
+  background: var(--text-primary);
+}
+
+.white {
+  color: var(--text-primary);
+  background: var(--background-primary);
+}
+
+.small {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm);
+}
+
+.medium {
+  padding: var(--spacing-sm) var(--spacing-md);
+}

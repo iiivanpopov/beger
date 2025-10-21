@@ -1,0 +1,7 @@
+.container {
+  position: fixed;
+  right: var(--spacing-2xl);
+  bottom: var(--spacing-2xl);
+  z-index: var(--z-toast);
+  gap: var(--spacing-sm);
+}

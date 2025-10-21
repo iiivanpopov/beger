@@ -1,0 +1,60 @@
+import type { Repair } from '@/api'
+import { Trash2Icon } from 'lucide-react'
+import { useCopy, useToast } from '@/shared/hooks'
+import { Card, ConfirmableButton, Tooltip, Typography } from '@/shared/ui'
+import styles from './RepairCard.module.css'
+
+export interface RepairCardProps {
+  repair: Repair
+  onDelete: (id: number) => void
+  i: number
+}
+
+export function RepairCard({ repair, i, onDelete }: RepairCardProps) {
+  const { copy } = useCopy()
+  const toast = useToast()
+
+  const onCopy = () => {
+    copy(repair.pcbName)
+    toast.info('Copied to clipboard')
+  }
+
+  const handleDelete = () => {
+    onDelete(repair.id)
+  }
+
+  return (
+    <Card key={repair.pcbName}>
+      <Card.Index>{i}</Card.Index>
+      <Card.Content>
+        <Tooltip>
+          <Tooltip.Trigger className={styles.trigger}>
+            <button type="button" className={styles.title} onClick={onCopy}>
+              {repair.pcbName}
+            </button>
+          </Tooltip.Trigger>
+          <Tooltip.Content>{repair.pcbName}</Tooltip.Content>
+        </Tooltip>
+
+        <Typography>{repair.defect}</Typography>
+        <Card.Row>
+          <Typography variant="caption">
+            id:
+            {repair.id}
+          </Typography>
+          <Typography variant="caption">
+            {new Date(repair.date).toLocaleDateString()}
+          </Typography>
+          <ConfirmableButton
+            icon
+            variant="ghost"
+            size="small"
+            onClick={handleDelete}
+          >
+            <Trash2Icon />
+          </ConfirmableButton>
+        </Card.Row>
+      </Card.Content>
+    </Card>
+  )
+}
