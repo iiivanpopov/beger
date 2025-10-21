@@ -1,2 +1,13 @@
-.vscode
+node_modules
+*.tgz
+dist
+*.tsbuildinfo
 .env
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+.vscode
+.idea
+.DS_Store
+routeTree.gen.ts
+drizzle

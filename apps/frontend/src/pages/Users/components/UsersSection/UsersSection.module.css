@@ -1,0 +1,46 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.users {
+  display: grid;
+  gap: var(--spacing-sm);
+  grid-template-columns: 1fr;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  max-width: 300px;
+}
+
+.pagination {
+  display: grid;
+  align-content: center;
+  gap: var(--spacing-sm);
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: center;
+
+  button {
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    background: none;
+    cursor: pointer;
+  }
+
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+  }
+
+  span {
+    font-weight: 500;
+    color: var(--accent);
+  }
+}

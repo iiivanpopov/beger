@@ -32,7 +32,7 @@
 ### 1. Clone
 
 ```bash
-git clone --recurse-submodules https://github.com/iiivanpopov/beger.git
+git clone https://github.com/iiivanpopov/beger.git
 ```
 
 ### 2. Configure
@@ -92,15 +92,13 @@ docker-compose up
 ### 1. Pull changes
 
 ```bash
-git pull --recurse-submodules
-git submodule update --recursive --remote
+git pull
 ```
 
 ### 2. Update containers
 
 ```bash
 docker-compose build
-docker-compose up
 ```
 
 ## ⁉️ Don't have the sheet url?
@@ -122,4 +120,3 @@ Here is step by step guide how to get it
 - Implement `/records` route for admin
 - Improve `Datepicker` ui kit component
 - **Tracking** of deleted records
-- Edit users functionality

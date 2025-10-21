@@ -1,0 +1,37 @@
+@import url('./fonts.css');
+@import url('./reset.css');
+@import url('./variables.css');
+
+.lucide {
+  stroke-width: 1.5;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: var(--font-body);
+  font-size: var(--font-size-md);
+  color: var(--text-primary);
+  background: var(--background-body);
+}
+
+a {
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+}
+
+@media (width <= 1024px) {
+  body {
+    display: block;
+    background: var(--background-secondary);
+  }
+}

@@ -1,0 +1,75 @@
+.trigger {
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  background: none;
+  cursor: pointer;
+}
+
+.content {
+  position: absolute;
+  z-index: var(--z-modal);
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--background-primary);
+}
+
+.close {
+  position: absolute;
+  top: var(--spacing-xl);
+  right: var(--spacing-xl);
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  background: none;
+  cursor: pointer;
+}
+
+.actions {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.routes {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--spacing-md);
+  width: 100%;
+  margin-top: 10vh;
+  padding: 0 var(--spacing-xl);
+}
+
+.action {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: var(--spacing-lg);
+  border: none;
+  outline: none;
+  color: var(--background-primary);
+  background: var(--accent);
+  transition: background-color 0.2s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--accent-hover);
+  }
+
+  svg {
+    width: var(--size-md);
+    height: var(--size-md);
+  }
+}
+
+@media (width <= 640px) {
+  .close {
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+  }
+}

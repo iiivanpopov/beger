@@ -1,0 +1,11 @@
+.page {
+  display: grid;
+  gap: var(--spacing-2xl);
+  grid-template-columns: 200px 250px;
+}
+
+@media (width <= 640px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+}

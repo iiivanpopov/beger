@@ -1,6 +1,0 @@
-[submodule "beger-backend"]
-	path = beger-backend
-	url = https://github.com/iiivanpopov/beger-backend.git
-[submodule "beger-frontend"]
-	path = beger-frontend
-	url = https://github.com/iiivanpopov/beger-frontend.git

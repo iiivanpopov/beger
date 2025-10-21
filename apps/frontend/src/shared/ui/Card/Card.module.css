@@ -1,0 +1,51 @@
+.card {
+  display: flex;
+  min-width: 200px;
+  max-width: 300px;
+  border-radius: var(--radius-md);
+  background: var(--background-primary);
+}
+
+.index {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  border-top-left-radius: var(--radius-md);
+  border-bottom-left-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  color: var(--background-primary);
+  background: var(--accent);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.action {
+  width: var(--size-xs);
+  height: var(--size-xs);
+  border: none;
+  outline: none;
+  color: var(--text-secondary);
+  background: none;
+  cursor: pointer;
+
+  svg {
+    width: var(--size-xs);
+    height: var(--size-xs);
+    stroke-width: 1.5;
+  }
+}

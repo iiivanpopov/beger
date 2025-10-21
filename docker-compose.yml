@@ -6,24 +6,30 @@ services:
       - POSTGRES_PASSWORD=$DB_PASSWORD
       - POSTGRES_DB=beger
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/18/docker
     networks:
       - network
     restart: unless-stopped
+    healthcheck:
+      test: [CMD-SHELL, pg_isready, -d, db_prod]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
 
   redis:
     image: redis:alpine
     ports:
-      - "6379:6379"
+      - '6379:6379'
     networks:
       - network
     restart: unless-stopped
 
   backend:
     build:
-      context: beger-backend
+      context: apps/backend
       dockerfile: Dockerfile
       args:
         - PORT=$PORT
@@ -34,7 +40,7 @@ services:
         - REDIS_URL=redis://redis:6379
         - DATABASE_URL=postgresql://$DB_USER:$DB_PASSWORD@postgres:5432/beger
     ports:
-      - "$PORT:$PORT"
+      - '$PORT:$PORT'
     env_file:
       - .env
     environment:
@@ -42,7 +48,7 @@ services:
       - REDIS_URL=redis://redis:6379
     depends_on:
       postgres:
-        condition: service_started
+        condition: service_healthy
       redis:
         condition: service_started
     networks:
@@ -51,10 +57,10 @@ services:
 
   frontend:
     build:
-      context: beger-frontend
+      context: apps/frontend
       dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - '80:80'
     env_file:
       - .env
     depends_on:

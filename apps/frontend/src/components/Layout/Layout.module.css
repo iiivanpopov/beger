@@ -1,0 +1,20 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  width: 1024px;
+  height: 800px;
+  padding: var(--spacing-xl);
+  border-radius: var(--radius-xl);
+  background: var(--background-secondary);
+}
+
+@media (width <= 1024px) {
+  .layout {
+    width: 100%;
+    height: fit-content;
+    min-height: 100vh;
+    padding: var(--spacing-lg);
+    border-radius: 0;
+  }
+}
