@@ -10,4 +10,5 @@ pnpm-debug.log*
 .idea
 .DS_Store
 routeTree.gen.ts
-drizzle
+drizzle/.cache
+drizzle/meta

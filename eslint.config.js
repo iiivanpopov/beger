@@ -14,6 +14,7 @@ export default antfu({
   jsx: {
     a11y: true,
   },
+  ignores: ['**/drizzle'],
 }, {
   files: ['apps/backend/**/*'],
   rules: {

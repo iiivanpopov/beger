@@ -8,7 +8,7 @@ COPY . .
 
 ENV VITE_PUBLIC_BASE_URL=/api
 
-RUN bun run build
+RUN bun build:prod
 
 FROM nginx:alpine AS runner
 WORKDIR /usr/share/nginx/html

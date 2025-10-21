@@ -5,8 +5,9 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "preview": "vite preview",
+    "prod": "vite preview",
+    "build:dev": "tsc -b && vite build",
+    "build:prod": "vite build",
     "lint": "eslint .",
     "stylelint": "stylelint --fix \"**/*.css\""
   },
