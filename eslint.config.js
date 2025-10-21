@@ -5,6 +5,9 @@ export default antfu({
   stylistic: true,
   imports: true,
   yaml: true,
+  formatters: {
+    markdown: true,
+  },
 }, {
   files: ['apps/backend/**/*'],
   rules: {
