@@ -11,7 +11,7 @@ export const db = drizzle(process.env.DATABASE_URL!, { schema })
 export type Database = BunSQLDatabase<typeof schema>
 
 if (process.env.NODE_ENV === 'production') {
-  await migrate(db, { migrationsFolder: 'drizzle' })
+  await migrate(db, { migrationsFolder: 'drizzle' }).catch(console.log)
 
   await db
     .insert(usersTable)
