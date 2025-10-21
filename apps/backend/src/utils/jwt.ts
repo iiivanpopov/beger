@@ -28,8 +28,8 @@ export async function signJWT({ sub, role }: UserJwtPayload, expiresIn: number, 
 
 export async function signJWTs(payload: UserJwtPayload) {
   return {
-    accessToken: await signJWT(payload, config.jwt.accessExpiresIn, config.jwt.accessSecret),
-    refreshToken: await signJWT(payload, config.jwt.refreshExpiresIn, config.jwt.refreshSecret),
+    accessToken: await signJWT(payload, config.jwt.accessExpiresIn, process.env.JWT_ACCESS_SECRET!),
+    refreshToken: await signJWT(payload, config.jwt.refreshExpiresIn, process.env.JWT_REFRESH_SECRET!),
   }
 }
 

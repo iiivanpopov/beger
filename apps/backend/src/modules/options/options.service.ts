@@ -5,7 +5,7 @@ export function fetchOptions() {
   return withCache(
     config.cache.options.key,
     async () => {
-      const response = await fetch(config.options.sheetUrl)
+      const response = await fetch(process.env.SHEET_URL!)
       const text = await response.text()
 
       const rows = parseCsvRows(text)

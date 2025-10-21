@@ -1,6 +1,5 @@
 import { cors } from 'hono/cors'
 import { logger } from 'hono/logger'
-import { config } from '@/config'
 import { errorMiddleware } from '@/middleware'
 import { createRouter } from '@/utils'
 import { router } from './router'
@@ -18,8 +17,8 @@ export async function setup() {
   app.route('/api', router)
 
   const server = Bun.serve({
-    port: config.server.port,
-    development: config.isDevelopment,
+    port: process.env.PORT,
+    development: process.env.NODE_ENV === 'development',
     fetch: app.fetch,
   })
 

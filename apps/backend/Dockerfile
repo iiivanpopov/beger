@@ -35,4 +35,4 @@ COPY drizzle.config.ts ./
 
 ENV NODE_ENV=production
 
-ENTRYPOINT ["bun", "dist:prod"]
+ENTRYPOINT ["bun", "prod"]

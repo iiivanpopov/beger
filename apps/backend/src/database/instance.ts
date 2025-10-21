@@ -1,14 +1,13 @@
 import type { BunSQLDatabase } from 'drizzle-orm/bun-sql'
 import { drizzle } from 'drizzle-orm/bun-sql'
 import { migrate } from 'drizzle-orm/bun-sql/migrator'
-import { config } from '@/config'
 import * as relations from './relations'
 import * as tables from './tables'
 import { usersTable } from './tables'
 
 const schema = { ...tables, ...relations }
 
-export const db = drizzle(config.database.url, { schema })
+export const db = drizzle(process.env.DATABASE_URL!, { schema })
 export type Database = BunSQLDatabase<typeof schema>
 
 if (process.env.NODE_ENV === 'production') {
@@ -19,7 +18,7 @@ if (process.env.NODE_ENV === 'production') {
     .values({
       fullName: 'Admin',
       userName: 'admin',
-      passwordHash: await Bun.password.hash(import.meta.env.ADMIN_PASSWORD!),
+      passwordHash: await Bun.password.hash(process.env.ADMIN_PASSWORD!),
       role: 'admin',
     })
     .onConflictDoNothing()
