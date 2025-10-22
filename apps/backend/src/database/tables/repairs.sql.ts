@@ -4,8 +4,7 @@ import { usersTable } from './users.sql'
 export const repairsTable = pgTable('repairs', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   userId: integer('user_id')
-    .notNull()
-    .references(() => usersTable.id, { onDelete: 'cascade' }),
+    .references(() => usersTable.id, { onDelete: 'set null' }),
   pcbName: varchar('pcb_name', { length: 255 }).notNull(),
   defect: varchar({ length: 255 }).notNull(),
   note: text(),

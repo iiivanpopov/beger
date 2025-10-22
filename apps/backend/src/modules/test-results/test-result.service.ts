@@ -45,7 +45,7 @@ export async function createTestResult(
     .values({
       userId,
       pcbName: payload.pcbName,
-      passedFirstTry: payload.passedFirstTry,
+      firstTry: payload.firstTry,
       failed: payload.failed,
       total: payload.total,
       date: payload.date,

@@ -64,7 +64,7 @@ export interface TestResult {
   id: number
   userId: number | null
   pcbName: string
-  passedFirstTry: number
+  firstTry: number
   failed: number
   total: number
   date: Date
@@ -144,7 +144,7 @@ export type GetTestResultsResponse = ApiResponse<{ testResults: TestResult[], me
 
 export interface CreateTestResultBody {
   pcbName: string
-  passedFirstTry: number
+  firstTry: number
   failed: number
   total: number
   date: Date

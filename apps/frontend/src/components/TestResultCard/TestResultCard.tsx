@@ -37,7 +37,7 @@ export function TestResultCard({ testResult, i, onDelete }: TestResultCardProps)
           </Tooltip>
         </Card.Row>
         <Typography>
-          {testResult.passedFirstTry}
+          {testResult.firstTry}
           /
           {testResult.failed}
           /

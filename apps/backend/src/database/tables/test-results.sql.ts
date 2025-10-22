@@ -4,10 +4,9 @@ import { usersTable } from './users.sql'
 export const testResultsTable = pgTable('test_result', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   userId: integer('user_id')
-    .notNull()
-    .references(() => usersTable.id, { onDelete: 'cascade' }),
+    .references(() => usersTable.id, { onDelete: 'set null' }),
   pcbName: varchar('pcb_name', { length: 255 }).notNull(),
-  passedFirstTry: integer('passed_first_try').notNull(),
+  firstTry: integer('passed_first_try').notNull(),
   failed: integer().notNull(),
   total: integer().notNull(),
   date: timestamp({ withTimezone: true }).notNull(),

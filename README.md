@@ -215,10 +215,3 @@ beger/
 ├── docker-compose.yml
 └── .env
 ```
-
-## 📝 TODO
-
-- [ ] Implement `/records` route for admin dashboard
-- [ ] Improve `Datepicker` UI component
-- [ ] Add tracking for deleted records
-- [ ] Implement data export functionality

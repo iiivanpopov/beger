@@ -1,5 +1,5 @@
 {
-  "id": "d83adbd3-1a98-42e7-991e-04a7cb601cb5",
+  "id": "4db22f53-55b9-4190-b7a9-bf4c81d70e8e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -29,7 +29,7 @@
           "name": "user_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "pcb_name": {
           "name": "pcb_name",
@@ -75,7 +75,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
+          "onDelete": "set null",
           "onUpdate": "no action"
         }
       },
@@ -110,7 +110,7 @@
           "name": "user_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "pcb_name": {
           "name": "pcb_name",
@@ -162,7 +162,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
+          "onDelete": "set null",
           "onUpdate": "no action"
         }
       },

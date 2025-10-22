@@ -4,7 +4,7 @@ import { dateValidation, pcbNameValidation } from '@/utils'
 
 export const CreateTestResultBody = object({
   pcbName: pcbNameValidation,
-  passedFirstTry: pipe(number(), minValue(0)),
+  firstTry: pipe(number(), minValue(0)),
   failed: pipe(number(), minValue(0)),
   total: pipe(number(), minValue(0)),
   date: dateValidation,

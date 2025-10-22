@@ -61,7 +61,7 @@ export function useTestResultsPage() {
     createTestResultMutation.mutate({
       date: data.date,
       pcbName: data.pcbName,
-      passedFirstTry: Number(data.firstTry),
+      firstTry: Number(data.firstTry),
       failed: Number(data.failed),
       total: Number(data.total),
     })
