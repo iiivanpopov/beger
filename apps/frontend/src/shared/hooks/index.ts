@@ -1,6 +1,6 @@
 export * from './useClickOn'
 export * from './useClickOutside'
-export * from './useCopy'
+export * from './useControllableState'
 export * from './useFloatingPosition'
 export * from './useMutationErrorHandler'
 export * from './usePagination'

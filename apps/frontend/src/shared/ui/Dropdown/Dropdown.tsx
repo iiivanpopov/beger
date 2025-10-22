@@ -3,6 +3,7 @@ import type { Dispatch, ReactNode, SetStateAction } from 'react'
 import clsx from 'clsx'
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react'
 import { createContext, use, useMemo, useState } from 'react'
+import { useControllableState } from '@/shared/hooks'
 import { ItemsList, Popover } from '@/shared/ui'
 import styles from './Dropdown.module.css'
 
@@ -21,7 +22,10 @@ export type DropdownProps = {
   children: ReactNode
   defaultIcon?: LucideIcon
   value: string
-} & ({ onChange: Dispatch<SetStateAction<string>>, setValue?: never }
+}
+& ({ isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }
+  | { isOpen?: never, setIsOpen?: never })
+& ({ onChange: Dispatch<SetStateAction<string>>, setValue?: never }
   | { setValue: Dispatch<SetStateAction<string>>, onChange?: never })
 
 export function Dropdown({
@@ -30,21 +34,23 @@ export function Dropdown({
   onChange,
   setValue,
   defaultIcon,
+  isOpen,
+  setIsOpen,
 }: DropdownProps) {
   const [selectedIcon, setSelectedIcon] = useState<LucideIcon | undefined>(defaultIcon)
-  const [isOpen, setIsOpen] = useState(false)
+  const [internalIsOpen, internalSetIsOpen] = useControllableState([isOpen, setIsOpen], false)
 
   const contextValue = useMemo(() => ({
-    isOpen,
-    setIsOpen,
+    isOpen: internalIsOpen,
+    setIsOpen: internalSetIsOpen,
     selected: value,
     setSelected: onChange ?? setValue,
     selectedIcon,
     setSelectedIcon,
-  }), [value, selectedIcon, isOpen, onChange, setValue])
+  }), [internalIsOpen, internalSetIsOpen, value, onChange, setValue, selectedIcon])
 
   return (
-    <Popover isOpen={isOpen} setIsOpen={setIsOpen}>
+    <Popover isOpen={internalIsOpen} setIsOpen={internalSetIsOpen}>
       <DropdownContext value={contextValue}>
         {children}
       </DropdownContext>

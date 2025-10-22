@@ -22,7 +22,6 @@ export function useLoginPage() {
   const loginMutation = useLoginMutation({
     options: {
       onSuccess: (data) => {
-        setIsOpen(false)
         localStorage.setItem(storageKeys.accessToken, data.data.tokens.accessToken)
         localStorage.setItem(storageKeys.refreshToken, data.data.tokens.refreshToken)
         navigate({ to: data.data.user.role === 'admin' ? '/users' : '/test-results' })

@@ -2,6 +2,7 @@ import { useNavigate, useSearch } from '@tanstack/react-router'
 
 export function usePagination(pages: number) {
   const navigate = useNavigate()
+
   const search = useSearch({ strict: false })
   const page = Number(search.page ?? 1)
 

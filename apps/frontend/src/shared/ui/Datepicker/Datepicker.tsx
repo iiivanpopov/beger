@@ -2,6 +2,7 @@ import type { Dispatch, SetStateAction } from 'react'
 import clsx from 'clsx'
 import { CalendarIcon } from 'lucide-react'
 import { useState } from 'react'
+import { useControllableState } from '@/shared/hooks'
 import { Popover } from '@/shared/ui'
 import { getDaysInMonth } from '@/shared/utils'
 import styles from './Datepicker.module.css'
@@ -9,11 +10,15 @@ import styles from './Datepicker.module.css'
 export type DatepickerProps = {
   className?: string
   value: Date
-} & ({ onChange: Dispatch<SetStateAction<Date>>, setValue?: never }
+}
+& ({ isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }
+  | { isOpen?: never, setIsOpen?: never })
+& ({ onChange: Dispatch<SetStateAction<Date>>, setValue?: never }
   | { setValue: Dispatch<SetStateAction<Date>>, onChange?: never })
 
-export function Datepicker({ onChange, setValue, value, className }: DatepickerProps) {
-  const [isOpen, setIsOpen] = useState(false)
+export function Datepicker({ onChange, setValue, value, className, isOpen, setIsOpen }: DatepickerProps) {
+  const [internalIsOpen, internalSetIsOpen] = useControllableState([isOpen, setIsOpen], false)
+
   const [viewDate, setViewDate] = useState({
     year: value.getFullYear(),
     month: value.getMonth(),
@@ -34,7 +39,7 @@ export function Datepicker({ onChange, setValue, value, className }: DatepickerP
       else
         setValue(newDate)
 
-      setIsOpen(false)
+      internalSetIsOpen(false)
     }
   }
 
@@ -47,7 +52,7 @@ export function Datepicker({ onChange, setValue, value, className }: DatepickerP
   }
 
   return (
-    <Popover isOpen={isOpen} setIsOpen={setIsOpen}>
+    <Popover isOpen={internalIsOpen} setIsOpen={internalSetIsOpen}>
       <Popover.Trigger className={clsx(
         styles.trigger,
         className,

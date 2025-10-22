@@ -1,4 +1,4 @@
-import type { ComponentProps, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import clsx from 'clsx'
 import styles from './Card.module.css'
 
@@ -26,23 +26,6 @@ export function CardIndex({ children, className }: CardIndexProps) {
       #
       {children}
     </div>
-  )
-}
-
-export interface CardActionProps extends ComponentProps<'button'> {
-  children: ReactNode
-  className?: string
-}
-
-export function CardAction({ children, className, ...props }: CardActionProps) {
-  return (
-    <button
-      {...props}
-      type="button"
-      className={clsx(styles.action, className)}
-    >
-      {children}
-    </button>
   )
 }
 
@@ -75,4 +58,3 @@ export function CardRow({ children, className }: CardRowProps) {
 Card.Content = CardContent
 Card.Index = CardIndex
 Card.Row = CardRow
-Card.Action = CardAction

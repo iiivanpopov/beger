@@ -57,7 +57,7 @@ export async function updateUser(
     .where(eq(usersTable.id, userId))
     .returning()
   if (!user)
-    throw new ApiError.InternalServerError()
+    throw ApiError.InternalServerError()
 
   return toUserDTO(user)
 }

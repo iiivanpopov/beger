@@ -3,5 +3,7 @@
   right: var(--spacing-2xl);
   bottom: var(--spacing-2xl);
   z-index: var(--z-toast);
+  display: flex;
+  flex-direction: column;
   gap: var(--spacing-sm);
 }

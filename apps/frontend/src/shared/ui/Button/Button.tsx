@@ -22,8 +22,8 @@ export function Button({
   variant = 'contained',
   color = 'primary',
   size = 'medium',
-  loading,
-  icon,
+  loading = false,
+  icon = false,
   className,
   ...props
 }: ButtonProps) {
@@ -40,8 +40,9 @@ export function Button({
         loading && styles.loading,
         className,
       )}
+      disabled={loading || props.disabled}
     >
-      <LoaderCircle className={styles.spinner} />
+      {loading && <LoaderCircle className={styles.spinner} />}
       <div className={styles.content}>{children}</div>
     </button>
   )

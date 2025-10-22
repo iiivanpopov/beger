@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react'
-import type { ToastConfig, ToastEntity } from './ToastsContext'
+import type { ToastEntity } from './ToastsContext'
+import type { ToastType } from '@/shared/ui'
 import { useCallback, useMemo, useState } from 'react'
+import { ToastsContainer } from '@/components/ToastsContainer'
 import { ToastsContext } from './ToastsContext'
 
 export interface ToastsProviderProps {
@@ -10,12 +12,12 @@ export interface ToastsProviderProps {
 export function ToastsProvider({ children }: ToastsProviderProps) {
   const [toasts, setToasts] = useState<ToastEntity[]>([])
 
-  const createToast = useCallback((toast: ToastConfig) => {
-    setToasts(prev => [...prev, {
-      id: Date.now() * Math.random(),
-      content: toast.content,
-      level: toast.level,
-    }])
+  const createToast = useCallback((
+    type: ToastType = 'info',
+    message: string,
+    { delay = 3000, icon = true },
+  ) => {
+    setToasts(prev => [...prev, { id: Date.now() * Math.random(), message, delay, type, icon }])
   }, [])
 
   const deleteToast = useCallback((id: number) => {
@@ -28,5 +30,10 @@ export function ToastsProvider({ children }: ToastsProviderProps) {
     deleteToast,
   }), [createToast, deleteToast, toasts])
 
-  return <ToastsContext value={contextValue}>{children}</ToastsContext>
+  return (
+    <ToastsContext value={contextValue}>
+      {children}
+      <ToastsContainer toasts={toasts} deleteToast={deleteToast} />
+    </ToastsContext>
+  )
 }

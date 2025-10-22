@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import { XIcon } from 'lucide-react'
 import { createContext, use, useMemo, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import { useClickOn } from '@/shared/hooks'
+import { useClickOn, useControllableState } from '@/shared/hooks'
 import { cloneComponent } from '@/shared/utils'
 import styles from './Modal.module.css'
 
@@ -15,20 +15,22 @@ export interface ModalContextProps {
 
 const ModalContext = createContext<ModalContextProps>(null!)
 
-export interface ModalProps {
-  isOpen: boolean
-  setIsOpen: Dispatch<SetStateAction<boolean>>
+export type ModalProps = {
   children: ReactNode
 }
+& ({ isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }
+  | { isOpen?: never, setIsOpen?: never })
 
 export function Modal({ children, isOpen, setIsOpen }: ModalProps) {
+  const [internalIsOpen, internalSetIsOpen] = useControllableState([isOpen, setIsOpen], false)
+
   const triggerRef = useRef<HTMLButtonElement>(null!)
 
   const contextValue = useMemo(() => ({
-    isOpen,
-    setIsOpen,
+    isOpen: internalIsOpen,
+    setIsOpen: internalSetIsOpen,
     triggerRef,
-  }), [isOpen, setIsOpen])
+  }), [internalIsOpen, internalSetIsOpen])
 
   return (
     <ModalContext value={contextValue}>
@@ -74,7 +76,7 @@ export interface ModalContentProps {
 
 export function ModalContent({ children, className }: ModalContentProps) {
   const { isOpen, setIsOpen } = use(ModalContext)
-  const register = useClickOn(() => setIsOpen(false))
+  const registerRef = useClickOn(() => setIsOpen(false))
 
   if (!isOpen)
     return null
@@ -82,7 +84,7 @@ export function ModalContent({ children, className }: ModalContentProps) {
   return createPortal(
     <div
       className={styles.backdrop}
-      ref={register}
+      ref={registerRef}
     >
       <div className={clsx(styles.content, className)}>
         {children}

@@ -1,6 +1,6 @@
 import type { TestResult } from '@/api'
 import { Trash2Icon } from 'lucide-react'
-import { useCopy, useToast } from '@/shared/hooks'
+import { useToast } from '@/shared/hooks'
 import { Card, ConfirmableButton, Tooltip, Typography } from '@/shared/ui'
 import styles from './TestResultCard.module.css'
 
@@ -11,11 +11,10 @@ export interface TestResultCardProps {
 }
 
 export function TestResultCard({ testResult, i, onDelete }: TestResultCardProps) {
-  const { copy } = useCopy()
   const { info: showInfo } = useToast()
 
-  const onCopy = () => {
-    copy(testResult.pcbName)
+  const onCopy = async () => {
+    await navigator.clipboard.writeText(testResult.pcbName)
     showInfo('Copied to clipboard')
   }
 

@@ -1,59 +1,53 @@
-import type { ComponentProps, ReactNode } from 'react'
+import type { LucideIcon } from 'lucide-react'
 import clsx from 'clsx'
+import { CheckCircleIcon, InfoIcon, TriangleAlertIcon } from 'lucide-react'
 import { useEffect } from 'react'
 import styles from './Toast.module.css'
 
-export interface ToastContainerProps extends ComponentProps<'div'> {
-  children: ReactNode
-  className?: string
-}
+export type ToastType = 'info' | 'success' | 'error'
 
-export function ToastContainer({ children, className, ...props }: ToastContainerProps) {
-  return (
-    <div className={clsx(styles.container, className)} {...props}>
-      {children}
-    </div>
-  )
-}
-
-export interface ToastProps extends Omit<ComponentProps<'button'>, 'id'> {
-  children: ReactNode
-  level: 'info' | 'error' | 'success'
+export interface ToastProps {
+  message: string
+  type: ToastType
   id: number
   onDelete: () => void
-  autoHide?: boolean
-  delay?: number
+  icon: boolean
+  delay: number
+}
+
+const icons: Record<ToastType, LucideIcon> = {
+  info: InfoIcon,
+  success: CheckCircleIcon,
+  error: TriangleAlertIcon,
 }
 
 export function Toast({
-  children,
-  level,
+  message,
+  type,
   id,
+  icon,
   onDelete,
-  autoHide = true,
-  delay = 5000,
-  className,
-  ...props
+  delay = 3000,
 }: ToastProps) {
   useEffect(() => {
-    if (!autoHide)
+    if (!delay)
       return
 
     const timeout = setTimeout(onDelete, delay)
 
     return () => clearTimeout(timeout)
-  }, [autoHide, onDelete, id, delay])
+  }, [onDelete, id, delay])
+
+  const Icon = icons[type]
 
   return (
     <button
       type="button"
       onClick={onDelete}
-      className={clsx(styles.toast, styles[level], className)}
-      {...props}
+      className={clsx(styles.toast, styles[type])}
     >
-      {children}
+      {icon && <Icon />}
+      {message}
     </button>
   )
 }
-
-Toast.Container = ToastContainer

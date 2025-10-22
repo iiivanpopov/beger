@@ -52,7 +52,7 @@ export async function createTestResult(
     })
     .returning()
   if (!testResult)
-    throw new ApiError.InternalServerError()
+    throw ApiError.InternalServerError()
 
   return testResult
 }

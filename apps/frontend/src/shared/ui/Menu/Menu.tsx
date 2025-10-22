@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import { MenuIcon, XIcon } from 'lucide-react'
 import { createContext, use, useMemo, useRef } from 'react'
 import { createPortal } from 'react-dom'
+import { useControllableState } from '@/shared/hooks'
 import { cloneComponent } from '@/shared/utils'
 import styles from './Menu.module.css'
 
@@ -14,20 +15,21 @@ export interface MenuContextProps {
 
 const MenuContext = createContext<MenuContextProps>(null!)
 
-export interface MenuProps {
-  isOpen: boolean
-  setIsOpen: Dispatch<SetStateAction<boolean>>
+export type MenuProps = {
   children: ReactNode
 }
+& ({ isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }
+  | { isOpen?: never, setIsOpen?: never })
 
 export function Menu({ children, isOpen, setIsOpen }: MenuProps) {
+  const [internalIsOpen, internalSetIsOpen] = useControllableState([isOpen, setIsOpen], false)
   const triggerRef = useRef<HTMLButtonElement>(null!)
 
   const contextValue = useMemo(() => ({
-    isOpen,
-    setIsOpen,
+    isOpen: internalIsOpen,
+    setIsOpen: internalSetIsOpen,
     triggerRef,
-  }), [isOpen, setIsOpen])
+  }), [internalIsOpen, internalSetIsOpen])
 
   return (
     <MenuContext value={contextValue}>
@@ -62,7 +64,7 @@ export function MenuTrigger({ children, className, asChild = false, ...props }: 
       type="button"
       aria-label="open side menu"
       title="open side menu"
-      ref={triggerRef as RefObject<HTMLButtonElement>}
+      ref={triggerRef}
       className={clsx(styles.trigger, className)}
       onClick={onClick}
     >
@@ -102,27 +104,8 @@ export interface MenuRoutesProps {
   className?: string
 }
 
-export function MenuRoutes({ children, className }: MenuRouteProps) {
+export function MenuRoutes({ children, className }: MenuRoutesProps) {
   return <nav className={clsx(styles.routes, className)}>{children}</nav>
-}
-
-export interface MenuRouteProps {
-  children: ReactNode
-  className?: string
-  onClick?: () => void
-  active?: boolean
-}
-
-export function MenuRoute({ children, className, onClick, active }: MenuRouteProps) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={clsx(styles.route, active && styles.active, className)}
-    >
-      {children}
-    </button>
-  )
 }
 
 export interface MenuActionsProps {
@@ -155,6 +138,5 @@ export function MenuAction({ children, onClick, className }: MenuActionProps) {
 Menu.Trigger = MenuTrigger
 Menu.Content = MenuContent
 Menu.Routes = MenuRoutes
-Menu.Route = MenuRoute
 Menu.Actions = MenuActions
 Menu.Action = MenuAction

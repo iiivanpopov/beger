@@ -50,7 +50,7 @@ export async function createRepair(userId: number, payload: Omit<InsertRepair, '
     })
     .returning()
   if (!repair)
-    throw new ApiError.InternalServerError()
+    throw ApiError.InternalServerError()
 
   return repair
 }

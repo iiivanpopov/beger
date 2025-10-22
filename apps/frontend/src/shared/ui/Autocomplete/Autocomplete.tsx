@@ -1,7 +1,8 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react'
 import clsx from 'clsx'
 import { ChevronsUpDownIcon } from 'lucide-react'
-import { createContext, use, useMemo, useState } from 'react'
+import { createContext, use, useMemo } from 'react'
+import { useControllableState } from '@/shared/hooks'
 import { ItemsList, Popover } from '@/shared/ui'
 import { matchesSearch } from '@/shared/utils'
 import styles from './Autocomplete.module.css'
@@ -18,21 +19,24 @@ const AutocompleteContext = createContext<AutocompleteContextProps>(null!)
 export type AutocompleteProps = {
   children: ReactNode
   value: string
-} & ({ onChange: Dispatch<SetStateAction<string>>, setValue?: never }
+}
+& ({ isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }
+  | { isOpen?: never, setIsOpen?: never })
+& ({ onChange: Dispatch<SetStateAction<string>>, setValue?: never }
   | { setValue: Dispatch<SetStateAction<string>>, onChange?: never })
 
-export function Autocomplete({ children, value, onChange, setValue }: AutocompleteProps) {
-  const [isOpen, setIsOpen] = useState(false)
+export function Autocomplete({ children, value, onChange, setValue, isOpen, setIsOpen }: AutocompleteProps) {
+  const [internalIsOpen, internalSetIsOpen] = useControllableState([isOpen, setIsOpen], false)
 
   const contextValue = useMemo(() => ({
     selected: value,
     setSelected: onChange ?? setValue,
-    isOpen,
-    setIsOpen,
-  }), [value, onChange, setValue, isOpen])
+    isOpen: internalIsOpen,
+    setIsOpen: internalSetIsOpen,
+  }), [value, onChange, setValue, internalIsOpen, internalSetIsOpen])
 
   return (
-    <Popover isOpen={isOpen} setIsOpen={setIsOpen}>
+    <Popover isOpen={internalIsOpen} setIsOpen={internalSetIsOpen}>
       <AutocompleteContext value={contextValue}>
         {children}
       </AutocompleteContext>

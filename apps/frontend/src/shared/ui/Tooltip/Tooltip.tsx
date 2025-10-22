@@ -1,8 +1,8 @@
 import type { Dispatch, ReactNode, RefObject, SetStateAction } from 'react'
 import clsx from 'clsx'
-import { createContext, use, useMemo, useRef, useState } from 'react'
+import { createContext, use, useMemo, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import { useFloatingPosition } from '@/shared/hooks'
+import { useControllableState, useFloatingPosition } from '@/shared/hooks'
 import styles from './Tooltip.module.css'
 
 export interface TooltipContextProps {
@@ -14,21 +14,24 @@ export interface TooltipContextProps {
 
 const TooltipContext = createContext<TooltipContextProps>(null!)
 
-export interface TooltipProps {
+export type TooltipProps = {
   children: ReactNode
 }
+& ({ isShown: boolean, setIsShown: Dispatch<SetStateAction<boolean>> }
+  | { isShown?: never, setIsShown?: never })
 
-export function Tooltip({ children }: TooltipProps) {
+export function Tooltip({ children, isShown, setIsShown }: TooltipProps) {
+  const [internalIsShown, internalSetIsShown] = useControllableState([isShown, setIsShown], false)
+
   const triggerRef = useRef<HTMLDivElement>(null!)
   const contentRef = useRef<HTMLDivElement>(null!)
-  const [isShown, setIsShown] = useState(false)
 
   const contextValue = useMemo(() => ({
     triggerRef,
     contentRef,
-    isShown,
-    setIsShown,
-  }), [isShown])
+    isShown: internalIsShown,
+    setIsShown: internalSetIsShown,
+  }), [internalIsShown, internalSetIsShown])
 
   return <TooltipContext value={contextValue}>{children}</TooltipContext>
 }

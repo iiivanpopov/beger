@@ -11,5 +11,5 @@ export function errorMiddleware(error: unknown, c: Context) {
 
   console.error(error)
 
-  return c.json(new ApiError.InternalServerError().toJSON(), 500)
+  return c.json(ApiError.InternalServerError().toJSON(), 500)
 }

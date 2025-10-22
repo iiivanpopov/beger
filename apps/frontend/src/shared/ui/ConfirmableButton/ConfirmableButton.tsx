@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react'
-import type { ButtonProps } from '../Button/Button'
+import type { ButtonProps } from '@/shared/ui/Button/Button'
 import { CheckIcon } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import { Button } from '../Button/Button'
+import { Button } from '@/shared/ui/Button/Button'
 
 export interface ConfirmableButtonProps extends ButtonProps {
   children: ReactNode
@@ -21,8 +21,8 @@ export function ConfirmableButton({ children, onClick, ...props }: ConfirmableBu
       <Button
         {...props}
         onClick={(e) => {
-          onClick?.(e)
           setIsConfirming(false)
+          onClick?.(e)
         }}
       >
         {props.icon && <CheckIcon />}
@@ -35,10 +35,8 @@ export function ConfirmableButton({ children, onClick, ...props }: ConfirmableBu
     <Button
       {...props}
       onClick={() => {
-        timeoutRef.current = setTimeout(() => {
-          setIsConfirming(false)
-        }, 2000)
         setIsConfirming(true)
+        timeoutRef.current = setTimeout(() => setIsConfirming(false), 2000)
       }}
     >
       {children}

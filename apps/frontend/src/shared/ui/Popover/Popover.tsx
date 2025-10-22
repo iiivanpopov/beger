@@ -3,7 +3,7 @@ import type { ClickEvent } from '@/shared/types'
 import clsx from 'clsx'
 import { createContext, use, useMemo, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import { useClickOutside, useFloatingPosition } from '@/shared/hooks'
+import { useClickOutside, useControllableState, useFloatingPosition } from '@/shared/hooks'
 import { cloneComponent } from '@/shared/utils'
 import styles from './Popover.module.css'
 
@@ -16,25 +16,24 @@ export interface PopoverContextProps {
 
 const PopoverContext = createContext<PopoverContextProps>(null!)
 
-export interface PopoverProps {
-  isOpen: boolean
-  setIsOpen: Dispatch<SetStateAction<boolean>>
+export type PopoverProps = {
   children: ReactNode
 }
+& ({ isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }
+  | { isOpen?: never, setIsOpen?: never })
 
 export function Popover({ children, isOpen, setIsOpen }: PopoverProps) {
+  const [internalIsOpen, internalSetIsOpen] = useControllableState([isOpen, setIsOpen], false)
+
   const triggerRef = useRef<HTMLButtonElement>(null!)
   const contentRef = useRef<HTMLDivElement>(null!)
 
-  const contextValue = useMemo(
-    () => ({
-      isOpen,
-      setIsOpen,
-      triggerRef,
-      contentRef,
-    }),
-    [isOpen, setIsOpen],
-  )
+  const contextValue = useMemo(() => ({
+    isOpen: internalIsOpen,
+    setIsOpen: internalSetIsOpen,
+    triggerRef,
+    contentRef,
+  }), [internalIsOpen, internalSetIsOpen])
 
   return <PopoverContext value={contextValue}>{children}</PopoverContext>
 }

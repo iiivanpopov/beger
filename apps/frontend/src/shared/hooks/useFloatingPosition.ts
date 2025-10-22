@@ -11,6 +11,7 @@ export function useFloatingPosition(
   const updatePosition = useEffectEvent(() => {
     const anchor = anchorRef.current
     const floating = floatingRef.current
+
     if (!anchor || !floating)
       return
 

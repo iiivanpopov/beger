@@ -9,17 +9,16 @@ export function useClickOutside(
   externalRef?: RefObject<HTMLElement> | RefObject<HTMLElement>[],
 ) {
   const { refs, registerRef } = useRegisterRefs<HTMLElement>()
-  const onClickOutside = useEffectEvent(callback)
+
+  const handleClick = useEffectEvent((e: ClickEvent) => {
+    const target = e.target as HTMLElement
+    const elements = collectElements(refs.current, externalRef)
+
+    if (!elements.some(el => el === target || el.contains(target)))
+      callback(e)
+  })
 
   useEffect(() => {
-    const handleClick = (e: ClickEvent) => {
-      const target = e.target as HTMLElement
-      const elements = collectElements(refs.current, externalRef)
-
-      if (!elements.some(el => el === target || el.contains(target)))
-        onClickOutside(e)
-    }
-
     document.addEventListener('click', handleClick)
     document.addEventListener('touchstart', handleClick)
 
@@ -28,5 +27,6 @@ export function useClickOutside(
       document.removeEventListener('touchstart', handleClick)
     }
   }, [refs, externalRef])
+
   return registerRef
 }

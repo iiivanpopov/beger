@@ -1,25 +1,20 @@
-import { use } from 'react'
+import type { ToastEntity } from '@/providers/ToastsProvider'
 import { createPortal } from 'react-dom'
 import { Toast } from '@/shared/ui'
-import { ToastsContext } from '../../providers/ToastsProvider'
 import styles from './ToastsContainer.module.css'
 
-export function ToastsContainer() {
-  const { toasts, deleteToast } = use(ToastsContext)
+export interface ToastsContainerProps {
+  toasts: ToastEntity[]
+  deleteToast: (id: number) => void
+}
 
+export function ToastsContainer({ toasts, deleteToast }: ToastsContainerProps) {
   return createPortal(
-    <Toast.Container className={styles.container}>
-      {toasts.map(({ id, level, content }) => (
-        <Toast
-          key={id}
-          id={id}
-          level={level}
-          onDelete={() => deleteToast(id)}
-        >
-          {content}
-        </Toast>
+    <div className={styles.container}>
+      {toasts.map(({ id, ...props }) => (
+        <Toast {...props} key={id} id={id} onDelete={() => deleteToast(id)} />
       ))}
-    </Toast.Container>,
+    </div>,
     document.body,
   )
 }

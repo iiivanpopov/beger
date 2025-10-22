@@ -9,17 +9,16 @@ export function useClickOn(
   externalRef?: RefObject<HTMLElement> | RefObject<HTMLElement>[],
 ) {
   const { refs, registerRef } = useRegisterRefs<HTMLElement>()
-  const onClick = useEffectEvent(callback)
+
+  const handleClick = useEffectEvent((e: ClickEvent) => {
+    const target = e.target as HTMLElement
+    const elements = collectElements(refs.current, externalRef)
+
+    if (elements.includes(target))
+      callback(e)
+  })
 
   useEffect(() => {
-    const handleClick = (e: ClickEvent) => {
-      const target = e.target as HTMLElement
-      const elements = collectElements(refs.current, externalRef)
-
-      if (elements.includes(target))
-        onClick(e)
-    }
-
     document.addEventListener('click', handleClick)
     document.addEventListener('touchstart', handleClick)
 

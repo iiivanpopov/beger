@@ -1,11 +1,11 @@
-import type { ReactNode } from 'react'
+import type { ToastType } from '@/shared/ui'
 import { createContext } from 'react'
 
-export type ToastLevel = 'info' | 'success' | 'error'
-
 export interface ToastConfig {
-  level: ToastLevel
-  content: ReactNode
+  type: ToastType
+  message: string
+  delay: number
+  icon: boolean
 }
 
 export interface ToastEntity extends ToastConfig {
@@ -14,7 +14,11 @@ export interface ToastEntity extends ToastConfig {
 
 export interface ToastsContextValue {
   toasts: ToastEntity[]
-  createToast: (toast: ToastConfig) => void
+  createToast: (
+    type: ToastType,
+    message: string,
+    { delay, icon }: { delay: number, icon: boolean },
+  ) => void
   deleteToast: (id: number) => void
 }
 

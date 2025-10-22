@@ -3,7 +3,6 @@ import { createRouter, RouterProvider } from '@tanstack/react-router'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { ToastsProvider } from '@/providers/ToastsProvider'
-import { ToastsContainer } from './components/ToastsContainer'
 import { routeTree } from './routeTree.gen'
 import '@/styles/globals.css'
 
@@ -29,7 +28,6 @@ createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={queryClient}>
       <ToastsProvider>
         <RouterProvider router={router} />
-        <ToastsContainer />
       </ToastsProvider>
     </QueryClientProvider>
   </StrictMode>,

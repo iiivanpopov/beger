@@ -1,6 +1,6 @@
 import type { Repair } from '@/api'
 import { Trash2Icon } from 'lucide-react'
-import { useCopy, useToast } from '@/shared/hooks'
+import { useToast } from '@/shared/hooks'
 import { Card, ConfirmableButton, Tooltip, Typography } from '@/shared/ui'
 import styles from './RepairCard.module.css'
 
@@ -11,11 +11,10 @@ export interface RepairCardProps {
 }
 
 export function RepairCard({ repair, i, onDelete }: RepairCardProps) {
-  const { copy } = useCopy()
   const toast = useToast()
 
-  const onCopy = () => {
-    copy(repair.pcbName)
+  const onCopy = async () => {
+    await navigator.clipboard.writeText(repair.pcbName)
     toast.info('Copied to clipboard')
   }
 
