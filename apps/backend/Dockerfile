@@ -1,4 +1,4 @@
-FROM oven/bun:alpine AS base
+FROM oven/bun:1.3-alpine AS base
 WORKDIR /app
 
 FROM base AS deps
@@ -24,7 +24,7 @@ FROM base AS prod-deps
 COPY package.json ./
 RUN bun i --omit=dev --omit=peer --omit=optional
 
-FROM oven/bun:alpine AS runtime
+FROM oven/bun:1.3-alpine AS runtime
 WORKDIR /app
 
 COPY --from=prod-deps /app/node_modules ./node_modules
