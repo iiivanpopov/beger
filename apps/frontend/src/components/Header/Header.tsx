@@ -52,7 +52,7 @@ export function Header() {
       <div className={styles.actions}>
         <Dropdown
           value={i18n.locale}
-          onChange={locale => i18n.setLocale(locale as Locale)}
+          setValue={locale => i18n.setLocale(locale as Locale)}
           defaultIcon={LanguagesIcon}
         >
           <Dropdown.Trigger />
@@ -93,9 +93,9 @@ export function Header() {
           >
             <Dropdown.Trigger />
             <Dropdown.Items>
-              <Dropdown.Item icon={LanguagesIcon} value="en">EN</Dropdown.Item>
-              <Dropdown.Item icon={LanguagesIcon} value="uk">UK</Dropdown.Item>
-              <Dropdown.Item icon={LanguagesIcon} value="ru">RU</Dropdown.Item>
+              <Dropdown.Item value="en">EN</Dropdown.Item>
+              <Dropdown.Item value="uk">UK</Dropdown.Item>
+              <Dropdown.Item value="ru">RU</Dropdown.Item>
             </Dropdown.Items>
           </Dropdown>
 
