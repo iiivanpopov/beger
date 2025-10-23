@@ -2,17 +2,25 @@ import type { LucideIcon } from 'lucide-react'
 import clsx from 'clsx'
 import { CheckCircleIcon, InfoIcon, TriangleAlertIcon } from 'lucide-react'
 import { useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import styles from './Toast.module.css'
 
 export type ToastType = 'info' | 'success' | 'error'
 
-export interface ToastProps {
-  message: string
+export interface ToastConfig {
   type: ToastType
+  message: string
+  delay: number
+  icon: boolean
+}
+
+export interface ToastEntity extends ToastConfig {
+  id: number
+}
+
+export interface ToastProps extends ToastConfig {
   id: number
   onDelete: () => void
-  icon: boolean
-  delay: number
 }
 
 const icons: Record<ToastType, LucideIcon> = {
@@ -51,3 +59,21 @@ export function Toast({
     </button>
   )
 }
+
+export interface ToastsContainerProps {
+  toasts: ToastEntity[]
+  deleteToast: (id: number) => void
+}
+
+export function ToastsContainer({ toasts, deleteToast }: ToastsContainerProps) {
+  return createPortal(
+    <div className={styles.container}>
+      {toasts.map(({ id, ...props }) => (
+        <Toast {...props} key={id} id={id} onDelete={() => deleteToast(id)} />
+      ))}
+    </div>,
+    document.body,
+  )
+}
+
+Toast.Container = ToastsContainer

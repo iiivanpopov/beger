@@ -2,9 +2,10 @@ import type { QueryClient } from '@tanstack/react-query'
 import type { UserRole } from '@/api'
 import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
 import { getSelfUser } from '@/api/requests/users'
-import { Layout } from '@/components/Layout'
+import { ErrorPage } from '@/pages/Error/ErrorPage'
 import { NotFoundPage } from '@/pages/NotFound/NotFoundPage'
 import { storageKeys } from '@/shared/config'
+import { Layout } from '@/shared/ui/Layout'
 
 interface RouterContext {
   role: UserRole
@@ -26,7 +27,6 @@ export const Route = createRootRouteWithContext<RouterContext>()({
           const res = await getSelfUser()
           return res
         },
-        staleTime: 5 * 60 * 1000,
       })
 
       return { role: user.data.role }
@@ -34,11 +34,13 @@ export const Route = createRootRouteWithContext<RouterContext>()({
     catch {
       localStorage.removeItem(storageKeys.accessToken)
       localStorage.removeItem(storageKeys.refreshToken)
+
       return { role: 'guest' }
     }
   },
   component: RootLayout,
   notFoundComponent: NotFoundPage,
+  errorComponent: ErrorPage,
 })
 
 function RootLayout() {

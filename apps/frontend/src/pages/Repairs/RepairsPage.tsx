@@ -8,7 +8,7 @@ export function RepairsPage() {
   const { form, actions, data, ui } = useRepairsPage()
 
   return (
-    <section className={styles.section}>
+    <div className={styles.page}>
       <div className={styles.header}>
         <Typography tag="h2" variant="subheading">Create new repair</Typography>
         <Modal isOpen={ui.modal.isOpen} setIsOpen={ui.modal.setIsOpen}>
@@ -96,6 +96,6 @@ export function RepairsPage() {
         />
         <Button className={styles.submit} type="submit">Submit</Button>
       </Form>
-    </section>
+    </div>
   )
 }

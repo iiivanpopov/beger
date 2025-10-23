@@ -1,6 +1,8 @@
+import { Link } from '@tanstack/react-router'
+import clsx from 'clsx'
 import { DoorOpenIcon } from 'lucide-react'
+import { navigationTabs } from '@/shared/config'
 import { Button, Menu, Typography } from '@/shared/ui'
-import { NavLinks } from '../NavLinks'
 import styles from './Header.module.css'
 import { useHeader } from './hooks/useHeader'
 
@@ -15,7 +17,13 @@ export function Header() {
       </div>
 
       <nav className={styles.tabs}>
-        <NavLinks role={data.role} pathname={data.pathname} />
+        {navigationTabs[data.role].map(({ to, label }) => (
+          <Link key={to} to={to}>
+            <Typography className={clsx(styles.tab, data.pathname === to && styles.active)}>
+              {label}
+            </Typography>
+          </Link>
+        ))}
       </nav>
 
       <div className={styles.actions}>
@@ -30,11 +38,13 @@ export function Header() {
         <Menu.Trigger className={styles.burger} />
         <Menu.Content className={styles.menu}>
           <Menu.Routes>
-            <NavLinks
-              role={data.role}
-              pathname={data.pathname}
-              onClick={() => ui.menu.setIsOpen(false)}
-            />
+            {navigationTabs[data.role].map(({ to, label }) => (
+              <Link key={to} to={to} onClick={() => ui.menu.setIsOpen(false)}>
+                <Typography className={clsx(styles.tab, data.pathname === to && styles.active)}>
+                  {label}
+                </Typography>
+              </Link>
+            ))}
           </Menu.Routes>
           {data.role !== 'guest' && (
             <Menu.Actions>

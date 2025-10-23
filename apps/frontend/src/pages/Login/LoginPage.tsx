@@ -7,7 +7,7 @@ export function LoginPage() {
   const { form, actions, ui } = useLoginPage()
 
   return (
-    <section className={styles.section}>
+    <div className={styles.page}>
       <Typography variant="subheading" tag="h2">Unauthorized</Typography>
       <Modal isOpen={ui.modal.isOpen} setIsOpen={ui.modal.setIsOpen}>
         <Modal.Trigger asChild>
@@ -44,6 +44,6 @@ export function LoginPage() {
           </div>
         </Modal.Content>
       </Modal>
-    </section>
+    </div>
   )
 }

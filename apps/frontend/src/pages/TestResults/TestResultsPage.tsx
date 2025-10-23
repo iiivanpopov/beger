@@ -8,7 +8,7 @@ export function TestResultsPage() {
   const { form, actions, data, ui } = useTestResultsPage()
 
   return (
-    <section className={styles.section}>
+    <section className={styles.page}>
       <div className={styles.header}>
         <Typography tag="h2" variant="subheading">Create new test result</Typography>
         <Modal isOpen={ui.modal.isOpen} setIsOpen={ui.modal.setIsOpen}>

@@ -1,8 +1,7 @@
 import type { ReactNode } from 'react'
-import type { ToastEntity } from './ToastsContext'
-import type { ToastType } from '@/shared/ui'
+import type { ToastEntity, ToastType } from '@/shared/ui'
 import { useCallback, useMemo, useState } from 'react'
-import { ToastsContainer } from '@/components/ToastsContainer'
+import { ToastsContainer } from '@/shared/ui'
 import { ToastsContext } from './ToastsContext'
 
 export interface ToastsProviderProps {

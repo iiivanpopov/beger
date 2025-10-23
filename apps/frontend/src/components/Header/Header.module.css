@@ -25,6 +25,43 @@
   gap: var(--spacing-lg);
 }
 
+.tab {
+  position: relative;
+  padding-bottom: 2px;
+  border: none;
+  outline: none;
+  font-size: var(--font-size-lg);
+  text-decoration: none;
+  color: var(--text-secondary);
+  background: none;
+  transition: color 0.2s ease-in-out;
+  cursor: pointer;
+
+  &::after {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    content: '';
+    background: var(--accent);
+    transform: translateX(-50%);
+    transition: width 0.2s ease;
+  }
+
+  &:hover {
+    &::after {
+      width: 100%;
+    }
+  }
+
+  &.active {
+    &::after {
+      width: 100%;
+    }
+  }
+}
+
 .actions {
   display: flex;
   justify-content: flex-end;
