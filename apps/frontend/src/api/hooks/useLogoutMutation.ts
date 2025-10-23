@@ -7,7 +7,7 @@ export function useLogoutMutation(
 ) {
   return useMutation({
     mutationKey: ['logout'],
-    mutationFn: () => logout(),
+    mutationFn: () => logout({ config: settings?.config }),
     ...settings?.options,
   })
 }

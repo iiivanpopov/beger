@@ -7,7 +7,7 @@ export function useGetSelfTestResultsQuery(
 ) {
   return useQuery({
     queryKey: ['test-results', 'self'],
-    queryFn: () => getSelfTestResults(),
+    queryFn: () => getSelfTestResults({ config: settings?.config }),
     ...settings?.options,
   })
 }

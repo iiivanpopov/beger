@@ -1,14 +1,14 @@
-import type { DeleteTestResultParams } from '@/api/requests/test-results'
+import type { DeleteTestResultConfig } from '@/api/requests/test-results'
 import type { MutationSettings } from '@/api/types'
 import { useMutation } from '@tanstack/react-query'
 import { deleteTestResult } from '@/api/requests/test-results'
 
 export function useDeleteTestResultMutation(
-  settings?: MutationSettings<DeleteTestResultParams, typeof deleteTestResult>,
+  settings?: MutationSettings<DeleteTestResultConfig, typeof deleteTestResult>,
 ) {
   return useMutation({
     mutationKey: ['test-results'],
-    mutationFn: params => deleteTestResult({ params }),
+    mutationFn: ({ payload, config }) => deleteTestResult({ payload, config: { ...settings?.config, ...config } }),
     ...settings?.options,
   })
 }

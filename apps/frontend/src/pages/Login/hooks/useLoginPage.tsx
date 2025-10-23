@@ -30,7 +30,7 @@ export function useLoginPage() {
     },
   })
 
-  const onSubmit = form.handleSubmit(data => loginMutation.mutate(data))
+  const onSubmit = form.handleSubmit(body => loginMutation.mutate({ payload: { body } }))
 
   return {
     ui: {

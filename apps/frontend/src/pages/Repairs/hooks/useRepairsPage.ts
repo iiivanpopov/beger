@@ -49,25 +49,25 @@ export function useRepairsPage() {
     },
   })
 
-  const onSubmit = form.handleSubmit((data) => {
-    if (!optionsQuery.data?.data.pcbNames.includes(data.pcbName)) {
+  const onSubmit = form.handleSubmit((body) => {
+    if (!optionsQuery.data?.data.pcbNames.includes(body.pcbName)) {
       return form.setError('pcbName', {
         type: 'manual',
         message: 'Invalid board name',
       })
     }
 
-    if (!optionsQuery.data?.data.defects.includes(data.defect)) {
+    if (!optionsQuery.data?.data.defects.includes(body.defect)) {
       return form.setError('defect', {
         type: 'manual',
         message: 'Invalid defect',
       })
     }
 
-    createRepairMutation.mutate(data)
+    createRepairMutation.mutate({ payload: { body } })
   })
 
-  const onDelete = (id: number) => deleteRepairMutation.mutate({ id })
+  const onDelete = (id: number) => deleteRepairMutation.mutate({ payload: { params: { id } } })
 
   return {
     form,

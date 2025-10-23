@@ -1,5 +1,4 @@
-import type { User } from '@/api'
-import type { UpdateUserParams } from '@/api/requests/users'
+import type { UpdateUserPayload, User } from '@/api'
 import { valibotResolver } from '@hookform/resolvers/valibot'
 import { useRouteContext } from '@tanstack/react-router'
 import { EditIcon } from 'lucide-react'
@@ -47,17 +46,23 @@ export function EditUserModal({ user }: EditUserModalProps) {
     },
   })
 
-  const onSubmit = form.handleSubmit((data) => {
-    const payload: UpdateUserParams = {
-      fullName: data.fullName,
-      userName: data.userName,
-      id: user.id,
+  const onSubmit = form.handleSubmit((body) => {
+    const updateData: UpdateUserPayload['body'] = {
+      fullName: body.fullName,
+      userName: body.userName,
     }
 
-    if (data.password)
-      payload.password = data.password
+    if (body.password)
+      updateData.password = body.password
 
-    updateUserMutation.mutate(payload)
+    updateUserMutation.mutate({
+      payload: {
+        body: updateData,
+        params: {
+          id: user.id,
+        },
+      },
+    })
   })
 
   return (

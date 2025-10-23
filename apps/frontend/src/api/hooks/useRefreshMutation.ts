@@ -8,7 +8,7 @@ export function useRefreshMutation(
 ) {
   return useMutation({
     mutationKey: ['refresh'],
-    mutationFn: params => refresh({ params }),
+    mutationFn: ({ payload, config }) => refresh({ payload, config: { ...settings?.config, ...config } }),
     ...settings?.options,
   })
 }

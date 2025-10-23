@@ -38,7 +38,7 @@ export function NewUserSection() {
     },
   })
 
-  const onSubmit = form.handleSubmit(data => registerMutation.mutate(data))
+  const onSubmit = form.handleSubmit(body => registerMutation.mutate({ payload: { body } }))
 
   return (
     <section className={styles.section}>

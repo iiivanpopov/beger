@@ -12,7 +12,7 @@ export function useGetOptionsQuery(
 ) {
   return useQuery({
     queryKey: ['options'],
-    queryFn: () => getOptions(),
+    queryFn: () => getOptions({ config: settings?.config }),
     ...settings?.options,
   })
 }

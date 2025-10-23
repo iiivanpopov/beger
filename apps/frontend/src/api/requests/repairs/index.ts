@@ -1,35 +1,38 @@
 import type { Options } from 'ky'
-import type { CreateRepairBody, CreateRepairResponse, DeleteRepairResponse, GetRepairsResponse, GetSelfRepairsResponse, PaginationQuery } from '@/api/types'
+import type { CreateRepairPayload, CreateRepairResponse, DeleteRepairPayload, DeleteRepairResponse, GetRepairsPayload, GetRepairsResponse, GetSelfRepairsResponse } from '@/api/types'
 import { $api } from '@/api/instance'
 
-export type GetRepairsParams = PaginationQuery
-export type CreateRepairParams = CreateRepairBody
-export interface DeleteRepairParams {
-  id: number
+export interface GetRepairsConfig {
+  payload: GetRepairsPayload
+  config?: Options
 }
 
-export async function getRepairs({ params, config }: { params?: GetRepairsParams, config?: Options } = {}) {
-  return $api.get<GetRepairsResponse>(`repairs`, {
-    searchParams: { page: params?.page, limit: params?.limit },
-    ...config,
-  }).json()
+export async function getRepairs({ payload, config }: GetRepairsConfig) {
+  return $api.get<GetRepairsResponse>('repairs', { ...config, searchParams: payload.query as any }).json()
 }
 
-export async function getSelfRepairs({ config }: { config?: Options } = {}) {
-  return $api.get<GetSelfRepairsResponse>(`repairs/me`, {
-    ...config,
-  }).json()
+export interface GetSelfRepairsConfig {
+  config?: Options
 }
 
-export async function createRepair({ params, config }: { params: CreateRepairParams, config?: Options }) {
-  return $api.post<CreateRepairResponse>('repairs', {
-    json: params,
-    ...config,
-  }).json()
+export async function getSelfRepairs({ config }: GetSelfRepairsConfig = {}) {
+  return $api.get<GetSelfRepairsResponse>('repairs/me', config).json()
 }
 
-export async function deleteRepair({ params, config }: { params: DeleteRepairParams, config?: Options }) {
-  return $api.delete<DeleteRepairResponse>(`repairs/${params.id}`, {
-    ...config,
-  }).json()
+export interface CreateRepairConfig {
+  payload: CreateRepairPayload
+  config?: Options
+}
+
+export async function createRepair({ payload, config }: CreateRepairConfig) {
+  return $api.post<CreateRepairResponse>('repairs', { ...config, json: payload.body }).json()
+}
+
+export interface DeleteRepairConfig {
+  payload: DeleteRepairPayload
+  config?: Options
+}
+
+export async function deleteRepair({ payload: params, config }: DeleteRepairConfig) {
+  return $api.delete<DeleteRepairResponse>(`repairs/${params.params.id}`, config).json()
 }

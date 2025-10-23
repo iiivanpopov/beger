@@ -11,7 +11,7 @@ export function UsersSection() {
   const { queryClient } = useRouteContext({ from: '__root__' })
   const search = useSearch({ from: '/(admin)/users' })
 
-  const usersQuery = useSuspenseQuery(getUsersQueryOptions({ limit: 5, page: search.page }))
+  const usersQuery = useSuspenseQuery(getUsersQueryOptions({ query: { limit: 5, page: search.page } }))
 
   const pagination = usePagination(usersQuery.data.data.meta.pages)
   const mutationHandler = useMutationErrorHandler()
@@ -27,7 +27,7 @@ export function UsersSection() {
     },
   })
 
-  const onDelete = (id: number) => deleteUserMutation.mutate({ id })
+  const onDelete = (id: number) => deleteUserMutation.mutate({ payload: { params: { id } } })
 
   return (
     <section className={styles.section}>

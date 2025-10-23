@@ -1,39 +1,43 @@
 import type { UseMutationOptions, UseQueryOptions } from '@tanstack/react-query'
-import type { HTTPError } from 'ky'
+import type { HTTPError, Options } from 'ky'
 import type { AnyFunction } from '@/shared/types'
 
 export interface QuerySettings<
   Func extends AnyFunction = AnyFunction,
-  Select = Awaited<ReturnType<Func>>,
 > {
   options?: Omit<
     UseQueryOptions<
       Awaited<ReturnType<Func>>,
       HTTPError<ApiError>,
-      Select,
+      Awaited<ReturnType<Func>>,
       any
     >,
-    'queryKey'
+    'queryKey' | 'queryFn'
   >
+  config?: Options
 }
 
 export interface MutationSettings<Params = void, Func extends AnyFunction = AnyFunction> {
-  options?: UseMutationOptions<
-    Awaited<ReturnType<Func>>,
-    HTTPError<ApiError>,
-    Params,
-    any
+  options?: Omit<
+    UseMutationOptions<
+      Awaited<ReturnType<Func>>,
+      HTTPError<ApiError>,
+      Params,
+      any
+    >,
+    'mutationKey' | 'mutationFn'
   >
-}
-
-export interface ApiError {
-  message: string
-  success: false
+  config?: Options
 }
 
 export interface ApiResponse<T> {
   data: T
   success: true
+}
+
+export interface ApiError {
+  message: string
+  success: false
 }
 
 export interface ApiSuccess {
@@ -87,9 +91,9 @@ export interface PaginationMeta {
   total: number
 }
 
-export interface LoginBody {
-  userName: string
-  password: string
+// Auth
+export interface LoginPayload {
+  body: { userName: string, password: string }
 }
 
 export type LoginResponse = ApiResponse<{
@@ -97,63 +101,95 @@ export type LoginResponse = ApiResponse<{
   user: User
 }>
 
-export interface RegisterBody {
-  userName: string
-  password: string
-  fullName: string
+export interface RegisterPayload {
+  body: { userName: string, password: string, fullName: string }
 }
 
 export type RegisterResponse = ApiResponse<User>
 
-export type LogoutResponse = ApiSuccess
+export interface RefreshPayload {
+  body: { refreshToken: string }
+}
 
 export type RefreshResponse = ApiResponse<Tokens>
 
-export type GetCurrentUserResponse = ApiResponse<User>
+export type LogoutResponse = ApiSuccess
 
-export type GetUsersResponse = ApiResponse<{ users: User[], meta: PaginationMeta }>
+// Users
+export type GetSelfUserResponse = ApiResponse<User>
 
-export interface UpdateUserBody {
-  userName?: string
-  fullName?: string
-  password?: string
+export interface GetUsersPayload {
+  query: PaginationQuery
 }
+export type GetUsersResponse = ApiResponse<{
+  users: User[]
+  meta: PaginationMeta
+}>
 
+export interface UpdateUserPayload {
+  params: {
+    id: number
+  }
+  body: {
+    userName?: string
+    fullName?: string
+    password?: string
+  }
+}
 export type UpdateUserResponse = ApiResponse<User>
 
+export interface DeleteUserPayload {
+  params: {
+    id: number
+  }
+}
 export type DeleteUserResponse = ApiSuccess
 
+// Repairs
 export type GetSelfRepairsResponse = ApiResponse<Repair[]>
 
+export interface GetRepairsPayload {
+  query: PaginationQuery
+}
 export type GetRepairsResponse = ApiResponse<{ repairs: Repair[], meta: PaginationMeta }>
 
-export interface CreateRepairBody {
-  pcbName: string
-  defect: string
-  note?: string | null
-  date: Date
+export interface CreateRepairPayload {
+  body: {
+    pcbName: string
+    defect: string
+    note?: string | null
+    date: Date
+  }
 }
-
 export type CreateRepairResponse = ApiResponse<Repair>
 
+export interface DeleteRepairPayload {
+  params: { id: number }
+}
 export type DeleteRepairResponse = ApiSuccess
 
+// Test Results
 export type GetSelfTestResults = ApiResponse<TestResult[]>
 
-export type GetTestResultsResponse = ApiResponse<{ testResults: TestResult[], meta: PaginationMeta }>
-
-export interface CreateTestResultBody {
-  pcbName: string
-  firstTry: number
-  failed: number
-  total: number
-  date: Date
+export interface GetTestResultsPayload {
+  query: PaginationQuery
 }
+export type GetTestResultsResponse = ApiResponse<{
+  testResults: TestResult[]
+  meta: PaginationMeta
+}>
 
+export interface CreateTestResultPayload {
+  body: { pcbName: string, firstTry: number, failed: number, total: number, date: Date }
+}
 export type CreateTestResultResponse = ApiResponse<TestResult>
 
+export interface DeleteTestResultPayload {
+  params: { id: number }
+}
 export type DeleteTestResultResponse = ApiSuccess
 
+// Options
 export type GetOptionsResponse = ApiResponse<{
   pcbNames: string[]
   defects: string[]

@@ -1,15 +1,14 @@
-import type { GetRepairsParams } from '@/api/requests/repairs'
-import type { QuerySettings } from '@/api/types'
+import type { GetRepairsPayload, QuerySettings } from '@/api/types'
 import { useQuery } from '@tanstack/react-query'
 import { getRepairs } from '@/api/requests/repairs'
 
 export function useGetRepairsQuery(
-  params?: GetRepairsParams,
+  payload: GetRepairsPayload,
   settings?: QuerySettings<typeof getRepairs>,
 ) {
   return useQuery({
-    queryKey: ['repairs', 'all', params],
-    queryFn: () => getRepairs({ params }),
+    queryKey: ['repairs', 'all', payload],
+    queryFn: () => getRepairs({ payload, config: settings?.config }),
     ...settings?.options,
   })
 }

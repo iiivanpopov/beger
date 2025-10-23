@@ -1,35 +1,38 @@
 import type { Options } from 'ky'
-import type { CreateTestResultBody, CreateTestResultResponse, DeleteTestResultResponse, GetSelfTestResults, GetTestResultsResponse, PaginationQuery } from '@/api/types'
+import type { CreateTestResultPayload, CreateTestResultResponse, DeleteTestResultPayload, DeleteTestResultResponse, GetSelfTestResults, GetTestResultsPayload, GetTestResultsResponse } from '@/api/types'
 import { $api } from '@/api/instance'
 
-export type GetTestResultsParams = PaginationQuery
-export type CreateTestResultParams = CreateTestResultBody
-export interface DeleteTestResultParams {
-  id: number
+export interface GetTestResultsConfig {
+  payload: GetTestResultsPayload
+  config?: Options
 }
 
-export async function getTestResults({ params, config }: { params?: GetTestResultsParams, config?: Options } = {}) {
-  return $api.get<GetTestResultsResponse>(`test-results`, {
-    searchParams: { page: params?.page, limit: params?.limit },
-    ...config,
-  }).json()
+export async function getTestResults({ payload, config }: GetTestResultsConfig) {
+  return $api.get<GetTestResultsResponse>('test-results', { ...config, searchParams: payload.query as any }).json()
 }
 
-export async function getSelfTestResults({ config }: { config?: Options } = {}) {
-  return $api.get<GetSelfTestResults>(`test-results/me`, {
-    ...config,
-  }).json()
+export interface GetSelfTestResultsConfig {
+  config?: Options
 }
 
-export async function createTestResult({ params, config }: { params: CreateTestResultParams, config?: Options }) {
-  return $api.post<CreateTestResultResponse>('test-results', {
-    json: params,
-    ...config,
-  }).json()
+export async function getSelfTestResults({ config }: GetSelfTestResultsConfig = {}) {
+  return $api.get<GetSelfTestResults>('test-results/me', config).json()
 }
 
-export async function deleteTestResult({ params, config }: { params: DeleteTestResultParams, config?: Options }) {
-  return $api.delete<DeleteTestResultResponse>(`test-results/${params.id}`, {
-    ...config,
-  }).json()
+export interface CreateTestResultConfig {
+  payload: CreateTestResultPayload
+  config?: Options
+}
+
+export async function createTestResult({ payload, config }: CreateTestResultConfig) {
+  return $api.post<CreateTestResultResponse>('test-results', { ...config, json: payload.body }).json()
+}
+
+export interface DeleteTestResultConfig {
+  payload: DeleteTestResultPayload
+  config?: Options
+}
+
+export async function deleteTestResult({ payload, config }: DeleteTestResultConfig) {
+  return $api.delete<DeleteTestResultResponse>(`test-results/${payload.params.id}`, config).json()
 }

@@ -50,8 +50,8 @@ export function useTestResultsPage() {
     },
   })
 
-  const onSubmit = form.handleSubmit((data) => {
-    if (!optionsQuery.data?.data.pcbNames.includes(data.pcbName)) {
+  const onSubmit = form.handleSubmit((body) => {
+    if (!optionsQuery.data?.data.pcbNames.includes(body.pcbName)) {
       return form.setError('pcbName', {
         type: 'manual',
         message: 'Invalid board name',
@@ -59,15 +59,19 @@ export function useTestResultsPage() {
     }
 
     createTestResultMutation.mutate({
-      date: data.date,
-      pcbName: data.pcbName,
-      firstTry: Number(data.firstTry),
-      failed: Number(data.failed),
-      total: Number(data.total),
+      payload: {
+        body: {
+          date: body.date,
+          pcbName: body.pcbName,
+          firstTry: Number(body.firstTry),
+          failed: Number(body.failed),
+          total: Number(body.total),
+        },
+      },
     })
   })
 
-  const onDelete = (id: number) => deleteTestResultMutation.mutate({ id })
+  const onDelete = (id: number) => deleteTestResultMutation.mutate({ payload: { params: { id } } })
 
   return {
     form,

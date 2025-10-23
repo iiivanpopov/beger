@@ -8,5 +8,7 @@ export const Route = createFileRoute('/(admin)/users')({
   beforeLoad: ({ context }) => requireRole(context.role, ['admin'], '/login'),
   component: UsersPage,
   validateSearch: v.object({ page: v.optional(v.fallback(v.pipe(v.number(), v.toMinValue(1)), 1), 1) }),
-  loader: ({ context, location }) => context.queryClient.ensureQueryData(getUsersQueryOptions({ limit: 5, page: 1, ...location.search })), // ...location.search instead of location.search.page cuz typescript
+  loader: ({ context, location }) => context.queryClient.ensureQueryData(getUsersQueryOptions({
+    query: { limit: 5, page: 1, ...location.search },
+  })), // ...location.search instead of location.search.page cuz typescript
 })

@@ -7,7 +7,7 @@ export function useGetSelfRepairsQuery(
 ) {
   return useQuery({
     queryKey: ['repairs', 'self'],
-    queryFn: () => getSelfRepairs(),
+    queryFn: () => getSelfRepairs({ config: settings?.config }),
     ...settings?.options,
   })
 }
