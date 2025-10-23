@@ -7,7 +7,7 @@ export function useControllableState<T>(
 ) {
   const internal = useState<T>(initialValue)
 
-  if (state && setState)
+  if (state !== undefined && setState)
     return [state, setState] as const
 
   return internal
