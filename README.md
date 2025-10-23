@@ -8,6 +8,8 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat&logo=typescript&logoColor=white)
 
 > A modern, full-stack application for managing boards with user authentication, repairs tracking, and test results management. Features a React 19 frontend and blazing-fast Hono backend powered by Bun.
+>
+> Created for my fathers job.
 
 ## ⚡ Quick Start
 
