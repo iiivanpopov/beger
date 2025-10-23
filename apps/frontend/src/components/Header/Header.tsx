@@ -1,11 +1,13 @@
+import type { Locale } from '@/providers'
 import { Link, useLocation, useNavigate, useRouteContext } from '@tanstack/react-router'
 import clsx from 'clsx'
-import { DoorOpenIcon } from 'lucide-react'
-import { useState } from 'react'
+import { DoorOpenIcon, LanguagesIcon } from 'lucide-react'
+import { use, useState } from 'react'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { useLogoutMutation } from '@/api'
+import { I18nContext } from '@/providers'
 import { navigationTabs, storageKeys } from '@/shared/config'
-import { Button, Menu, Typography } from '@/shared/ui'
+import { Button, Dropdown, Menu, Typography } from '@/shared/ui'
 import styles from './Header.module.css'
 
 export function Header() {
@@ -14,6 +16,7 @@ export function Header() {
   const navigate = useNavigate()
   const { queryClient, role } = useRouteContext({ from: '__root__' })
   const intl = useIntl()
+  const i18n = use(I18nContext)
 
   const logoutMutation = useLogoutMutation({
     options: {
@@ -47,6 +50,18 @@ export function Header() {
       </nav>
 
       <div className={styles.actions}>
+        <Dropdown
+          value={i18n.locale}
+          onChange={locale => i18n.setLocale(locale as Locale)}
+          defaultIcon={LanguagesIcon}
+        >
+          <Dropdown.Trigger />
+          <Dropdown.Items>
+            <Dropdown.Item icon={LanguagesIcon} value="en">EN</Dropdown.Item>
+            <Dropdown.Item icon={LanguagesIcon} value="uk">UK</Dropdown.Item>
+            <Dropdown.Item icon={LanguagesIcon} value="ru">RU</Dropdown.Item>
+          </Dropdown.Items>
+        </Dropdown>
         {role !== 'guest' && (
           <Button
             icon
@@ -71,6 +86,19 @@ export function Header() {
               </Link>
             ))}
           </Menu.Routes>
+          <Dropdown
+            value={i18n.locale}
+            onChange={locale => i18n.setLocale(locale as Locale)}
+            defaultIcon={LanguagesIcon}
+          >
+            <Dropdown.Trigger />
+            <Dropdown.Items>
+              <Dropdown.Item icon={LanguagesIcon} value="en">EN</Dropdown.Item>
+              <Dropdown.Item icon={LanguagesIcon} value="uk">UK</Dropdown.Item>
+              <Dropdown.Item icon={LanguagesIcon} value="ru">RU</Dropdown.Item>
+            </Dropdown.Items>
+          </Dropdown>
+
           {role !== 'guest' && (
             <Menu.Actions>
               <Menu.Action onClick={onLogout}>

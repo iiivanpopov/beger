@@ -112,6 +112,7 @@ export function DropdownItem({ children, icon, value }: DropdownItemProps) {
     <ItemsList.Item
       icon={icon}
       active={value === selected}
+      className={styles.items}
       onClick={() => {
         setSelected(value)
         setSelectedIcon(icon)
