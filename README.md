@@ -33,6 +33,7 @@ docker-compose up -d
 - 🎨 **Modern UI** - Beautiful and responsive interface with React 19
 - ⚡ **High Performance** - Built with Bun for exceptional speed
 - 🐳 **Docker Ready** - Easy deployment with Docker Compose
+- 👅 **Internationalization** - Multi language
 
 ## 📋 Prerequisites
 
@@ -52,6 +53,7 @@ Before you begin, ensure you have the following installed:
 - [Tanstack Query](https://tanstack.com/query/latest) - Powerful server state management for data fetching
 - [React Hook Form](https://react-hook-form.com/) - Performant form state management
 - [Valibot](https://valibot.dev/) - Lightweight validation library (Zod alternative)
+- [React Intl](https://formatjs.github.io/docs/getting-started/installation/) - I18n
 
 ### 🔒 Backend
 
@@ -201,10 +203,12 @@ beger/
 ├── apps/
 │   ├── backend/
 │   │   ├── src/
+│   │   │   ├── app/        # App init layer
 │   │   │   ├── modules/    # Feature modules
+│   │   │   ├── config/     # Configuration layer
 │   │   │   ├── database/   # Database schemas & migrations
 │   │   │   ├── middleware/
-│   │   │   └── utils/
+│   │   │   └── utils/      # Project shared utils
 │   │   └── drizzle/        # Database migrations
 │   └── frontend/
 │       ├── src/
@@ -212,6 +216,8 @@ beger/
 │       │   ├── routes/     # Tanstack Router routes
 │       │   ├── pages/      # Page components
 │       │   ├── components/ # Business components
+│       │   ├── providers/  # React context providers
+│       │   ├── styles/     # CSS global styles
 │       │   └── shared/     # UI-Kit, hooks, utils
 ├── assets/
 ├── docker-compose.yml
@@ -219,5 +225,7 @@ beger/
 ```
 
 ## 👁️ Preview
+
+> Internationalization not included!
 
 - Youtube: <https://youtu.be/XJMSeYHSzy0>
