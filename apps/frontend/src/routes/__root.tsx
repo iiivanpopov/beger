@@ -2,6 +2,7 @@ import type { QueryClient } from '@tanstack/react-query'
 import type { UserRole } from '@/api'
 import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
 import { getSelfUser } from '@/api/requests/users'
+import { Header } from '@/components/Header'
 import { ErrorPage } from '@/pages/Error/ErrorPage'
 import { NotFoundPage } from '@/pages/NotFound/NotFoundPage'
 import { storageKeys } from '@/shared/config'
@@ -46,6 +47,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 function RootLayout() {
   return (
     <Layout>
+      <Header />
       <Outlet />
     </Layout>
   )
