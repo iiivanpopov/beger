@@ -6,13 +6,13 @@ export const navigationTabs: Record<
   { to: RouterPath, label: string }[]
 > = {
   admin: [
-    { to: '/users', label: 'Users' },
+    { to: '/users', label: 'tab.users' },
   ],
   user: [
-    { to: '/test-results', label: 'Test Results' },
-    { to: '/repairs', label: 'Repairs' },
+    { to: '/test-results', label: 'tab.test-results' },
+    { to: '/repairs', label: 'tab.repairs' },
   ],
   guest: [
-    { to: '/login', label: 'Login' },
+    { to: '/login', label: 'tab.login' },
   ],
 }

@@ -1,4 +1,5 @@
 import { Controller } from 'react-hook-form'
+import { FormattedMessage, useIntl } from 'react-intl'
 import { Autocomplete, Button, Datepicker, Form, Input, Modal, Typography } from '@/shared/ui'
 import { TestResultCard } from './components'
 import { useTestResultsPage } from './hooks/useTestResultsPage'
@@ -6,20 +7,29 @@ import styles from './TestResultsPage.module.css'
 
 export function TestResultsPage() {
   const { form, actions, data, ui } = useTestResultsPage()
+  const intl = useIntl()
 
   return (
     <section className={styles.page}>
       <div className={styles.header}>
-        <Typography tag="h2" variant="subheading">Create new test result</Typography>
+        <Typography tag="h2" variant="subheading">
+          <FormattedMessage id="title.create-test-result" />
+        </Typography>
         <Modal isOpen={ui.modal.isOpen} setIsOpen={ui.modal.setIsOpen}>
           <Modal.Trigger asChild>
-            <Button size="small">View last</Button>
+            <Button size="small"><FormattedMessage id="action.view-last" /></Button>
           </Modal.Trigger>
           <Modal.Content className={styles.records}>
             <Modal.Header>
-              <Typography variant="subheading" tag="h2">Test results</Typography>
+              <Typography variant="subheading" tag="h2">
+                <FormattedMessage id="title.test-results" />
+              </Typography>
             </Modal.Header>
-            {!data.testResults.data?.data.length && <Typography>No records found.</Typography>}
+            {!data.testResults.data?.data.length && (
+              <Typography>
+                <FormattedMessage id="message.no-records" />
+              </Typography>
+            )}
             <div className={styles.cards}>
               {data.testResults.data?.data.map((testResult, i) => (
                 <TestResultCard
@@ -39,9 +49,11 @@ export function TestResultsPage() {
           control={form.control}
           render={({ field, fieldState }) => (
             <Form.Field className={styles.pcb}>
-              <Form.Label>PCB name</Form.Label>
+              <Form.Label><FormattedMessage id="label.pcb-name" /></Form.Label>
               <Autocomplete {...field}>
-                <Autocomplete.Trigger placeholder="PCB name" />
+                <Autocomplete.Trigger
+                  placeholder={intl.formatMessage({ id: 'placeholder.pcb-name' })}
+                />
                 <Autocomplete.Items>
                   {data.options.data?.data.pcbNames.map(pcb => (
                     <Autocomplete.Item key={pcb} value={pcb}>
@@ -50,7 +62,11 @@ export function TestResultsPage() {
                   ))}
                 </Autocomplete.Items>
               </Autocomplete>
-              <Form.Error>{fieldState.error?.message}</Form.Error>
+              {fieldState.error?.message && (
+                <Form.Error>
+                  <FormattedMessage id={fieldState.error?.message} />
+                </Form.Error>
+              )}
             </Form.Field>
           )}
         />
@@ -59,7 +75,7 @@ export function TestResultsPage() {
           control={form.control}
           render={({ field }) => (
             <Form.Field className={styles.date}>
-              <Form.Label>Date</Form.Label>
+              <Form.Label><FormattedMessage id="label.date" /></Form.Label>
               <Datepicker {...field} />
             </Form.Field>
           )}
@@ -69,9 +85,17 @@ export function TestResultsPage() {
           control={form.control}
           render={({ field, fieldState }) => (
             <Form.Field className={styles.first}>
-              <Form.Label>First Try</Form.Label>
-              <Input {...field} placeholder="123..." type="number" />
-              <Form.Error>{fieldState.error?.message}</Form.Error>
+              <Form.Label><FormattedMessage id="label.first-try" /></Form.Label>
+              <Input
+                {...field}
+                placeholder={intl.formatMessage({ id: 'placeholder.first-try' })}
+                type="number"
+              />
+              {fieldState.error?.message && (
+                <Form.Error>
+                  <FormattedMessage id={fieldState.error?.message} />
+                </Form.Error>
+              )}
             </Form.Field>
           )}
         />
@@ -80,9 +104,17 @@ export function TestResultsPage() {
           control={form.control}
           render={({ field, fieldState }) => (
             <Form.Field className={styles.failed}>
-              <Form.Label>Failed</Form.Label>
-              <Input {...field} placeholder="456..." type="number" />
-              <Form.Error>{fieldState.error?.message}</Form.Error>
+              <Form.Label><FormattedMessage id="label.failed" /></Form.Label>
+              <Input
+                {...field}
+                placeholder={intl.formatMessage({ id: 'placeholder.failed' })}
+                type="number"
+              />
+              {fieldState.error?.message && (
+                <Form.Error>
+                  <FormattedMessage id={fieldState.error?.message} />
+                </Form.Error>
+              )}
             </Form.Field>
           )}
         />
@@ -91,13 +123,23 @@ export function TestResultsPage() {
           control={form.control}
           render={({ field, fieldState }) => (
             <Form.Field className={styles.total}>
-              <Form.Label>Total</Form.Label>
-              <Input {...field} placeholder="789..." type="number" />
-              <Form.Error>{fieldState.error?.message}</Form.Error>
+              <Form.Label><FormattedMessage id="label.total" /></Form.Label>
+              <Input
+                {...field}
+                placeholder={intl.formatMessage({ id: 'placeholder.total' })}
+                type="number"
+              />
+              {fieldState.error?.message && (
+                <Form.Error>
+                  <FormattedMessage id={fieldState.error?.message} />
+                </Form.Error>
+              )}
             </Form.Field>
           )}
         />
-        <Button className={styles.submit} type="submit">Submit</Button>
+        <Button className={styles.submit} type="submit">
+          <FormattedMessage id="action.submit" />
+        </Button>
       </Form>
     </section>
   )

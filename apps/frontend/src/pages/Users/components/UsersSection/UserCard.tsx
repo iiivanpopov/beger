@@ -1,5 +1,6 @@
 import type { User } from '@/api'
 import { Trash2Icon } from 'lucide-react'
+import { FormattedMessage, useIntl } from 'react-intl'
 import { Badge, Card, ConfirmableButton, Typography } from '@/shared/ui'
 import { EditUserModal } from './EditUserModal'
 
@@ -10,6 +11,8 @@ export interface UserCardProps {
 }
 
 export function UserCard({ user, i, onDelete }: UserCardProps) {
+  const intl = useIntl()
+
   return (
     <Card key={user.userName}>
       <Card.Index>{i}</Card.Index>
@@ -24,7 +27,7 @@ export function UserCard({ user, i, onDelete }: UserCardProps) {
         <Badge color="black" size="small">{user.role}</Badge>
         <Card.Row>
           <Typography variant="caption">
-            id:
+            <FormattedMessage id="label.id" />
             {user.id}
           </Typography>
           <Card.Row>
@@ -33,8 +36,8 @@ export function UserCard({ user, i, onDelete }: UserCardProps) {
               icon
               variant="ghost"
               size="small"
-              title="delete user"
-              aria-label="delete user"
+              aria-label={intl.formatMessage({ id: 'aria-label.delete-user' })}
+              title={intl.formatMessage({ id: 'aria-label.delete-user' })}
               onClick={() => onDelete(user.id)}
             >
               <Trash2Icon />

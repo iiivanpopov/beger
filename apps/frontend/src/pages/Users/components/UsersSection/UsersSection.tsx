@@ -1,6 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useRouteContext, useSearch } from '@tanstack/react-router'
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
+import { FormattedMessage, useIntl } from 'react-intl'
 import { getUsersQueryOptions, useDeleteUserMutation } from '@/api'
 import { useMutationErrorHandler, usePagination, useToast } from '@/shared/hooks'
 import { Typography } from '@/shared/ui'
@@ -10,6 +11,7 @@ import styles from './UsersSection.module.css'
 export function UsersSection() {
   const { queryClient } = useRouteContext({ from: '__root__' })
   const search = useSearch({ from: '/(admin)/users' })
+  const intl = useIntl()
 
   const usersQuery = useSuspenseQuery(getUsersQueryOptions({ query: { limit: 5, page: search.page } }))
 
@@ -20,7 +22,7 @@ export function UsersSection() {
   const deleteUserMutation = useDeleteUserMutation({
     options: {
       onSuccess: () => {
-        toast.success('Deleted user')
+        toast.success(intl.formatMessage({ id: 'message.deleted-user' }))
         queryClient.invalidateQueries({ queryKey: ['users', 'all'] })
       },
       onError: mutationHandler,
@@ -32,13 +34,13 @@ export function UsersSection() {
   return (
     <section className={styles.section}>
       <div className={styles.header}>
-        <Typography tag="h2" variant="subheading">Users</Typography>
+        <Typography tag="h2" variant="subheading"><FormattedMessage id="title.users" /></Typography>
         <div className={styles.pagination}>
           <div>
             <button
               type="button"
-              aria-label="previous page"
-              title="previous page"
+              title={intl.formatMessage({ id: 'aria-label.current-page' })}
+              aria-label={intl.formatMessage({ id: 'aria-label.current-page' })}
               hidden={search.page === 1 || pagination.pages === 0}
               onClick={pagination.onPrevPage}
             >
@@ -48,7 +50,7 @@ export function UsersSection() {
 
           <div>
             <span
-              aria-label="current page"
+              aria-label={intl.formatMessage({ id: 'aria-label.current-page' })}
               hidden={pagination.pages === 1 || pagination.pages === 0}
             >
               {search.page}
@@ -58,8 +60,8 @@ export function UsersSection() {
           <div>
             <button
               type="button"
-              aria-label="next page"
-              title="next page"
+              title={intl.formatMessage({ id: 'aria-label.next-page' })}
+              aria-label={intl.formatMessage({ id: 'aria-label.next-page' })}
               hidden={search.page === pagination.pages || pagination.pages === 0}
               onClick={pagination.onNextPage}
             >
@@ -70,7 +72,11 @@ export function UsersSection() {
       </div>
 
       <div className={styles.users}>
-        {!usersQuery.data.data?.users.length && <Typography>No users found...</Typography>}
+        {!usersQuery.data.data?.users.length && (
+          <Typography>
+            <FormattedMessage id="message.no-users" />
+          </Typography>
+        )}
         {usersQuery.data.data?.users.map((user, i) => (
           <UserCard
             onDelete={onDelete}

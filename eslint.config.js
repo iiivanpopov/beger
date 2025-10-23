@@ -27,6 +27,7 @@ export default antfu({
   files: ['apps/frontend/**/*'],
   rules: {
     'style/jsx-closing-tag-location': 'off',
+    'antfu/no-top-level-await': 'off',
     'react-hooks/refs': 'off',
     'react/no-clone-element': 'off',
   },

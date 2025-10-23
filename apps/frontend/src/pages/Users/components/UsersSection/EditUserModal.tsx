@@ -4,6 +4,7 @@ import { useRouteContext } from '@tanstack/react-router'
 import { EditIcon } from 'lucide-react'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { FormattedMessage, useIntl } from 'react-intl'
 import * as v from 'valibot'
 import { useUpdateUserMutation } from '@/api'
 import { useMutationErrorHandler, useToast } from '@/shared/hooks'
@@ -26,6 +27,7 @@ export interface EditUserModalProps {
 export function EditUserModal({ user }: EditUserModalProps) {
   const [isOpen, setIsOpen] = useState(false)
   const { queryClient } = useRouteContext({ from: '__root__' })
+  const intl = useIntl()
 
   const form = useForm<UpdateUserData>({
     defaultValues: { fullName: user.fullName, userName: user.userName, password: '' },
@@ -38,7 +40,7 @@ export function EditUserModal({ user }: EditUserModalProps) {
   const updateUserMutation = useUpdateUserMutation({
     options: {
       onSuccess: () => {
-        toast.success('Updated user')
+        toast.success(intl.formatMessage({ id: 'message.updated-user' }))
         queryClient.invalidateQueries({ queryKey: ['users', 'all'] })
         setIsOpen(false)
       },
@@ -70,8 +72,8 @@ export function EditUserModal({ user }: EditUserModalProps) {
       <Modal.Trigger asChild>
         <Button
           icon
-          aria-label="edit user"
-          title="edit user"
+          aria-label={intl.formatMessage({ id: 'aria-label.edit-user' })}
+          title={intl.formatMessage({ id: 'aria-label.edit-user' })}
           variant="ghost"
           size="small"
         >
@@ -79,16 +81,23 @@ export function EditUserModal({ user }: EditUserModalProps) {
         </Button>
       </Modal.Trigger>
       <Modal.Content className={styles.modal}>
-        <Typography variant="subheading" tag="h2">Update user</Typography>
+        <Typography variant="subheading" tag="h2"><FormattedMessage id="title.update-user" /></Typography>
         <Form onSubmit={onSubmit}>
           <Controller
             name="userName"
             control={form.control}
             render={({ field, fieldState }) => (
               <Form.Field>
-                <Form.Label>User Name</Form.Label>
-                <Input {...field} placeholder="User Name" />
-                <Form.Error>{fieldState.error?.message}</Form.Error>
+                <Form.Label><FormattedMessage id="label.user-name" /></Form.Label>
+                <Input
+                  {...field}
+                  placeholder={intl.formatMessage({ id: 'placeholder.user-name' })}
+                />
+                {fieldState.error?.message && (
+                  <Form.Error>
+                    <FormattedMessage id={fieldState.error?.message} />
+                  </Form.Error>
+                )}
               </Form.Field>
             )}
           />
@@ -97,9 +106,16 @@ export function EditUserModal({ user }: EditUserModalProps) {
             control={form.control}
             render={({ field, fieldState }) => (
               <Form.Field>
-                <Form.Label>Full Name</Form.Label>
-                <Input {...field} placeholder="Full Name" />
-                <Form.Error>{fieldState.error?.message}</Form.Error>
+                <Form.Label><FormattedMessage id="label.full-name" /></Form.Label>
+                <Input
+                  {...field}
+                  placeholder={intl.formatMessage({ id: 'placeholder.full-name' })}
+                />
+                {fieldState.error?.message && (
+                  <Form.Error>
+                    <FormattedMessage id={fieldState.error?.message} />
+                  </Form.Error>
+                )}
               </Form.Field>
             )}
           />
@@ -108,13 +124,21 @@ export function EditUserModal({ user }: EditUserModalProps) {
             control={form.control}
             render={({ field, fieldState }) => (
               <Form.Field>
-                <Form.Label>Password</Form.Label>
-                <Input {...field} placeholder="*******" type="password" />
-                <Form.Error>{fieldState.error?.message}</Form.Error>
+                <Form.Label><FormattedMessage id="label.password" /></Form.Label>
+                <Input
+                  {...field}
+                  placeholder={intl.formatMessage({ id: 'placeholder.password-mask' })}
+                  type="password"
+                />
+                {fieldState.error?.message && (
+                  <Form.Error>
+                    <FormattedMessage id={fieldState.error?.message} />
+                  </Form.Error>
+                )}
               </Form.Field>
             )}
           />
-          <Button type="submit">Update</Button>
+          <Button type="submit"><FormattedMessage id="action.update" /></Button>
         </Form>
       </Modal.Content>
     </Modal>

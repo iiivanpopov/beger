@@ -1,5 +1,6 @@
 import type { Repair } from '@/api'
 import { Trash2Icon } from 'lucide-react'
+import { FormattedMessage, useIntl } from 'react-intl'
 import { useToast } from '@/shared/hooks'
 import { Card, ConfirmableButton, Tooltip, Typography } from '@/shared/ui'
 import styles from './RepairCard.module.css'
@@ -12,10 +13,11 @@ export interface RepairCardProps {
 
 export function RepairCard({ repair, i, onDelete }: RepairCardProps) {
   const toast = useToast()
+  const intl = useIntl()
 
   const onCopy = async () => {
     await navigator.clipboard.writeText(repair.pcbName)
-    toast.info('Copied to clipboard')
+    toast.info(intl.formatMessage({ id: 'message.copied-clipboard' }))
   }
 
   return (
@@ -34,7 +36,7 @@ export function RepairCard({ repair, i, onDelete }: RepairCardProps) {
         <Typography>{repair.defect}</Typography>
         <Card.Row>
           <Typography variant="caption">
-            id:
+            <FormattedMessage id="label.id" />
             {repair.id}
           </Typography>
           <Typography variant="caption">

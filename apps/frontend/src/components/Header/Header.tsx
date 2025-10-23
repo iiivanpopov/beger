@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate, useRouteContext } from '@tanstack/react
 import clsx from 'clsx'
 import { DoorOpenIcon } from 'lucide-react'
 import { useState } from 'react'
+import { FormattedMessage, useIntl } from 'react-intl'
 import { useLogoutMutation } from '@/api'
 import { navigationTabs, storageKeys } from '@/shared/config'
 import { Button, Menu, Typography } from '@/shared/ui'
@@ -12,6 +13,7 @@ export function Header() {
   const pathname = useLocation({ select: state => state.pathname })
   const navigate = useNavigate()
   const { queryClient, role } = useRouteContext({ from: '__root__' })
+  const intl = useIntl()
 
   const logoutMutation = useLogoutMutation({
     options: {
@@ -38,7 +40,7 @@ export function Header() {
         {navigationTabs[role].map(({ to, label }) => (
           <Link key={to} to={to}>
             <Typography className={clsx(styles.tab, pathname === to && styles.active)}>
-              {label}
+              <FormattedMessage id={label} />
             </Typography>
           </Link>
         ))}
@@ -46,7 +48,12 @@ export function Header() {
 
       <div className={styles.actions}>
         {role !== 'guest' && (
-          <Button icon aria-label="logout" color="white" onClick={onLogout}>
+          <Button
+            icon
+            aria-label={intl.formatMessage({ id: 'aria-label.logout' })}
+            color="white"
+            onClick={onLogout}
+          >
             <DoorOpenIcon />
           </Button>
         )}
@@ -59,7 +66,7 @@ export function Header() {
             {navigationTabs[role].map(({ to, label }) => (
               <Link key={to} to={to} onClick={() => setIsOpen(false)}>
                 <Typography className={clsx(styles.tab, pathname === to && styles.active)}>
-                  {label}
+                  <FormattedMessage id={label} />
                 </Typography>
               </Link>
             ))}
