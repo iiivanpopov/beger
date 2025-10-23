@@ -215,3 +215,7 @@ beger/
 ├── docker-compose.yml
 └── .env
 ```
+
+## 👁️ Preview
+
+- Youtube: <https://youtu.be/XJMSeYHSzy0>
