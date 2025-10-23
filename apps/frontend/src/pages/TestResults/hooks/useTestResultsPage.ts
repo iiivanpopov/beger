@@ -1,12 +1,22 @@
-import type { CreateTestResultData } from '@/pages/TestResults/schemas/createTestResult.schema'
 import { valibotResolver } from '@hookform/resolvers/valibot'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useRouteContext } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import * as v from 'valibot'
 import { getOptionsQueryOptions, useCreateTestResultMutation, useDeleteTestResultMutation, useGetSelfTestResultsQuery } from '@/api'
-import { CreateTestResultSchema } from '@/pages/TestResults/schemas/createTestResult.schema'
 import { useMutationErrorHandler, useToast } from '@/shared/hooks'
+import { pcbNameValidator } from '@/shared/utils'
+
+const CreateTestResultSchema = v.object({
+  pcbName: pcbNameValidator,
+  date: v.date(),
+  firstTry: v.pipe(v.string(), v.nonEmpty('* Required')),
+  failed: v.pipe(v.string(), v.nonEmpty('* Required')),
+  total: v.pipe(v.string(), v.nonEmpty('* Required')),
+})
+
+type CreateTestResultData = v.InferOutput<typeof CreateTestResultSchema>
 
 export function useTestResultsPage() {
   const [isOpen, setIsOpen] = useState(false)

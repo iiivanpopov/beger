@@ -1,10 +1,15 @@
-import { Typography } from '@/shared/ui'
+import { Link } from '@tanstack/react-router'
+import { Button } from '@/shared/ui'
+import { Layout } from '@/shared/ui/Layout'
 import styles from './ErrorPage.module.css'
 
 export function ErrorPage() {
   return (
-    <div className={styles.page}>
-      <Typography tag="h1" variant="heading">Unexpected error happened...</Typography>
-    </div>
+    <Layout>
+      <div className={styles.page}>
+        <span>Unexpected error happened...</span>
+        <Link to="/"><Button>Home</Button></Link>
+      </div>
+    </Layout>
   )
 }

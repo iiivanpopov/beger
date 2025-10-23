@@ -1,6 +1,6 @@
 import { Controller } from 'react-hook-form'
-import { RepairCard } from '@/components/RepairCard'
 import { Autocomplete, Button, Datepicker, Form, Modal, Textarea, Typography } from '@/shared/ui'
+import { RepairCard } from './components'
 import { useRepairsPage } from './hooks/useRepairsPage'
 import styles from './RepairsPage.module.css'
 

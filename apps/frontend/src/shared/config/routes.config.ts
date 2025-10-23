@@ -1,5 +1,5 @@
 import type { UserRole } from '@/api'
-import type { RouterPath } from '@/shared/types'
+import type { RouterPath } from '@/main'
 
 export const navigationTabs: Record<
   UserRole,
@@ -7,7 +7,6 @@ export const navigationTabs: Record<
 > = {
   admin: [
     { to: '/users', label: 'Users' },
-    { to: '/records', label: 'Records' },
   ],
   user: [
     { to: '/test-results', label: 'Test Results' },

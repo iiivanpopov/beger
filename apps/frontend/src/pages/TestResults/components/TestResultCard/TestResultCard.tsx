@@ -11,15 +11,11 @@ export interface TestResultCardProps {
 }
 
 export function TestResultCard({ testResult, i, onDelete }: TestResultCardProps) {
-  const { info: showInfo } = useToast()
+  const toast = useToast()
 
   const onCopy = async () => {
     await navigator.clipboard.writeText(testResult.pcbName)
-    showInfo('Copied to clipboard')
-  }
-
-  const handleDelete = () => {
-    onDelete(testResult.id)
+    toast.info('Copied to clipboard')
   }
 
   return (
@@ -53,7 +49,7 @@ export function TestResultCard({ testResult, i, onDelete }: TestResultCardProps)
             icon
             variant="ghost"
             size="small"
-            onClick={handleDelete}
+            onClick={() => onDelete(testResult.id)}
           >
             <Trash2Icon />
           </ConfirmableButton>

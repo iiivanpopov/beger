@@ -18,10 +18,6 @@ export function RepairCard({ repair, i, onDelete }: RepairCardProps) {
     toast.info('Copied to clipboard')
   }
 
-  const handleDelete = () => {
-    onDelete(repair.id)
-  }
-
   return (
     <Card key={repair.pcbName}>
       <Card.Index>{i}</Card.Index>
@@ -48,7 +44,7 @@ export function RepairCard({ repair, i, onDelete }: RepairCardProps) {
             icon
             variant="ghost"
             size="small"
-            onClick={handleDelete}
+            onClick={() => onDelete(repair.id)}
           >
             <Trash2Icon />
           </ConfirmableButton>

@@ -10,8 +10,6 @@ export interface UserCardProps {
 }
 
 export function UserCard({ user, i, onDelete }: UserCardProps) {
-  const handleDelete = () => onDelete(user.id)
-
   return (
     <Card key={user.userName}>
       <Card.Index>{i}</Card.Index>
@@ -37,7 +35,7 @@ export function UserCard({ user, i, onDelete }: UserCardProps) {
               size="small"
               title="delete user"
               aria-label="delete user"
-              onClick={handleDelete}
+              onClick={() => onDelete(user.id)}
             >
               <Trash2Icon />
             </ConfirmableButton>

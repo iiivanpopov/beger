@@ -1,12 +1,19 @@
-import type { LoginData } from '@/pages/Login/schemas/login.schema'
 import { valibotResolver } from '@hookform/resolvers/valibot'
 import { useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import * as v from 'valibot'
 import { useLoginMutation } from '@/api'
-import { LoginSchema } from '@/pages/Login/schemas/login.schema'
 import { storageKeys } from '@/shared/config'
 import { useMutationErrorHandler } from '@/shared/hooks'
+import { passwordValidator, userNameValidator } from '@/shared/utils/validators'
+
+export const LoginSchema = v.object({
+  userName: userNameValidator,
+  password: passwordValidator,
+})
+
+export type LoginData = v.InferOutput<typeof LoginSchema>
 
 export function useLoginPage() {
   const [isOpen, setIsOpen] = useState(false)

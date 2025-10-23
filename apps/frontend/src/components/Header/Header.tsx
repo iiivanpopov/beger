@@ -1,13 +1,31 @@
-import { Link } from '@tanstack/react-router'
+import { Link, useLocation, useNavigate, useRouteContext } from '@tanstack/react-router'
 import clsx from 'clsx'
 import { DoorOpenIcon } from 'lucide-react'
-import { navigationTabs } from '@/shared/config'
+import { useState } from 'react'
+import { useLogoutMutation } from '@/api'
+import { navigationTabs, storageKeys } from '@/shared/config'
 import { Button, Menu, Typography } from '@/shared/ui'
 import styles from './Header.module.css'
-import { useHeader } from './hooks/useHeader'
 
 export function Header() {
-  const { actions, data, ui } = useHeader()
+  const [isOpen, setIsOpen] = useState(false)
+  const pathname = useLocation({ select: state => state.pathname })
+  const navigate = useNavigate()
+  const { queryClient, role } = useRouteContext({ from: '__root__' })
+
+  const logoutMutation = useLogoutMutation({
+    options: {
+      onSuccess: () => {
+        setIsOpen(false)
+        localStorage.removeItem(storageKeys.accessToken)
+        localStorage.removeItem(storageKeys.refreshToken)
+        queryClient.removeQueries({ queryKey: ['user', 'self'] })
+        navigate({ to: '/login', replace: true })
+      },
+    },
+  })
+
+  const onLogout = () => logoutMutation.mutate()
 
   return (
     <header className={styles.header}>
@@ -17,9 +35,9 @@ export function Header() {
       </div>
 
       <nav className={styles.tabs}>
-        {navigationTabs[data.role].map(({ to, label }) => (
+        {navigationTabs[role].map(({ to, label }) => (
           <Link key={to} to={to}>
-            <Typography className={clsx(styles.tab, data.pathname === to && styles.active)}>
+            <Typography className={clsx(styles.tab, pathname === to && styles.active)}>
               {label}
             </Typography>
           </Link>
@@ -27,28 +45,28 @@ export function Header() {
       </nav>
 
       <div className={styles.actions}>
-        {data.role !== 'guest' && (
-          <Button icon aria-label="logout" color="white" onClick={actions.onLogout}>
+        {role !== 'guest' && (
+          <Button icon aria-label="logout" color="white" onClick={onLogout}>
             <DoorOpenIcon />
           </Button>
         )}
       </div>
 
-      <Menu isOpen={ui.menu.isOpen} setIsOpen={ui.menu.setIsOpen}>
+      <Menu isOpen={isOpen} setIsOpen={setIsOpen}>
         <Menu.Trigger className={styles.burger} />
         <Menu.Content className={styles.menu}>
           <Menu.Routes>
-            {navigationTabs[data.role].map(({ to, label }) => (
-              <Link key={to} to={to} onClick={() => ui.menu.setIsOpen(false)}>
-                <Typography className={clsx(styles.tab, data.pathname === to && styles.active)}>
+            {navigationTabs[role].map(({ to, label }) => (
+              <Link key={to} to={to} onClick={() => setIsOpen(false)}>
+                <Typography className={clsx(styles.tab, pathname === to && styles.active)}>
                   {label}
                 </Typography>
               </Link>
             ))}
           </Menu.Routes>
-          {data.role !== 'guest' && (
+          {role !== 'guest' && (
             <Menu.Actions>
-              <Menu.Action onClick={actions.onLogout}>
+              <Menu.Action onClick={onLogout}>
                 <DoorOpenIcon />
               </Menu.Action>
             </Menu.Actions>

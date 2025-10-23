@@ -1,6 +1,6 @@
 import { Controller } from 'react-hook-form'
-import { TestResultCard } from '@/components/TestResultCard'
 import { Autocomplete, Button, Datepicker, Form, Input, Modal, Typography } from '@/shared/ui'
+import { TestResultCard } from './components'
 import { useTestResultsPage } from './hooks/useTestResultsPage'
 import styles from './TestResultsPage.module.css'
 
