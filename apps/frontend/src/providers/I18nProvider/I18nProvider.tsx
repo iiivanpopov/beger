@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import type { Locale } from './I18nContext'
 import { useMemo, useState } from 'react'
 import { IntlProvider } from 'react-intl'
+import { storageKeys } from '@/shared/config'
 import { I18nContext } from './I18nContext'
 
 export interface I18nProviderProps {
@@ -19,6 +20,7 @@ export function I18nProvider({ defaultLocale, defaultMessages, children }: I18nP
     setLocale: async (newLocale: Locale) => {
       const res = await fetch(`/locales/${newLocale}.json`)
       const newMessages = await res.json()
+      localStorage.setItem(storageKeys.locale, newLocale)
       setMessages(newMessages)
       setLocale(newLocale)
     },
