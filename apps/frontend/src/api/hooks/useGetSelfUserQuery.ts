@@ -1,6 +1,11 @@
 import type { QuerySettings } from '@/api/types'
-import { useQuery } from '@tanstack/react-query'
+import { queryOptions, useQuery } from '@tanstack/react-query'
 import { getSelfUser } from '@/api/requests/users'
+
+export const useGetSelfUserQueryOptions = queryOptions({
+  queryKey: ['getSelfUser'],
+  queryFn: () => getSelfUser(),
+})
 
 export function useGetSelfUserQuery(
   settings?: QuerySettings<typeof getSelfUser>,

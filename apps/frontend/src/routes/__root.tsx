@@ -1,7 +1,7 @@
 import type { QueryClient } from '@tanstack/react-query'
 import type { UserRole } from '@/api'
 import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
-import { getSelfUser } from '@/api/requests/users'
+import { useGetSelfUserQueryOptions } from '@/api'
 import { Header } from '@/components'
 import { ErrorPage } from '@/pages/Error/ErrorPage'
 import { NotFoundPage } from '@/pages/NotFound/NotFoundPage'
@@ -22,13 +22,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       return { role: 'guest' }
 
     try {
-      const user = await queryClient.fetchQuery({
-        queryKey: ['user', 'self'],
-        queryFn: async () => {
-          const res = await getSelfUser()
-          return res
-        },
-      })
+      const user = await queryClient.fetchQuery(useGetSelfUserQueryOptions)
 
       return { role: user.data.role }
     }
