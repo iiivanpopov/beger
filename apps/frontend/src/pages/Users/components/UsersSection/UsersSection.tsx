@@ -1,15 +1,15 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { useRouteContext, useSearch } from '@tanstack/react-router'
+import { useSearch } from '@tanstack/react-router'
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
 import { getUsersQueryOptions, useDeleteUserMutation } from '@/api'
 import { I18nText } from '@/components'
+import { queryClient } from '@/providers'
 import { useI18n, useMutationErrorHandler, usePagination, useToast } from '@/shared/hooks'
 import { Typography } from '@/shared/ui'
 import { UserCard } from './UserCard'
 import styles from './UsersSection.module.css'
 
 export function UsersSection() {
-  const { queryClient } = useRouteContext({ from: '__root__' })
   const search = useSearch({ from: '/(admin)/users' })
   const { t } = useI18n()
 

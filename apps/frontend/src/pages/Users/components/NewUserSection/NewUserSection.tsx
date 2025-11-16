@@ -1,9 +1,9 @@
 import { valibotResolver } from '@hookform/resolvers/valibot'
-import { useRouteContext } from '@tanstack/react-router'
 import { Controller, useForm } from 'react-hook-form'
 import * as v from 'valibot'
 import { useRegisterMutation } from '@/api'
 import { I18nText } from '@/components'
+import { queryClient } from '@/providers'
 import { useI18n, useMutationErrorHandler, useToast } from '@/shared/hooks'
 import { Button, Form, Input, Typography } from '@/shared/ui'
 import { fullNameValidator, passwordValidator, userNameValidator } from '@/shared/utils/validators'
@@ -18,7 +18,6 @@ const CreateUserSchema = v.object({
 type CreateUserData = v.InferOutput<typeof CreateUserSchema>
 
 export function NewUserSection() {
-  const { queryClient } = useRouteContext({ from: '__root__' })
   const { t } = useI18n()
 
   const form = useForm<CreateUserData>({

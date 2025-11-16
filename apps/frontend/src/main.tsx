@@ -1,23 +1,20 @@
 import type { RedirectOptions, Register, RegisteredRouter } from '@tanstack/react-router'
 import type { Locale } from './providers'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createRouter, RouterProvider } from '@tanstack/react-router'
 import { createRoot } from 'react-dom/client'
 import { ToastsProvider } from '@/providers/ToastsProvider'
 import { I18nProvider } from './providers'
+import { QueryProvider } from './providers/QueryProvider'
 import { routeTree } from './routeTree.gen'
 import { storageKeys } from './shared/config'
 import { loadLocale } from './shared/utils/i18n'
 import '@/styles/globals.css'
-
-const queryClient = new QueryClient()
 
 const router = createRouter({
   routeTree,
   notFoundMode: 'root',
   context: {
     role: 'guest',
-    queryClient,
   },
 })
 
@@ -33,11 +30,11 @@ const defaultLocale = localStorage.getItem(storageKeys.locale) as Locale | undef
 const defaultMessages = await loadLocale(defaultLocale)
 
 createRoot(document.getElementById('root')!).render(
-  <QueryClientProvider client={queryClient}>
+  <QueryProvider>
     <ToastsProvider>
       <I18nProvider defaultLocale={defaultLocale} defaultMessages={defaultMessages}>
         <RouterProvider router={router} />
       </I18nProvider>
     </ToastsProvider>
-  </QueryClientProvider>,
+  </QueryProvider>,
 )

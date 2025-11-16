@@ -1,12 +1,12 @@
 import type { UpdateUserPayload, User } from '@/api'
 import { valibotResolver } from '@hookform/resolvers/valibot'
-import { useRouteContext } from '@tanstack/react-router'
 import { EditIcon } from 'lucide-react'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import * as v from 'valibot'
 import { useUpdateUserMutation } from '@/api'
 import { I18nText } from '@/components'
+import { queryClient } from '@/providers'
 import { useI18n, useMutationErrorHandler, useToast } from '@/shared/hooks'
 import { Button, Form, Input, Modal, Typography } from '@/shared/ui'
 import { fullNameValidator, passwordValidator, userNameValidator } from '@/shared/utils'
@@ -26,7 +26,6 @@ export interface EditUserModalProps {
 
 export function EditUserModal({ user }: EditUserModalProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const { queryClient } = useRouteContext({ from: '__root__' })
   const { t } = useI18n()
 
   const form = useForm<UpdateUserData>({

@@ -1,10 +1,10 @@
 import { valibotResolver } from '@hookform/resolvers/valibot'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { useRouteContext } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as v from 'valibot'
 import { getOptionsQueryOptions, useCreateRepairMutation, useDeleteRepairMutation, useGetSelfRepairsQuery } from '@/api'
+import { queryClient } from '@/providers'
 import { useI18n, useMutationErrorHandler, useToast } from '@/shared/hooks'
 import { pcbNameValidator } from '@/shared/utils'
 
@@ -19,7 +19,6 @@ type CreateRepairData = v.InferOutput<typeof CreateRepairSchema>
 
 export function useRepairsPage() {
   const [isOpen, setIsOpen] = useState(false)
-  const { queryClient } = useRouteContext({ from: '__root__' })
   const { t } = useI18n()
 
   const form = useForm<CreateRepairData>({

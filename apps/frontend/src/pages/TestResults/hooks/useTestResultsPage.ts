@@ -1,17 +1,16 @@
 import type { CreateTestResultData } from '../schemas/createTestResultSchema'
 import { valibotResolver } from '@hookform/resolvers/valibot'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { useRouteContext } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { getOptionsQueryOptions, useCreateTestResultMutation, useDeleteTestResultMutation, useGetSelfTestResultsQuery } from '@/api'
+import { queryClient } from '@/providers'
 import { useI18n, useMutationErrorHandler, useToast } from '@/shared/hooks'
 import { CreateTestResultSchema } from '../schemas/createTestResultSchema'
 
 export function useTestResultsPage() {
   const { t } = useI18n()
   const [isOpen, setIsOpen] = useState(false)
-  const { queryClient } = useRouteContext({ from: '__root__' })
 
   const form = useForm<CreateTestResultData>({
     defaultValues: {
