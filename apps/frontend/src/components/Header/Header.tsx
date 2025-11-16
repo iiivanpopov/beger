@@ -3,11 +3,12 @@ import { Link, useLocation, useNavigate, useRouteContext } from '@tanstack/react
 import clsx from 'clsx'
 import { DoorOpenIcon, LanguagesIcon } from 'lucide-react'
 import { use, useState } from 'react'
-import { FormattedMessage, useIntl } from 'react-intl'
 import { useLogoutMutation } from '@/api'
 import { I18nContext } from '@/providers'
 import { navigationTabs, storageKeys } from '@/shared/config'
+import { useI18n } from '@/shared/hooks'
 import { Button, Dropdown, Menu, Typography } from '@/shared/ui'
+import { I18nText } from '../I18nText/I18nText'
 import styles from './Header.module.css'
 
 export function Header() {
@@ -15,8 +16,8 @@ export function Header() {
   const pathname = useLocation({ select: state => state.pathname })
   const navigate = useNavigate()
   const { queryClient, role } = useRouteContext({ from: '__root__' })
-  const intl = useIntl()
   const i18n = use(I18nContext)
+  const { t } = useI18n()
 
   const logoutMutation = useLogoutMutation({
     options: {
@@ -43,7 +44,7 @@ export function Header() {
         {navigationTabs[role].map(({ to, label }) => (
           <Link key={to} to={to}>
             <Typography className={clsx(styles.tab, pathname === to && styles.active)}>
-              <FormattedMessage id={label} />
+              <I18nText>{label}</I18nText>
             </Typography>
           </Link>
         ))}
@@ -65,7 +66,7 @@ export function Header() {
         {role !== 'guest' && (
           <Button
             icon
-            aria-label={intl.formatMessage({ id: 'aria-label.logout' })}
+            aria-label={t('aria-label.logout')}
             color="white"
             onClick={onLogout}
           >
@@ -81,7 +82,7 @@ export function Header() {
             {navigationTabs[role].map(({ to, label }) => (
               <Link key={to} to={to} onClick={() => setIsOpen(false)}>
                 <Typography className={clsx(styles.tab, pathname === to && styles.active)}>
-                  <FormattedMessage id={label} />
+                  <I18nText>{label}</I18nText>
                 </Typography>
               </Link>
             ))}

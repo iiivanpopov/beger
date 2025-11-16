@@ -1,5 +1,6 @@
 import { Controller } from 'react-hook-form'
-import { FormattedMessage, useIntl } from 'react-intl'
+import { I18nText } from '@/components'
+import { useI18n } from '@/shared/hooks'
 import { Autocomplete, Button, Datepicker, Form, Modal, Textarea, Typography } from '@/shared/ui'
 import { RepairCard } from './components'
 import { useRepairsPage } from './hooks/useRepairsPage'
@@ -7,23 +8,31 @@ import styles from './RepairsPage.module.css'
 
 export function RepairsPage() {
   const { form, actions, data, ui } = useRepairsPage()
-  const intl = useIntl()
+  const { t } = useI18n()
 
   return (
     <div className={styles.page}>
       <div className={styles.header}>
         <Typography tag="h2" variant="subheading">
-          <FormattedMessage id="action.new-repair" />
+          <I18nText>action.new-repair</I18nText>
         </Typography>
         <Modal isOpen={ui.modal.isOpen} setIsOpen={ui.modal.setIsOpen}>
           <Modal.Trigger asChild>
-            <Button size="small"><FormattedMessage id="action.view-last" /></Button>
+            <Button size="small">
+              <I18nText>action.view-last</I18nText>
+            </Button>
           </Modal.Trigger>
           <Modal.Content className={styles.records}>
             <Modal.Header>
-              <Typography tag="h2" variant="subheading"><FormattedMessage id="title.repairs" /></Typography>
+              <Typography tag="h2" variant="subheading">
+                <I18nText>title.repairs</I18nText>
+              </Typography>
             </Modal.Header>
-            {!data.repairs.data?.data.length && <Typography><FormattedMessage id="message.no-records" /></Typography>}
+            {!data.repairs.data?.data.length && (
+              <Typography>
+                <I18nText>message.no-records</I18nText>
+              </Typography>
+            )}
             <div className={styles.cards}>
               {data.repairs.data?.data.map((repair, i) => (
                 <RepairCard
@@ -43,11 +52,11 @@ export function RepairsPage() {
           control={form.control}
           render={({ field, fieldState }) => (
             <Form.Field className={styles.pcb}>
-              <Form.Label><FormattedMessage id="label.pcb-name" /></Form.Label>
+              <Form.Label>
+                <I18nText>label.pcb-name</I18nText>
+              </Form.Label>
               <Autocomplete {...field}>
-                <Autocomplete.Trigger
-                  placeholder={intl.formatMessage({ id: 'placeholder.pcb-name' })}
-                />
+                <Autocomplete.Trigger placeholder={t('placeholder.pcb-name')} />
                 <Autocomplete.Items>
                   {data.options.data?.data.pcbNames.map(pcb => (
                     <Autocomplete.Item key={pcb} value={pcb}>
@@ -58,7 +67,7 @@ export function RepairsPage() {
               </Autocomplete>
               {fieldState.error?.message && (
                 <Form.Error>
-                  <FormattedMessage id={fieldState.error?.message} />
+                  <I18nText>{fieldState.error?.message}</I18nText>
                 </Form.Error>
               )}
             </Form.Field>
@@ -69,11 +78,11 @@ export function RepairsPage() {
           control={form.control}
           render={({ field, fieldState }) => (
             <Form.Field className={styles.defect}>
-              <Form.Label><FormattedMessage id="label.defect" /></Form.Label>
+              <Form.Label>
+                <I18nText>label.defect</I18nText>
+              </Form.Label>
               <Autocomplete {...field}>
-                <Autocomplete.Trigger
-                  placeholder={intl.formatMessage({ id: 'placeholder.defect' })}
-                />
+                <Autocomplete.Trigger placeholder={t('placeholder.defect')} />
                 <Autocomplete.Items>
                   {data.options.data?.data.defects.map(pcb => (
                     <Autocomplete.Item key={pcb} value={pcb}>
@@ -84,7 +93,7 @@ export function RepairsPage() {
               </Autocomplete>
               {fieldState.error?.message && (
                 <Form.Error>
-                  <FormattedMessage id={fieldState.error?.message} />
+                  <I18nText>{fieldState.error?.message}</I18nText>
                 </Form.Error>
               )}
             </Form.Field>
@@ -95,7 +104,9 @@ export function RepairsPage() {
           control={form.control}
           render={({ field }) => (
             <Form.Field className={styles.date}>
-              <Form.Label><FormattedMessage id="label.date" /></Form.Label>
+              <Form.Label>
+                <I18nText>label.date</I18nText>
+              </Form.Label>
               <Datepicker {...field} />
             </Form.Field>
           )}
@@ -105,15 +116,19 @@ export function RepairsPage() {
           control={form.control}
           render={({ field }) => (
             <Form.Field className={styles.note}>
-              <Form.Label><FormattedMessage id="label.note" /></Form.Label>
+              <Form.Label>
+                <I18nText>label.note</I18nText>
+              </Form.Label>
               <Textarea
                 {...field}
-                placeholder={intl.formatMessage({ id: 'placeholder.note' })}
+                placeholder={t('placeholder.note')}
               />
             </Form.Field>
           )}
         />
-        <Button className={styles.submit} type="submit"><FormattedMessage id="action.submit" /></Button>
+        <Button className={styles.submit} type="submit">
+          <I18nText>action.submit</I18nText>
+        </Button>
       </Form>
     </div>
   )

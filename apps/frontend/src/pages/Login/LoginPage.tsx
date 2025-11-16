@@ -1,39 +1,48 @@
 import { Controller } from 'react-hook-form'
-import { FormattedMessage, useIntl } from 'react-intl'
+import { I18nText } from '@/components'
+import { useI18n } from '@/shared/hooks'
 import { Button, Form, Input, Modal, Typography } from '@/shared/ui'
 import { useLoginPage } from './hooks/useLoginPage'
 import styles from './LoginPage.module.css'
 
 export function LoginPage() {
   const { form, actions, ui } = useLoginPage()
-  const intl = useIntl()
+  const { t } = useI18n()
 
   return (
     <div className={styles.page}>
-      <Typography variant="subheading" tag="h2"><FormattedMessage id="unauthorized" /></Typography>
+      <Typography variant="subheading" tag="h2">
+        <I18nText>unauthorized</I18nText>
+      </Typography>
       <Modal isOpen={ui.modal.isOpen} setIsOpen={ui.modal.setIsOpen}>
         <Modal.Trigger asChild>
-          <Button><FormattedMessage id="action.login" /></Button>
+          <Button>
+            <I18nText>action.login</I18nText>
+          </Button>
         </Modal.Trigger>
         <Modal.Content>
           <div className={styles.modal}>
-            <Typography variant="heading" tag="h1"><FormattedMessage id="action.login" /></Typography>
+            <Typography variant="heading" tag="h1">
+              <I18nText>action.login</I18nText>
+            </Typography>
             <Form onSubmit={actions.onSubmit}>
               <Controller
                 control={form.control}
                 name="userName"
                 render={({ field, fieldState }) => (
                   <Form.Field>
-                    <Form.Label><FormattedMessage id="placeholder.username" /></Form.Label>
+                    <Form.Label>
+                      <I18nText>placeholder.username</I18nText>
+                    </Form.Label>
                     <Input
                       {...field}
                       invalid={fieldState.invalid}
-                      placeholder={intl.formatMessage({ id: 'placeholder.username' })}
+                      placeholder={t('placeholder.username')}
                       autoComplete="username"
                     />
                     {fieldState.error?.message && (
                       <Form.Error>
-                        <FormattedMessage id={fieldState.error?.message} />
+                        <I18nText>{fieldState.error?.message}</I18nText>
                       </Form.Error>
                     )}
                   </Form.Field>
@@ -44,23 +53,27 @@ export function LoginPage() {
                 name="password"
                 render={({ field, fieldState }) => (
                   <Form.Field {...fieldState}>
-                    <Form.Label><FormattedMessage id="placeholder.password" /></Form.Label>
+                    <Form.Label>
+                      <I18nText>placeholder.password</I18nText>
+                    </Form.Label>
                     <Input
                       {...field}
                       type="password"
                       invalid={fieldState.invalid}
-                      placeholder={intl.formatMessage({ id: 'placeholder.password' })}
+                      placeholder={t('placeholder.password')}
                       autoComplete="current-password"
                     />
                     {fieldState.error?.message && (
                       <Form.Error>
-                        <FormattedMessage id={fieldState.error?.message} />
+                        <I18nText>{fieldState.error?.message}</I18nText>
                       </Form.Error>
                     )}
                   </Form.Field>
                 )}
               />
-              <Button type="submit"><FormattedMessage id="action.submit" /></Button>
+              <Button type="submit">
+                <I18nText>action.submit</I18nText>
+              </Button>
             </Form>
           </div>
         </Modal.Content>

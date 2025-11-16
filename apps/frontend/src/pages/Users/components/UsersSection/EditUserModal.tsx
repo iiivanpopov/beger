@@ -4,10 +4,10 @@ import { useRouteContext } from '@tanstack/react-router'
 import { EditIcon } from 'lucide-react'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { FormattedMessage, useIntl } from 'react-intl'
 import * as v from 'valibot'
 import { useUpdateUserMutation } from '@/api'
-import { useMutationErrorHandler, useToast } from '@/shared/hooks'
+import { I18nText } from '@/components'
+import { useI18n, useMutationErrorHandler, useToast } from '@/shared/hooks'
 import { Button, Form, Input, Modal, Typography } from '@/shared/ui'
 import { fullNameValidator, passwordValidator, userNameValidator } from '@/shared/utils'
 import styles from './EditUserModal.module.css'
@@ -27,7 +27,7 @@ export interface EditUserModalProps {
 export function EditUserModal({ user }: EditUserModalProps) {
   const [isOpen, setIsOpen] = useState(false)
   const { queryClient } = useRouteContext({ from: '__root__' })
-  const intl = useIntl()
+  const { t } = useI18n()
 
   const form = useForm<UpdateUserData>({
     defaultValues: { fullName: user.fullName, userName: user.userName, password: '' },
@@ -40,7 +40,7 @@ export function EditUserModal({ user }: EditUserModalProps) {
   const updateUserMutation = useUpdateUserMutation({
     options: {
       onSuccess: () => {
-        toast.success(intl.formatMessage({ id: 'message.updated-user' }))
+        toast.success(t('message.updated-user'))
         queryClient.invalidateQueries({ queryKey: ['users', 'all'] })
         setIsOpen(false)
       },
@@ -72,8 +72,8 @@ export function EditUserModal({ user }: EditUserModalProps) {
       <Modal.Trigger asChild>
         <Button
           icon
-          aria-label={intl.formatMessage({ id: 'aria-label.edit-user' })}
-          title={intl.formatMessage({ id: 'aria-label.edit-user' })}
+          aria-label={t('aria-label.edit-user')}
+          title={t('aria-label.edit-user')}
           variant="ghost"
           size="small"
         >
@@ -81,21 +81,25 @@ export function EditUserModal({ user }: EditUserModalProps) {
         </Button>
       </Modal.Trigger>
       <Modal.Content className={styles.modal}>
-        <Typography variant="subheading" tag="h2"><FormattedMessage id="title.update-user" /></Typography>
+        <Typography variant="subheading" tag="h2">
+          <I18nText>title.update-user</I18nText>
+        </Typography>
         <Form onSubmit={onSubmit}>
           <Controller
             name="userName"
             control={form.control}
             render={({ field, fieldState }) => (
               <Form.Field>
-                <Form.Label><FormattedMessage id="label.user-name" /></Form.Label>
+                <Form.Label>
+                  <I18nText>label.user-name</I18nText>
+                </Form.Label>
                 <Input
                   {...field}
-                  placeholder={intl.formatMessage({ id: 'placeholder.user-name' })}
+                  placeholder={t('placeholder.user-name')}
                 />
                 {fieldState.error?.message && (
                   <Form.Error>
-                    <FormattedMessage id={fieldState.error?.message} />
+                    <I18nText>{fieldState.error?.message}</I18nText>
                   </Form.Error>
                 )}
               </Form.Field>
@@ -106,14 +110,16 @@ export function EditUserModal({ user }: EditUserModalProps) {
             control={form.control}
             render={({ field, fieldState }) => (
               <Form.Field>
-                <Form.Label><FormattedMessage id="label.full-name" /></Form.Label>
+                <Form.Label>
+                  <I18nText>label.full-name</I18nText>
+                </Form.Label>
                 <Input
                   {...field}
-                  placeholder={intl.formatMessage({ id: 'placeholder.full-name' })}
+                  placeholder={t('placeholder.full-name')}
                 />
                 {fieldState.error?.message && (
                   <Form.Error>
-                    <FormattedMessage id={fieldState.error?.message} />
+                    <I18nText>{fieldState.error?.message}</I18nText>
                   </Form.Error>
                 )}
               </Form.Field>
@@ -124,21 +130,25 @@ export function EditUserModal({ user }: EditUserModalProps) {
             control={form.control}
             render={({ field, fieldState }) => (
               <Form.Field>
-                <Form.Label><FormattedMessage id="label.password" /></Form.Label>
+                <Form.Label>
+                  <I18nText>label.password</I18nText>
+                </Form.Label>
                 <Input
                   {...field}
-                  placeholder={intl.formatMessage({ id: 'placeholder.password-mask' })}
+                  placeholder={t('placeholder.password-mask')}
                   type="password"
                 />
                 {fieldState.error?.message && (
                   <Form.Error>
-                    <FormattedMessage id={fieldState.error?.message} />
+                    <I18nText>{fieldState.error?.message}</I18nText>
                   </Form.Error>
                 )}
               </Form.Field>
             )}
           />
-          <Button type="submit"><FormattedMessage id="action.update" /></Button>
+          <Button type="submit">
+            <I18nText>action.update</I18nText>
+          </Button>
         </Form>
       </Modal.Content>
     </Modal>

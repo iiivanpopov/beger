@@ -1,7 +1,7 @@
 import type { TestResult } from '@/api'
 import { Trash2Icon } from 'lucide-react'
-import { FormattedMessage, useIntl } from 'react-intl'
-import { useToast } from '@/shared/hooks'
+import { I18nText } from '@/components'
+import { useI18n, useToast } from '@/shared/hooks'
 import { Card, ConfirmableButton, Tooltip, Typography } from '@/shared/ui'
 import styles from './TestResultCard.module.css'
 
@@ -13,11 +13,11 @@ export interface TestResultCardProps {
 
 export function TestResultCard({ testResult, i, onDelete }: TestResultCardProps) {
   const toast = useToast()
-  const intl = useIntl()
+  const { t } = useI18n()
 
   const onCopy = async () => {
     await navigator.clipboard.writeText(testResult.pcbName)
-    toast.info(intl.formatMessage({ id: 'message.copied-clipboard' }))
+    toast.info(t('message.copied-clipboard'))
   }
 
   return (
@@ -43,7 +43,7 @@ export function TestResultCard({ testResult, i, onDelete }: TestResultCardProps)
         </Typography>
         <Card.Row>
           <Typography variant="caption">
-            <FormattedMessage id="label.id" />
+            <I18nText>label.id</I18nText>
             {testResult.id}
           </Typography>
           <Typography variant="caption">

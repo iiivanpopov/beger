@@ -1,8 +1,8 @@
 import type { Repair } from '@/api'
 import { Trash2Icon } from 'lucide-react'
-import { FormattedMessage, useIntl } from 'react-intl'
-import { useToast } from '@/shared/hooks'
-import { Card, ConfirmableButton, Tooltip, Typography } from '@/shared/ui'
+import { I18nDate, I18nText } from '@/components'
+import { useI18n, useToast } from '@/shared/hooks'
+import { Button, Card, ConfirmableButton, Tooltip, Typography } from '@/shared/ui'
 import styles from './RepairCard.module.css'
 
 export interface RepairCardProps {
@@ -13,11 +13,11 @@ export interface RepairCardProps {
 
 export function RepairCard({ repair, i, onDelete }: RepairCardProps) {
   const toast = useToast()
-  const intl = useIntl()
+  const { t } = useI18n()
 
   const onCopy = async () => {
     await navigator.clipboard.writeText(repair.pcbName)
-    toast.info(intl.formatMessage({ id: 'message.copied-clipboard' }))
+    toast.info(t('message.copied-clipboard'))
   }
 
   return (
@@ -26,9 +26,9 @@ export function RepairCard({ repair, i, onDelete }: RepairCardProps) {
       <Card.Content>
         <Tooltip>
           <Tooltip.Trigger className={styles.trigger}>
-            <button type="button" className={styles.title} onClick={onCopy}>
+            <Button type="button" variant="ghost" className={styles.title} onClick={onCopy}>
               {repair.pcbName}
-            </button>
+            </Button>
           </Tooltip.Trigger>
           <Tooltip.Content>{repair.pcbName}</Tooltip.Content>
         </Tooltip>
@@ -36,11 +36,11 @@ export function RepairCard({ repair, i, onDelete }: RepairCardProps) {
         <Typography>{repair.defect}</Typography>
         <Card.Row>
           <Typography variant="caption">
-            <FormattedMessage id="label.id" />
+            <I18nText>label.id</I18nText>
             {repair.id}
           </Typography>
           <Typography variant="caption">
-            {new Date(repair.date).toLocaleDateString()}
+            <I18nDate>{repair.date}</I18nDate>
           </Typography>
           <ConfirmableButton
             icon

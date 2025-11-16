@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router'
-import { FormattedMessage } from 'react-intl'
-import { Button } from '@/shared/ui'
+import { I18nText } from '@/components'
+import { Button, Typography } from '@/shared/ui'
 import { Layout } from '@/shared/ui/Layout'
 import styles from './ErrorPage.module.css'
 
@@ -8,8 +8,12 @@ export function ErrorPage() {
   return (
     <Layout>
       <div className={styles.page}>
-        <span><FormattedMessage id="unexpected-error" /></span>
-        <Link to="/"><Button><FormattedMessage id="link.home" /></Button></Link>
+        <Typography variant="heading">
+          <I18nText>Unexpected Error</I18nText>
+        </Typography>
+        <Button component={Link} to="/">
+          <I18nText>link.home</I18nText>
+        </Button>
       </div>
     </Layout>
   )

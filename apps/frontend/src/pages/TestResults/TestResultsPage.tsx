@@ -1,5 +1,6 @@
 import { Controller } from 'react-hook-form'
-import { FormattedMessage, useIntl } from 'react-intl'
+import { I18nText } from '@/components'
+import { useI18n } from '@/shared/hooks'
 import { Autocomplete, Button, Datepicker, Form, Input, Modal, Typography } from '@/shared/ui'
 import { TestResultCard } from './components'
 import { useTestResultsPage } from './hooks/useTestResultsPage'
@@ -7,27 +8,29 @@ import styles from './TestResultsPage.module.css'
 
 export function TestResultsPage() {
   const { form, actions, data, ui } = useTestResultsPage()
-  const intl = useIntl()
+  const { t } = useI18n()
 
   return (
     <section className={styles.page}>
       <div className={styles.header}>
         <Typography tag="h2" variant="subheading">
-          <FormattedMessage id="title.create-test-result" />
+          <I18nText>title.create-test-result</I18nText>
         </Typography>
         <Modal isOpen={ui.modal.isOpen} setIsOpen={ui.modal.setIsOpen}>
           <Modal.Trigger asChild>
-            <Button size="small"><FormattedMessage id="action.view-last" /></Button>
+            <Button size="small">
+              <I18nText>action.view-last</I18nText>
+            </Button>
           </Modal.Trigger>
           <Modal.Content className={styles.records}>
             <Modal.Header>
               <Typography variant="subheading" tag="h2">
-                <FormattedMessage id="title.test-results" />
+                <I18nText>title.test-results</I18nText>
               </Typography>
             </Modal.Header>
             {!data.testResults.data?.data.length && (
               <Typography>
-                <FormattedMessage id="message.no-records" />
+                <I18nText>message.no-records</I18nText>
               </Typography>
             )}
             <div className={styles.cards}>
@@ -49,10 +52,12 @@ export function TestResultsPage() {
           control={form.control}
           render={({ field, fieldState }) => (
             <Form.Field className={styles.pcb}>
-              <Form.Label><FormattedMessage id="label.pcb-name" /></Form.Label>
+              <Form.Label>
+                <I18nText>label.pcb-name</I18nText>
+              </Form.Label>
               <Autocomplete {...field}>
                 <Autocomplete.Trigger
-                  placeholder={intl.formatMessage({ id: 'placeholder.pcb-name' })}
+                  placeholder={t('placeholder.pcb-name')}
                 />
                 <Autocomplete.Items>
                   {data.options.data?.data.pcbNames.map(pcb => (
@@ -64,7 +69,7 @@ export function TestResultsPage() {
               </Autocomplete>
               {fieldState.error?.message && (
                 <Form.Error>
-                  <FormattedMessage id={fieldState.error?.message} />
+                  <I18nText>{fieldState.error?.message}</I18nText>
                 </Form.Error>
               )}
             </Form.Field>
@@ -75,7 +80,9 @@ export function TestResultsPage() {
           control={form.control}
           render={({ field }) => (
             <Form.Field className={styles.date}>
-              <Form.Label><FormattedMessage id="label.date" /></Form.Label>
+              <Form.Label>
+                <I18nText>label.date</I18nText>
+              </Form.Label>
               <Datepicker {...field} />
             </Form.Field>
           )}
@@ -85,15 +92,17 @@ export function TestResultsPage() {
           control={form.control}
           render={({ field, fieldState }) => (
             <Form.Field className={styles.first}>
-              <Form.Label><FormattedMessage id="label.first-try" /></Form.Label>
+              <Form.Label>
+                <I18nText>label.first-try</I18nText>
+              </Form.Label>
               <Input
                 {...field}
-                placeholder={intl.formatMessage({ id: 'placeholder.first-try' })}
+                placeholder={t('placeholder.first-try')}
                 type="number"
               />
               {fieldState.error?.message && (
                 <Form.Error>
-                  <FormattedMessage id={fieldState.error?.message} />
+                  <I18nText>{fieldState.error?.message}</I18nText>
                 </Form.Error>
               )}
             </Form.Field>
@@ -104,15 +113,17 @@ export function TestResultsPage() {
           control={form.control}
           render={({ field, fieldState }) => (
             <Form.Field className={styles.failed}>
-              <Form.Label><FormattedMessage id="label.failed" /></Form.Label>
+              <Form.Label>
+                <I18nText>label.failed</I18nText>
+              </Form.Label>
               <Input
                 {...field}
-                placeholder={intl.formatMessage({ id: 'placeholder.failed' })}
+                placeholder={t('placeholder.failed')}
                 type="number"
               />
               {fieldState.error?.message && (
                 <Form.Error>
-                  <FormattedMessage id={fieldState.error?.message} />
+                  <I18nText>{fieldState.error?.message}</I18nText>
                 </Form.Error>
               )}
             </Form.Field>
@@ -123,22 +134,24 @@ export function TestResultsPage() {
           control={form.control}
           render={({ field, fieldState }) => (
             <Form.Field className={styles.total}>
-              <Form.Label><FormattedMessage id="label.total" /></Form.Label>
+              <Form.Label>
+                <I18nText>label.total</I18nText>
+              </Form.Label>
               <Input
                 {...field}
-                placeholder={intl.formatMessage({ id: 'placeholder.total' })}
+                placeholder={t('placeholder.total')}
                 type="number"
               />
               {fieldState.error?.message && (
                 <Form.Error>
-                  <FormattedMessage id={fieldState.error?.message} />
+                  <I18nText>{fieldState.error?.message}</I18nText>
                 </Form.Error>
               )}
             </Form.Field>
           )}
         />
         <Button className={styles.submit} type="submit">
-          <FormattedMessage id="action.submit" />
+          <I18nText>action.submit</I18nText>
         </Button>
       </Form>
     </section>

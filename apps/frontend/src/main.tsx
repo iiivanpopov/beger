@@ -2,6 +2,7 @@ import type { RedirectOptions, Register, RegisteredRouter } from '@tanstack/reac
 import type { Locale } from './providers'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createRouter, RouterProvider } from '@tanstack/react-router'
+import ky from 'ky'
 import { createRoot } from 'react-dom/client'
 import { ToastsProvider } from '@/providers/ToastsProvider'
 import { I18nProvider } from './providers'
@@ -29,10 +30,7 @@ export type AppRouter = RegisteredRouter<Register>
 export type RouterPath = RedirectOptions<AppRouter>['to']
 
 const defaultLocale = localStorage.getItem(storageKeys.locale) as Locale | undefined ?? 'en'
-localStorage.setItem(storageKeys.locale, defaultLocale)
-
-const res = await fetch(`/locales/${defaultLocale}.json`)
-const defaultMessages = await res.json()
+const defaultMessages = await ky.get(`/locales/${defaultLocale}.json`).json() as Record<string, string>
 
 createRoot(document.getElementById('root')!).render(
   <QueryClientProvider client={queryClient}>

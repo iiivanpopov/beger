@@ -1,10 +1,10 @@
 import { valibotResolver } from '@hookform/resolvers/valibot'
 import { useRouteContext } from '@tanstack/react-router'
 import { Controller, useForm } from 'react-hook-form'
-import { FormattedMessage, useIntl } from 'react-intl'
 import * as v from 'valibot'
 import { useRegisterMutation } from '@/api'
-import { useMutationErrorHandler, useToast } from '@/shared/hooks'
+import { I18nText } from '@/components'
+import { useI18n, useMutationErrorHandler, useToast } from '@/shared/hooks'
 import { Button, Form, Input, Typography } from '@/shared/ui'
 import { fullNameValidator, passwordValidator, userNameValidator } from '@/shared/utils/validators'
 import styles from './NewUserSection.module.css'
@@ -19,7 +19,7 @@ type CreateUserData = v.InferOutput<typeof CreateUserSchema>
 
 export function NewUserSection() {
   const { queryClient } = useRouteContext({ from: '__root__' })
-  const intl = useIntl()
+  const { t } = useI18n()
 
   const form = useForm<CreateUserData>({
     defaultValues: { fullName: '', userName: '', password: '' },
@@ -32,7 +32,7 @@ export function NewUserSection() {
   const registerMutation = useRegisterMutation({
     options: {
       onSuccess: async () => {
-        toast.success(intl.formatMessage({ id: 'message.created-user' }))
+        toast.success(t('message.created-user'))
         form.reset()
         queryClient.invalidateQueries({ queryKey: ['users', 'all'] })
       },
@@ -44,21 +44,25 @@ export function NewUserSection() {
 
   return (
     <section className={styles.section}>
-      <Typography tag="h2" variant="subheading"><FormattedMessage id="title.new-user" /></Typography>
+      <Typography tag="h2" variant="subheading">
+        <I18nText>title.new-user</I18nText>
+      </Typography>
       <Form onSubmit={onSubmit}>
         <Controller
           name="userName"
           control={form.control}
           render={({ field, fieldState }) => (
             <Form.Field>
-              <Form.Label><FormattedMessage id="label.user-name" /></Form.Label>
+              <Form.Label>
+                <I18nText>label.user-name</I18nText>
+              </Form.Label>
               <Input
                 {...field}
-                placeholder={intl.formatMessage({ id: 'placeholder.user-name' })}
+                placeholder={t('placeholder.user-name')}
               />
               {fieldState.error?.message && (
                 <Form.Error>
-                  <FormattedMessage id={fieldState.error?.message} />
+                  <I18nText>{fieldState.error?.message}</I18nText>
                 </Form.Error>
               )}
             </Form.Field>
@@ -69,14 +73,16 @@ export function NewUserSection() {
           control={form.control}
           render={({ field, fieldState }) => (
             <Form.Field>
-              <Form.Label><FormattedMessage id="label.full-name" /></Form.Label>
+              <Form.Label>
+                <I18nText>label.full-name</I18nText>
+              </Form.Label>
               <Input
                 {...field}
-                placeholder={intl.formatMessage({ id: 'placeholder.full-name' })}
+                placeholder={t('placeholder.full-name')}
               />
               {fieldState.error?.message && (
                 <Form.Error>
-                  <FormattedMessage id={fieldState.error?.message} />
+                  <I18nText>{fieldState.error?.message}</I18nText>
                 </Form.Error>
               )}
             </Form.Field>
@@ -87,21 +93,25 @@ export function NewUserSection() {
           control={form.control}
           render={({ field, fieldState }) => (
             <Form.Field>
-              <Form.Label><FormattedMessage id="label.password" /></Form.Label>
+              <Form.Label>
+                <I18nText>label.password</I18nText>
+              </Form.Label>
               <Input
                 {...field}
-                placeholder={intl.formatMessage({ id: 'placeholder.password-mask' })}
+                placeholder={t('placeholder.password-mask')}
                 type="password"
               />
               {fieldState.error?.message && (
                 <Form.Error>
-                  <FormattedMessage id={fieldState.error?.message} />
+                  <I18nText>{fieldState.error?.message}</I18nText>
                 </Form.Error>
               )}
             </Form.Field>
           )}
         />
-        <Button type="submit"><FormattedMessage id="action.register" /></Button>
+        <Button type="submit">
+          <I18nText>action.register</I18nText>
+        </Button>
       </Form>
     </section>
   )

@@ -3,8 +3,7 @@ import clsx from 'clsx'
 import { MenuIcon, XIcon } from 'lucide-react'
 import { createContext, use, useMemo, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import { useIntl } from 'react-intl'
-import { useControllableState } from '@/shared/hooks'
+import { useControllableState, useI18n } from '@/shared/hooks'
 import { cloneComponent } from '@/shared/utils'
 import styles from './Menu.module.css'
 
@@ -47,15 +46,15 @@ export interface MenuTriggerProps extends ComponentProps<'button'> {
 
 export function MenuTrigger({ children, className, asChild = false, ...props }: MenuTriggerProps) {
   const { setIsOpen, triggerRef } = use(MenuContext)
-  const intl = useIntl()
+  const { t } = useI18n()
 
   const onClick = () => setIsOpen(true)
 
   if (asChild) {
     return cloneComponent(children, {
       'ref': triggerRef,
-      'aria-label': intl.formatMessage({ id: 'aria-label.open-menu' }),
-      'title': intl.formatMessage({ id: 'aria-label.open-menu' }),
+      'aria-label': t('aria-label.open-menu'),
+      'title': t('aria-label.open-menu'),
       'onClick': onClick,
     })
   }
@@ -64,8 +63,8 @@ export function MenuTrigger({ children, className, asChild = false, ...props }: 
     <button
       {...props}
       type="button"
-      aria-label={intl.formatMessage({ id: 'aria-label.open-menu' })}
-      title={intl.formatMessage({ id: 'aria-label.open-menu' })}
+      aria-label={t('aria-label.open-menu')}
+      title={t('aria-label.open-menu')}
       ref={triggerRef}
       className={clsx(styles.trigger, className)}
       onClick={onClick}

@@ -1,11 +1,14 @@
-import { FormattedMessage } from 'react-intl'
+import { I18nText } from '@/components'
+import { Typography } from '@/shared/ui'
 import styles from './NotFoundPage.module.css'
 
 export function NotFoundPage() {
   return (
     <div className={styles.page}>
-      <h1>404</h1>
-      <h2><FormattedMessage id="not-found" /></h2>
+      <Typography variant="heading">404</Typography>
+      <Typography variant="subheading">
+        <I18nText> not-found</I18nText>
+      </Typography>
     </div>
   )
 }

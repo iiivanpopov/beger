@@ -1,4 +1,5 @@
-import type { ComponentProps, ReactNode } from 'react'
+import type { ReactNode } from 'react'
+import type { Element, PropsOf } from '@/shared/types'
 import clsx from 'clsx'
 import { LoaderCircle } from 'lucide-react'
 import styles from './Button.module.css'
@@ -7,28 +8,33 @@ type Variant = 'contained' | 'ghost'
 type Color = 'primary' | 'white'
 type Size = 'small' | 'medium'
 
-export interface ButtonProps extends ComponentProps<'button'> {
+export type ButtonProps<C extends Element = 'button'> = {
   variant?: Variant
   color?: Color
   size?: Size
   icon?: boolean
   loading?: boolean
-  children: ReactNode
-}
+  children?: ReactNode
+  component?: C
+} & PropsOf<C>
 
-export function Button({
+export function Button<C extends Element = 'button'>({
   children,
   type = 'button',
   variant = 'contained',
+  component = 'button',
   color = 'primary',
   size = 'medium',
   loading = false,
+  disabled = false,
   icon = false,
   className,
   ...props
-}: ButtonProps) {
+}: ButtonProps<C>) {
+  const Component = component
+
   return (
-    <button
+    <Component
       {...props}
       type={type}
       className={clsx(
@@ -40,10 +46,10 @@ export function Button({
         loading && styles.loading,
         className,
       )}
-      disabled={loading || props.disabled}
+      disabled={loading || disabled}
     >
       {loading && <LoaderCircle className={styles.spinner} />}
       <div className={styles.content}>{children}</div>
-    </button>
+    </Component>
   )
 }
