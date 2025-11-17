@@ -1,6 +1,7 @@
 export * from './data'
 export * from './date'
 export * from './error'
+export * from './i18n'
 export * from './react'
 export * from './routing'
 export * from './validators'

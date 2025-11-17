@@ -1,4 +1,4 @@
-import type { UserRole } from '@/api'
+import type { UserRole } from '@beger/shared'
 import type { RouterPath } from '@/main'
 
 export const navigationTabs: Record<

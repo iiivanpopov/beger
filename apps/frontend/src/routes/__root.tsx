@@ -1,10 +1,10 @@
-import type { UserRole } from '@/api'
+import type { UserRole } from '@beger/shared'
 import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
 import { useGetSelfUserQueryOptions } from '@/api'
 import { Header } from '@/components'
 import { queryClient } from '@/providers'
 import { storageKeys } from '@/shared/config'
-import { Layout } from '@/shared/ui/Layout'
+import { Layout } from '@/shared/ui'
 
 interface RouterContext {
   role: UserRole

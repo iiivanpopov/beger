@@ -1,4 +1,4 @@
-import type { UserRole } from '@/api'
+import type { UserRole } from '@beger/shared'
 import { redirect } from '@tanstack/react-router'
 
 export function requireRole(current: UserRole, allowed: UserRole[], redirectTo: string) {

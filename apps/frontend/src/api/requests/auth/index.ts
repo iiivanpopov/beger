@@ -1,5 +1,5 @@
 import type { Options } from 'ky'
-import type { LoginPayload, LoginResponse, LogoutResponse, RefreshPayload, RefreshResponse, RegisterPayload, RegisterResponse } from '@/api/types'
+import type { LoginPayload, LoginResponse, LogoutResponse, RefreshResponse, RegisterPayload, RegisterResponse } from '@/api/types'
 import { $api } from '@/api/instance'
 
 export interface LoginConfig {
@@ -29,10 +29,9 @@ export async function logout({ config }: LogoutConfig = {}) {
 }
 
 export interface RefreshParams {
-  payload: RefreshPayload
   config?: Options
 }
 
-export async function refresh({ payload, config }: RefreshParams) {
-  return $api.post<RefreshResponse>('auth/refresh', { ...config, json: payload.body }).json()
+export async function refresh({ config }: RefreshParams) {
+  return $api.post<RefreshResponse>('auth/refresh', config).json()
 }

@@ -1,13 +1,11 @@
 import type { RedirectOptions, Register, RegisteredRouter } from '@tanstack/react-router'
-import type { Locale } from './providers'
+import type { Locale } from '@/providers'
 import { createRouter, RouterProvider } from '@tanstack/react-router'
 import { createRoot } from 'react-dom/client'
-import { ToastsProvider } from '@/providers/ToastsProvider'
-import { I18nProvider } from './providers'
-import { QueryProvider } from './providers/QueryProvider'
+import { I18nProvider, QueryProvider, ToastsProvider } from '@/providers'
+import { storageKeys } from '@/shared/config'
+import { loadLocale } from '@/shared/utils'
 import { routeTree } from './routeTree.gen'
-import { storageKeys } from './shared/config'
-import { loadLocale } from './shared/utils/i18n'
 import '@/styles/globals.css'
 
 const router = createRouter({

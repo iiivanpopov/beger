@@ -1,5 +1,7 @@
+import type { CreateRepairData, CreateTestResultData, PaginationData, PaginationMeta, RegisterData, Repair, TestResult, Tokens, UpdateUserData, User } from '@beger/shared'
 import type { UseMutationOptions, UseQueryOptions } from '@tanstack/react-query'
 import type { HTTPError, Options } from 'ky'
+import type { LoginData } from '@/routes/(guest)/login/-schemas/LoginSchema'
 import type { AnyFunction } from '@/shared/types'
 
 export interface QuerySettings<
@@ -44,56 +46,9 @@ export interface ApiSuccess {
   success: true
 }
 
-export type UserRole = 'admin' | 'user' | 'guest'
-
-export interface User {
-  id: number
-  fullName: string
-  userName: string
-  role: UserRole
-  createdAt: Date
-}
-
-export interface Repair {
-  id: number
-  userId: number | null
-  pcbName: string
-  defect: string
-  note: string | null
-  date: Date
-  createdAt: Date
-}
-
-export interface TestResult {
-  id: number
-  userId: number | null
-  pcbName: string
-  firstTry: number
-  failed: number
-  total: number
-  date: Date
-  createdAt: Date
-}
-
-export interface Tokens {
-  accessToken: string
-  refreshToken: string
-}
-
-export interface PaginationQuery {
-  page: number
-  limit: number
-}
-
-export interface PaginationMeta {
-  pages: number
-  page: number
-  total: number
-}
-
 // Auth
 export interface LoginPayload {
-  body: { userName: string, password: string }
+  body: LoginData
 }
 
 export type LoginResponse = ApiResponse<{
@@ -102,14 +57,10 @@ export type LoginResponse = ApiResponse<{
 }>
 
 export interface RegisterPayload {
-  body: { userName: string, password: string, fullName: string }
+  body: RegisterData
 }
 
 export type RegisterResponse = ApiResponse<User>
-
-export interface RefreshPayload {
-  body: { refreshToken: string }
-}
 
 export type RefreshResponse = ApiResponse<Tokens>
 
@@ -119,29 +70,22 @@ export type LogoutResponse = ApiSuccess
 export type GetSelfUserResponse = ApiResponse<User>
 
 export interface GetUsersPayload {
-  query: PaginationQuery
+  query: PaginationData
 }
+
 export type GetUsersResponse = ApiResponse<{
   users: User[]
   meta: PaginationMeta
 }>
 
 export interface UpdateUserPayload {
-  params: {
-    id: number
-  }
-  body: {
-    userName?: string
-    fullName?: string
-    password?: string
-  }
+  params: { id: number }
+  body: UpdateUserData
 }
 export type UpdateUserResponse = ApiResponse<User>
 
 export interface DeleteUserPayload {
-  params: {
-    id: number
-  }
+  params: { id: number }
 }
 export type DeleteUserResponse = ApiSuccess
 
@@ -149,17 +93,12 @@ export type DeleteUserResponse = ApiSuccess
 export type GetSelfRepairsResponse = ApiResponse<Repair[]>
 
 export interface GetRepairsPayload {
-  query: PaginationQuery
+  query: PaginationData
 }
 export type GetRepairsResponse = ApiResponse<{ repairs: Repair[], meta: PaginationMeta }>
 
 export interface CreateRepairPayload {
-  body: {
-    pcbName: string
-    defect: string
-    note?: string | null
-    date: Date
-  }
+  body: CreateRepairData
 }
 export type CreateRepairResponse = ApiResponse<Repair>
 
@@ -172,7 +111,7 @@ export type DeleteRepairResponse = ApiSuccess
 export type GetSelfTestResults = ApiResponse<TestResult[]>
 
 export interface GetTestResultsPayload {
-  query: PaginationQuery
+  query: PaginationData
 }
 export type GetTestResultsResponse = ApiResponse<{
   testResults: TestResult[]
@@ -180,7 +119,7 @@ export type GetTestResultsResponse = ApiResponse<{
 }>
 
 export interface CreateTestResultPayload {
-  body: { pcbName: string, firstTry: number, failed: number, total: number, date: Date }
+  body: CreateTestResultData
 }
 export type CreateTestResultResponse = ApiResponse<TestResult>
 
