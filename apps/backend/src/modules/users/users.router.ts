@@ -1,6 +1,6 @@
 import { vValidator } from '@hono/valibot-validator'
 import { accessJwtMiddleware, roleMiddleware } from '@/middleware'
-import { createRouter, getUserId, IdParam, PaginationQuery } from '@/utils'
+import { createRouter, getUserId, IdParam, PaginationSchema } from '@/utils'
 import { UpdateUserBody } from './schemas/update-user.schema'
 import { deleteUser, getUser, getUsers, updateUser } from './users.service'
 
@@ -16,7 +16,7 @@ usersRouter.get('/me', async (c) => {
   return c.json({ data: user, success: true }, 200)
 })
 
-usersRouter.get('/', vValidator('query', PaginationQuery), roleMiddleware('admin'), async (c) => {
+usersRouter.get('/', vValidator('query', PaginationSchema), roleMiddleware('admin'), async (c) => {
   const queryParams = c.req.valid('query')
 
   const users = await getUsers(queryParams)

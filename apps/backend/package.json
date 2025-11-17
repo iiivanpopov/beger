@@ -1,11 +1,10 @@
 {
-  "name": "beger-backend",
-  "type": "module",
-  "version": "0.0.0",
+  "name": "@beger/backend",
   "private": true,
-  "description": "Beger Backend API",
-  "license": "MIT",
-  "module": "src/index.ts",
+  "exports": {
+    ".": "./public/index.ts"
+  },
+  "files": ["./public/index.ts"],
   "scripts": {
     "dev": "NODE_ENV=development bun --hot src/index.ts",
     "prod": "bun ./dist/index.js",

@@ -1,3 +1,4 @@
+import type { InferOutput } from 'valibot'
 import {
   date,
   maxLength,
@@ -11,14 +12,16 @@ import {
 } from 'valibot'
 import { config } from '@/config'
 
-export const PaginationQuery = object({
+export const PaginationSchema = object({
   page: optional(pipe(string(), transform(Number), minValue(1)), '0'),
   limit: optional(pipe(string(), transform(Number), minValue(1)), '10'),
 })
+export type PaginationData = InferOutput<typeof PaginationSchema>
 
-export const IdParam = object({
+export const IdSchema = object({
   id: pipe(string(), transform(Number)),
 })
+export type IdData = InferOutput<typeof IdSchema>
 
 export const userNameValidation = pipe(string(), minLength(config.validation.MIN_USERNAME_LEN))
 export const fullNameValidation = pipe(string(), minLength(config.validation.MIN_FULLNAME_LEN))

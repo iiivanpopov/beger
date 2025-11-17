@@ -1,6 +1,6 @@
 import { vValidator } from '@hono/valibot-validator'
 import { accessJwtMiddleware, roleMiddleware } from '@/middleware'
-import { createRouter, getUserId, getUserRole, IdParam, PaginationQuery } from '@/utils'
+import { createRouter, getUserId, getUserRole, IdParam, PaginationSchema } from '@/utils'
 import { CreateTestResultBody } from './schemas/create-test-result.schema'
 import {
   createTestResult,
@@ -24,7 +24,7 @@ testResultsRouter.get('/me', async (c) => {
 
 testResultsRouter.get(
   '/',
-  vValidator('query', PaginationQuery),
+  vValidator('query', PaginationSchema),
   roleMiddleware('admin'),
   async (c) => {
     const queryParams = c.req.valid('query')

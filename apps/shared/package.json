@@ -1,0 +1,16 @@
+{
+  "name": "@beger/shared",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    ".": "./index.ts"
+  },
+  "files": ["index.ts"],
+  "dependencies": {
+    "@beger/backend": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

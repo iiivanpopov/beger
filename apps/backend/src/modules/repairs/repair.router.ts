@@ -1,6 +1,6 @@
 import { vValidator } from '@hono/valibot-validator'
 import { accessJwtMiddleware, roleMiddleware } from '@/middleware'
-import { createRouter, getUserId, getUserRole, IdParam, PaginationQuery } from '@/utils'
+import { createRouter, getUserId, getUserRole, IdParam, PaginationSchema } from '@/utils'
 import {
   createRepair,
   deleteRepair,
@@ -22,7 +22,7 @@ repairsRouter.get('/me', async (c) => {
   return c.json({ data: repairs, success: true }, 200)
 })
 
-repairsRouter.get('/', vValidator('query', PaginationQuery), roleMiddleware('admin'), async (c) => {
+repairsRouter.get('/', vValidator('query', PaginationSchema), roleMiddleware('admin'), async (c) => {
   const queryParams = c.req.valid('query')
 
   const repairs = await getRepairs(queryParams)
