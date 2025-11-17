@@ -30,26 +30,17 @@ export function useRepairsPage() {
 
   const deleteRepairMutation = useDeleteRepairMutation({
     options: {
-      onSuccess: () => {
-        toast.success(t('message.deleted-repair'))
-        queryClient.invalidateQueries({ queryKey: ['getSelfRepairs'] })
-      },
       onError: mutationErrorHandler,
     },
   })
 
   const createRepairMutation = useCreateRepairMutation({
     options: {
-      onSuccess: () => {
-        toast.success(t('message.created-repair'))
-        queryClient.invalidateQueries({ queryKey: ['getSelfRepairs'] })
-        createRepairForm.reset()
-      },
       onError: mutationErrorHandler,
     },
   })
 
-  const onSubmit = createRepairForm.handleSubmit((body) => {
+  const onSubmit = createRepairForm.handleSubmit(async (body) => {
     if (!optionsQuery.data?.data.pcbNames.includes(body.pcbName)) {
       return createRepairForm.setError('pcbName', {
         type: 'manual',
@@ -64,10 +55,18 @@ export function useRepairsPage() {
       })
     }
 
-    createRepairMutation.mutate({ payload: { body } })
+    await createRepairMutation.mutateAsync({ payload: { body } })
+
+    toast.success(t('message.created-repair'))
+    queryClient.invalidateQueries({ queryKey: ['getSelfRepairs'] })
+    createRepairForm.reset()
   })
 
-  const onDelete = (id: number) => deleteRepairMutation.mutate({ payload: { params: { id } } })
+  const onDelete = async (id: number) => {
+    await deleteRepairMutation.mutateAsync({ payload: { params: { id } } })
+    toast.success(t('message.deleted-repair'))
+    queryClient.invalidateQueries({ queryKey: ['getSelfRepairs'] })
+  }
 
   return {
     state: {

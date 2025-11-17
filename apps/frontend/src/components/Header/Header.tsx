@@ -2,36 +2,38 @@ import type { Locale } from '@/providers'
 import { Link, useLocation, useNavigate, useRouteContext } from '@tanstack/react-router'
 import clsx from 'clsx'
 import { DoorOpenIcon, LanguagesIcon } from 'lucide-react'
-import { use, useState } from 'react'
+import { use } from 'react'
 import { useLogoutMutation } from '@/api'
 import { I18nContext, queryClient } from '@/providers'
 import { navigationTabs, storageKeys } from '@/shared/config'
-import { useI18n } from '@/shared/hooks'
+import { useDisclosure, useI18n } from '@/shared/hooks'
 import { Button, Dropdown, Menu, Typography } from '@/shared/ui'
 import { I18nText } from '../I18nText/I18nText'
 import styles from './Header.module.css'
 
 export function Header() {
-  const [isOpen, setIsOpen] = useState(false)
-  const pathname = useLocation({ select: state => state.pathname })
-  const navigate = useNavigate()
+  const mobileMenu = useDisclosure()
   const { role } = useRouteContext({ from: '__root__' })
-  const i18n = use(I18nContext)
+  const pathname = useLocation({ select: state => state.pathname })
+
   const { t } = useI18n()
+  const i18n = use(I18nContext)
+  const navigate = useNavigate()
 
-  const logoutMutation = useLogoutMutation({
-    options: {
-      onSuccess: () => {
-        setIsOpen(false)
-        localStorage.removeItem(storageKeys.accessToken)
-        localStorage.removeItem(storageKeys.refreshToken)
-        queryClient.removeQueries({ queryKey: ['getSelfUser'] })
-        navigate({ to: '/login', replace: true })
-      },
-    },
-  })
+  const logoutMutation = useLogoutMutation()
 
-  const onLogout = () => logoutMutation.mutate()
+  const onLogout = async () => {
+    await logoutMutation.mutateAsync()
+
+    mobileMenu.close()
+
+    localStorage.removeItem(storageKeys.accessToken)
+    localStorage.removeItem(storageKeys.refreshToken)
+
+    queryClient.removeQueries({ queryKey: ['getSelfUser'] })
+
+    navigate({ to: '/login', replace: true })
+  }
 
   return (
     <header className={styles.header}>
@@ -75,12 +77,12 @@ export function Header() {
         )}
       </div>
 
-      <Menu isOpen={isOpen} setIsOpen={setIsOpen}>
+      <Menu isOpen={mobileMenu.isOpen} setIsOpen={mobileMenu.setIsOpen}>
         <Menu.Trigger className={styles.burger} />
         <Menu.Content className={styles.menu}>
           <Menu.Routes>
             {navigationTabs[role].map(({ to, label }) => (
-              <Link key={to} to={to} onClick={() => setIsOpen(false)}>
+              <Link key={to} to={to} onClick={() => mobileMenu.close()}>
                 <Typography className={clsx(styles.tab, pathname === to && styles.active)}>
                   <I18nText>{label}</I18nText>
                 </Typography>

@@ -20,16 +20,16 @@ export function useNewUserSection() {
 
   const registerMutation = useRegisterMutation({
     options: {
-      onSuccess: async () => {
-        toast.success(t('message.created-user'))
-        createUserForm.reset()
-        queryClient.invalidateQueries({ queryKey: ['getUsers'] })
-      },
       onError: mutationHandler,
     },
   })
 
-  const onSubmit = createUserForm.handleSubmit(body => registerMutation.mutate({ payload: { body } }))
+  const onSubmit = createUserForm.handleSubmit(async (body) => {
+    await registerMutation.mutateAsync({ payload: { body } })
+    toast.success(t('message.created-user'))
+    createUserForm.reset()
+    queryClient.invalidateQueries({ queryKey: ['getUsers'] })
+  })
 
   return {
     actions: {

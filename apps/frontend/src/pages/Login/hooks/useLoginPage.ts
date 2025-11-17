@@ -21,16 +21,18 @@ export function useLoginPage() {
 
   const loginMutation = useLoginMutation({
     options: {
-      onSuccess: (data) => {
-        localStorage.setItem(storageKeys.accessToken, data.data.tokens.accessToken)
-        localStorage.setItem(storageKeys.refreshToken, data.data.tokens.refreshToken)
-        navigate({ to: data.data.user.role === 'admin' ? '/users' : '/test-results' })
-      },
       onError: mutationErrorHandler,
     },
   })
 
-  const onSubmit = loginForm.handleSubmit(body => loginMutation.mutate({ payload: { body } }))
+  const onSubmit = loginForm.handleSubmit(async (body) => {
+    const data = await loginMutation.mutateAsync({ payload: { body } })
+
+    localStorage.setItem(storageKeys.accessToken, data.data.tokens.accessToken)
+    localStorage.setItem(storageKeys.refreshToken, data.data.tokens.refreshToken)
+
+    navigate({ to: data.data.user.role === 'admin' ? '/users' : '/test-results' })
+  })
 
   return {
     actions: {

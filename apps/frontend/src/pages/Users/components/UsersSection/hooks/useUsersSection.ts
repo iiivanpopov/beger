@@ -17,15 +17,15 @@ export function useUsersSection() {
 
   const deleteUserMutation = useDeleteUserMutation({
     options: {
-      onSuccess: () => {
-        toast.success(t('message.deleted-user'))
-        queryClient.invalidateQueries({ queryKey: ['getUsers'] })
-      },
       onError: mutationHandler,
     },
   })
 
-  const onDelete = (id: number) => deleteUserMutation.mutate({ payload: { params: { id } } })
+  const onDelete = async (id: number) => {
+    await deleteUserMutation.mutateAsync({ payload: { params: { id } } })
+    toast.success(t('message.deleted-user'))
+    queryClient.invalidateQueries({ queryKey: ['getUsers'] })
+  }
 
   return {
     state: {

@@ -24,16 +24,11 @@ export function useEditUserModal(user: User) {
 
   const updateUserMutation = useUpdateUserMutation({
     options: {
-      onSuccess: () => {
-        toast.success(t('message.updated-user'))
-        queryClient.invalidateQueries({ queryKey: ['getUsers'] })
-        editUserModal.close()
-      },
       onError: mutationErrorHandler,
     },
   })
 
-  const onSubmit = editUserForm.handleSubmit((body) => {
+  const onSubmit = editUserForm.handleSubmit(async (body) => {
     const updateData: UpdateUserPayload['body'] = {
       fullName: body.fullName,
       userName: body.userName,
@@ -42,7 +37,7 @@ export function useEditUserModal(user: User) {
     if (body.password)
       updateData.password = body.password
 
-    updateUserMutation.mutate({
+    await updateUserMutation.mutateAsync({
       payload: {
         body: updateData,
         params: {
@@ -50,6 +45,10 @@ export function useEditUserModal(user: User) {
         },
       },
     })
+
+    toast.success(t('message.updated-user'))
+    queryClient.invalidateQueries({ queryKey: ['getUsers'] })
+    editUserModal.close()
   })
 
   return {

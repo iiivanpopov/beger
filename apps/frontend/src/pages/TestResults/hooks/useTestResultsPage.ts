@@ -31,26 +31,17 @@ export function useTestResultsPage() {
 
   const deleteTestResultMutation = useDeleteTestResultMutation({
     options: {
-      onSuccess: () => {
-        toast.success(t('message.deleted-test-result'))
-        queryClient.invalidateQueries({ queryKey: ['getSelfTestResults'] })
-      },
       onError: mutationErrorHandler,
     },
   })
 
   const createTestResultMutation = useCreateTestResultMutation({
     options: {
-      onSuccess: () => {
-        toast.success(t('message.created-test-result'))
-        queryClient.invalidateQueries({ queryKey: ['getSelfTestResults'] })
-        createTestResultForm.reset()
-      },
       onError: mutationErrorHandler,
     },
   })
 
-  const onSubmit = createTestResultForm.handleSubmit((body) => {
+  const onSubmit = createTestResultForm.handleSubmit(async (body) => {
     if (!optionsQuery.data?.data.pcbNames.includes(body.pcbName)) {
       return createTestResultForm.setError('pcbName', {
         type: 'manual',
@@ -58,7 +49,7 @@ export function useTestResultsPage() {
       })
     }
 
-    createTestResultMutation.mutate({
+    await createTestResultMutation.mutateAsync({
       payload: {
         body: {
           date: body.date,
@@ -69,9 +60,17 @@ export function useTestResultsPage() {
         },
       },
     })
+
+    toast.success(t('message.created-test-result'))
+    queryClient.invalidateQueries({ queryKey: ['getSelfTestResults'] })
+    createTestResultForm.reset()
   })
 
-  const onDelete = (id: number) => deleteTestResultMutation.mutate({ payload: { params: { id } } })
+  const onDelete = async (id: number) => {
+    await deleteTestResultMutation.mutateAsync({ payload: { params: { id } } })
+    toast.success(t('message.deleted-test-result'))
+    queryClient.invalidateQueries({ queryKey: ['getSelfTestResults'] })
+  }
 
   return {
     actions: {
