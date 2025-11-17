@@ -2,11 +2,11 @@ import { Controller } from 'react-hook-form'
 import { I18nText } from '@/components'
 import { useI18n } from '@/shared/hooks'
 import { Autocomplete, Button, Datepicker, Form, Modal, Textarea, Typography } from '@/shared/ui'
-import { RepairCard } from './components'
-import { useRepairsPage } from './hooks/useRepairsPage'
-import styles from './RepairsPage.module.css'
+import { RepairCard } from './-components'
+import { useRepairsPage } from './-hooks/useRepairsPage'
+import styles from './-page.module.css'
 
-export function RepairsPage() {
+export function Page() {
   const { actions, queries, state } = useRepairsPage()
   const { t } = useI18n()
 

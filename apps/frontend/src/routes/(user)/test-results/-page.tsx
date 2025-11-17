@@ -2,11 +2,11 @@ import { Controller } from 'react-hook-form'
 import { I18nText } from '@/components'
 import { useI18n } from '@/shared/hooks'
 import { Autocomplete, Button, Datepicker, Form, Input, Modal, Typography } from '@/shared/ui'
-import { TestResultCard } from './components'
-import { useTestResultsPage } from './hooks/useTestResultsPage'
-import styles from './TestResultsPage.module.css'
+import { TestResultCard } from './-components'
+import { useTestResultsPage } from './-hooks/useTestResultsPage'
+import styles from './-page.module.css'
 
-export function TestResultsPage() {
+export function Page() {
   const { actions, queries, state } = useTestResultsPage()
   const { t } = useI18n()
 

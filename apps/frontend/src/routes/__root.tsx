@@ -2,8 +2,6 @@ import type { UserRole } from '@/api'
 import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
 import { useGetSelfUserQueryOptions } from '@/api'
 import { Header } from '@/components'
-import { ErrorPage } from '@/pages/Error/ErrorPage'
-import { NotFoundPage } from '@/pages/NotFound/NotFoundPage'
 import { queryClient } from '@/providers'
 import { storageKeys } from '@/shared/config'
 import { Layout } from '@/shared/ui/Layout'
@@ -21,7 +19,6 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 
     try {
       const user = await queryClient.fetchQuery(useGetSelfUserQueryOptions)
-
       return { role: user.data.role }
     }
     catch {
@@ -31,16 +28,10 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       return { role: 'guest' }
     }
   },
-  component: RootLayout,
-  notFoundComponent: NotFoundPage,
-  errorComponent: ErrorPage,
-})
-
-function RootLayout() {
-  return (
+  component: () => (
     <Layout>
       <Header />
       <Outlet />
     </Layout>
-  )
-}
+  ),
+})

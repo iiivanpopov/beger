@@ -1,11 +1,11 @@
-import type { CreateRepairData } from '../schemas/CreateRepairSchema'
+import type { CreateRepairData } from '../-schemas/CreateRepairSchema'
 import { valibotResolver } from '@hookform/resolvers/valibot'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { getOptionsQueryOptions, useCreateRepairMutation, useDeleteRepairMutation, useGetSelfRepairsQuery } from '@/api'
 import { queryClient } from '@/providers'
 import { useDisclosure, useI18n, useMutationErrorHandler, useToast } from '@/shared/hooks'
-import { CreateRepairSchema } from '../schemas/CreateRepairSchema'
+import { CreateRepairSchema } from '../-schemas/CreateRepairSchema'
 
 const createRepairFormDefaultValues = {
   pcbName: '',

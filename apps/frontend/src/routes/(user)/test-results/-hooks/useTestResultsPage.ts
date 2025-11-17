@@ -1,11 +1,11 @@
-import type { CreateTestResultData } from '../schemas/createTestResultSchema'
+import type { CreateTestResultData } from '../-schemas/createTestResultSchema'
 import { valibotResolver } from '@hookform/resolvers/valibot'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { getOptionsQueryOptions, useCreateTestResultMutation, useDeleteTestResultMutation, useGetSelfTestResultsQuery } from '@/api'
 import { queryClient } from '@/providers'
 import { useDisclosure, useI18n, useMutationErrorHandler, useToast } from '@/shared/hooks'
-import { CreateTestResultSchema } from '../schemas/createTestResultSchema'
+import { CreateTestResultSchema } from '../-schemas/createTestResultSchema'
 
 const createTestResultFormDefaultValue = {
   pcbName: '',

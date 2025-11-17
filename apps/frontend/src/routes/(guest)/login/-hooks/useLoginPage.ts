@@ -1,11 +1,11 @@
-import type { LoginData } from '../schemas/LoginSchema'
+import type { LoginData } from '../-schemas/LoginSchema'
 import { valibotResolver } from '@hookform/resolvers/valibot'
 import { useNavigate } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { useLoginMutation } from '@/api'
 import { storageKeys } from '@/shared/config'
 import { useDisclosure, useMutationErrorHandler } from '@/shared/hooks'
-import { LoginSchema } from '../schemas/LoginSchema'
+import { LoginSchema } from '../-schemas/LoginSchema'
 
 const loginFormDefaultValues = { password: '', userName: '' }
 

@@ -1,10 +1,10 @@
 import { Suspense } from 'react'
 import { I18nText } from '@/components'
 import { Typography } from '@/shared/ui'
-import { NewUserSection, UsersSection } from './components'
-import styles from './UsersPage.module.css'
+import { NewUserSection, UsersSection } from './-components'
+import styles from './-page.module.css'
 
-export function UsersPage() {
+export function Page() {
   return (
     <div className={styles.page}>
       <NewUserSection />
