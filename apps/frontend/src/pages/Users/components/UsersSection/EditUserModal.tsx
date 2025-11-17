@@ -40,7 +40,7 @@ export function EditUserModal({ user }: EditUserModalProps) {
     options: {
       onSuccess: () => {
         toast.success(t('message.updated-user'))
-        queryClient.invalidateQueries({ queryKey: ['users', 'all'] })
+        queryClient.invalidateQueries({ queryKey: ['getUsers'] })
         setIsOpen(false)
       },
       onError: mutationErrorHandler,

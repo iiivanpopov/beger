@@ -7,7 +7,7 @@ export function useDeleteRepairMutation(
   settings?: MutationSettings<DeleteRepairConfig, typeof deleteRepair>,
 ) {
   return useMutation({
-    mutationKey: ['repairs'],
+    mutationKey: ['deleteRepair'],
     mutationFn: ({ payload, config }) => deleteRepair({ payload, config: { ...settings?.config, ...config } }),
     ...settings?.options,
   })

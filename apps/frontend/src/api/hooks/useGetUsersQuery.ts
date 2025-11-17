@@ -4,7 +4,7 @@ import { getUsers } from '@/api/requests/users'
 
 export function getUsersQueryOptions(payload: GetUsersPayload) {
   return queryOptions({
-    queryKey: ['users', 'all', payload],
+    queryKey: ['getUsers', payload],
     queryFn: () => getUsers({ payload }),
   })
 }
@@ -14,7 +14,7 @@ export function useGetUsersQuery(
   settings?: QuerySettings<typeof getUsers>,
 ) {
   return useQuery({
-    queryKey: ['users', 'all', payload],
+    queryKey: ['getUsers', payload],
     queryFn: () => getUsers({ payload, config: settings?.config }),
     ...settings?.options,
   })

@@ -33,7 +33,7 @@ export function NewUserSection() {
       onSuccess: async () => {
         toast.success(t('message.created-user'))
         form.reset()
-        queryClient.invalidateQueries({ queryKey: ['users', 'all'] })
+        queryClient.invalidateQueries({ queryKey: ['getUsers'] })
       },
       onError: mutationHandler,
     },

@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { DoorOpenIcon, LanguagesIcon } from 'lucide-react'
 import { use, useState } from 'react'
 import { useLogoutMutation } from '@/api'
-import { I18nContext } from '@/providers'
+import { I18nContext, queryClient } from '@/providers'
 import { navigationTabs, storageKeys } from '@/shared/config'
 import { useI18n } from '@/shared/hooks'
 import { Button, Dropdown, Menu, Typography } from '@/shared/ui'
@@ -15,7 +15,7 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = useLocation({ select: state => state.pathname })
   const navigate = useNavigate()
-  const { queryClient, role } = useRouteContext({ from: '__root__' })
+  const { role } = useRouteContext({ from: '__root__' })
   const i18n = use(I18nContext)
   const { t } = useI18n()
 
@@ -25,7 +25,7 @@ export function Header() {
         setIsOpen(false)
         localStorage.removeItem(storageKeys.accessToken)
         localStorage.removeItem(storageKeys.refreshToken)
-        queryClient.removeQueries({ queryKey: ['user', 'self'] })
+        queryClient.removeQueries({ queryKey: ['getSelfUser'] })
         navigate({ to: '/login', replace: true })
       },
     },

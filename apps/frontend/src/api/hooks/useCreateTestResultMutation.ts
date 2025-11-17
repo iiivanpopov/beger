@@ -7,7 +7,7 @@ export function useCreateTestResultMutation(
   settings?: MutationSettings<CreateTestResultConfig, typeof createTestResult>,
 ) {
   return useMutation({
-    mutationKey: ['test-results'],
+    mutationKey: ['createTestResult'],
     mutationFn: ({ payload, config }) => createTestResult({ payload, config: { ...settings?.config, ...config } }),
     ...settings?.options,
   })

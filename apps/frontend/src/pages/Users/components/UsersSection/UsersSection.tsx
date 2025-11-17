@@ -23,7 +23,7 @@ export function UsersSection() {
     options: {
       onSuccess: () => {
         toast.success(t('message.deleted-user'))
-        queryClient.invalidateQueries({ queryKey: ['users', 'all'] })
+        queryClient.invalidateQueries({ queryKey: ['getUsers'] })
       },
       onError: mutationHandler,
     },

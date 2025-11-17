@@ -41,7 +41,7 @@ export function useRepairsPage() {
     options: {
       onSuccess: () => {
         toast.success(t('message.deleted-repair'))
-        queryClient.invalidateQueries({ queryKey: ['repairs', 'self'] })
+        queryClient.invalidateQueries({ queryKey: ['getSelfRepairs'] })
       },
       onError: mutationErrorHandler,
     },
@@ -51,7 +51,7 @@ export function useRepairsPage() {
     options: {
       onSuccess: () => {
         toast.success(t('message.created-repair'))
-        queryClient.invalidateQueries({ queryKey: ['repairs', 'self'] })
+        queryClient.invalidateQueries({ queryKey: ['getSelfRepairs'] })
         form.reset()
       },
       onError: mutationErrorHandler,

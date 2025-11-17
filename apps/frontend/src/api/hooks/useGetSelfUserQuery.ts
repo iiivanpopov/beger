@@ -11,7 +11,7 @@ export function useGetSelfUserQuery(
   settings?: QuerySettings<typeof getSelfUser>,
 ) {
   return useQuery({
-    queryKey: ['user', 'self'],
+    queryKey: ['getSelfUser'],
     queryFn: () => getSelfUser({ config: settings?.config }),
     ...settings?.options,
   })

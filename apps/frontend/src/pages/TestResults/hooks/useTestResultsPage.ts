@@ -33,7 +33,7 @@ export function useTestResultsPage() {
     options: {
       onSuccess: () => {
         toast.success(t('message.deleted-test-result'))
-        queryClient.invalidateQueries({ queryKey: ['test-results', 'self'] })
+        queryClient.invalidateQueries({ queryKey: ['getSelfTestResults'] })
       },
       onError: mutationErrorHandler,
     },
@@ -43,7 +43,7 @@ export function useTestResultsPage() {
     options: {
       onSuccess: () => {
         toast.success(t('message.created-test-result'))
-        queryClient.invalidateQueries({ queryKey: ['test-results', 'self'] })
+        queryClient.invalidateQueries({ queryKey: ['getSelfTestResults'] })
         form.reset()
       },
       onError: mutationErrorHandler,

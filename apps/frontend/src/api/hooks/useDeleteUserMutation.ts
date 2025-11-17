@@ -7,7 +7,7 @@ export function useDeleteUserMutation(
   settings?: MutationSettings<DeleteUserConfig, typeof deleteUser>,
 ) {
   return useMutation({
-    mutationKey: ['users'],
+    mutationKey: ['deleteUser'],
     mutationFn: ({ payload, config }) => deleteUser({ payload, config: { ...settings?.config, ...config } }),
     ...settings?.options,
   })

@@ -7,7 +7,7 @@ export function useGetRepairsQuery(
   settings?: QuerySettings<typeof getRepairs>,
 ) {
   return useQuery({
-    queryKey: ['repairs', 'all', payload],
+    queryKey: ['getRepairs', payload],
     queryFn: () => getRepairs({ payload, config: settings?.config }),
     ...settings?.options,
   })

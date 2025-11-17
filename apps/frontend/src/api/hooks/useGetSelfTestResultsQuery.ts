@@ -6,7 +6,7 @@ export function useGetSelfTestResultsQuery(
   settings?: QuerySettings<typeof getSelfTestResults>,
 ) {
   return useQuery({
-    queryKey: ['test-results', 'self'],
+    queryKey: ['getSelfTestResults'],
     queryFn: () => getSelfTestResults({ config: settings?.config }),
     ...settings?.options,
   })

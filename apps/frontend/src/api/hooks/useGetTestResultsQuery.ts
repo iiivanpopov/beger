@@ -7,7 +7,7 @@ export function useGetTestResultsQuery(
   settings?: QuerySettings<typeof getTestResults>,
 ) {
   return useQuery({
-    queryKey: ['test-results', 'all', payload],
+    queryKey: ['getTestResults', payload],
     queryFn: () => getTestResults({ payload, config: settings?.config }),
     ...settings?.options,
   })
