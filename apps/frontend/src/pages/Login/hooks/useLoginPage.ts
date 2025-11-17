@@ -1,30 +1,23 @@
+import type { LoginData } from '../schemas/LoginSchema'
 import { valibotResolver } from '@hookform/resolvers/valibot'
 import { useNavigate } from '@tanstack/react-router'
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import * as v from 'valibot'
 import { useLoginMutation } from '@/api'
 import { storageKeys } from '@/shared/config'
-import { useMutationErrorHandler } from '@/shared/hooks'
-import { passwordValidator, userNameValidator } from '@/shared/utils/validators'
+import { useDisclosure, useMutationErrorHandler } from '@/shared/hooks'
+import { LoginSchema } from '../schemas/LoginSchema'
 
-export const LoginSchema = v.object({
-  userName: userNameValidator,
-  password: passwordValidator,
-})
-
-export type LoginData = v.InferOutput<typeof LoginSchema>
+const loginFormDefaultValues = { password: '', userName: '' }
 
 export function useLoginPage() {
-  const [isOpen, setIsOpen] = useState(false)
-
-  const form = useForm<LoginData>({
-    defaultValues: { password: '', userName: '' },
+  const loginModal = useDisclosure()
+  const loginForm = useForm<LoginData>({
+    defaultValues: loginFormDefaultValues,
     resolver: valibotResolver(LoginSchema),
   })
 
-  const mutationErrorHandler = useMutationErrorHandler()
   const navigate = useNavigate()
+  const mutationErrorHandler = useMutationErrorHandler()
 
   const loginMutation = useLoginMutation({
     options: {
@@ -37,18 +30,15 @@ export function useLoginPage() {
     },
   })
 
-  const onSubmit = form.handleSubmit(body => loginMutation.mutate({ payload: { body } }))
+  const onSubmit = loginForm.handleSubmit(body => loginMutation.mutate({ payload: { body } }))
 
   return {
-    ui: {
-      modal: {
-        isOpen,
-        setIsOpen,
-      },
-    },
     actions: {
       onSubmit,
     },
-    form,
+    state: {
+      loginForm,
+      loginModal,
+    },
   }
 }

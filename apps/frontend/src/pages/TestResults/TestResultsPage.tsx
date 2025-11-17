@@ -7,7 +7,7 @@ import { useTestResultsPage } from './hooks/useTestResultsPage'
 import styles from './TestResultsPage.module.css'
 
 export function TestResultsPage() {
-  const { form, actions, data, ui } = useTestResultsPage()
+  const { actions, queries, state } = useTestResultsPage()
   const { t } = useI18n()
 
   return (
@@ -16,7 +16,7 @@ export function TestResultsPage() {
         <Typography tag="h2" variant="subheading">
           <I18nText>title.create-test-result</I18nText>
         </Typography>
-        <Modal isOpen={ui.modal.isOpen} setIsOpen={ui.modal.setIsOpen}>
+        <Modal isOpen={state.lastTestResultsModal.isOpen} setIsOpen={state.lastTestResultsModal.setIsOpen}>
           <Modal.Trigger asChild>
             <Button size="small">
               <I18nText>action.view-last</I18nText>
@@ -28,13 +28,13 @@ export function TestResultsPage() {
                 <I18nText>title.test-results</I18nText>
               </Typography>
             </Modal.Header>
-            {!data.testResults.data?.data.length && (
+            {!queries.testResults.data?.data.length && (
               <Typography>
                 <I18nText>message.no-records</I18nText>
               </Typography>
             )}
             <div className={styles.cards}>
-              {data.testResults.data?.data.map((testResult, i) => (
+              {queries.testResults.data?.data.map((testResult, i) => (
                 <TestResultCard
                   key={testResult.id}
                   testResult={testResult}
@@ -49,7 +49,7 @@ export function TestResultsPage() {
       <Form onSubmit={actions.onSubmit} className={styles.form}>
         <Controller
           name="pcbName"
-          control={form.control}
+          control={state.createTestResultForm.control}
           render={({ field, fieldState }) => (
             <Form.Field className={styles.pcb}>
               <Form.Label>
@@ -60,7 +60,7 @@ export function TestResultsPage() {
                   placeholder={t('placeholder.pcb-name')}
                 />
                 <Autocomplete.Items>
-                  {data.options.data?.data.pcbNames.map(pcb => (
+                  {queries.options.data?.data.pcbNames.map(pcb => (
                     <Autocomplete.Item key={pcb} value={pcb}>
                       {pcb}
                     </Autocomplete.Item>
@@ -77,7 +77,7 @@ export function TestResultsPage() {
         />
         <Controller
           name="date"
-          control={form.control}
+          control={state.createTestResultForm.control}
           render={({ field }) => (
             <Form.Field className={styles.date}>
               <Form.Label>
@@ -89,7 +89,7 @@ export function TestResultsPage() {
         />
         <Controller
           name="firstTry"
-          control={form.control}
+          control={state.createTestResultForm.control}
           render={({ field, fieldState }) => (
             <Form.Field className={styles.first}>
               <Form.Label>
@@ -110,7 +110,7 @@ export function TestResultsPage() {
         />
         <Controller
           name="failed"
-          control={form.control}
+          control={state.createTestResultForm.control}
           render={({ field, fieldState }) => (
             <Form.Field className={styles.failed}>
               <Form.Label>
@@ -131,7 +131,7 @@ export function TestResultsPage() {
         />
         <Controller
           name="total"
-          control={form.control}
+          control={state.createTestResultForm.control}
           render={({ field, fieldState }) => (
             <Form.Field className={styles.total}>
               <Form.Label>

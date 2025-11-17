@@ -1,33 +1,33 @@
 import type { CreateTestResultData } from '../schemas/createTestResultSchema'
 import { valibotResolver } from '@hookform/resolvers/valibot'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { getOptionsQueryOptions, useCreateTestResultMutation, useDeleteTestResultMutation, useGetSelfTestResultsQuery } from '@/api'
 import { queryClient } from '@/providers'
-import { useI18n, useMutationErrorHandler, useToast } from '@/shared/hooks'
+import { useDisclosure, useI18n, useMutationErrorHandler, useToast } from '@/shared/hooks'
 import { CreateTestResultSchema } from '../schemas/createTestResultSchema'
 
-export function useTestResultsPage() {
-  const { t } = useI18n()
-  const [isOpen, setIsOpen] = useState(false)
+const createTestResultFormDefaultValue = {
+  pcbName: '',
+  date: new Date(),
+  failed: '',
+  firstTry: '',
+  total: '',
+}
 
-  const form = useForm<CreateTestResultData>({
-    defaultValues: {
-      pcbName: '',
-      date: new Date(),
-      failed: '',
-      firstTry: '',
-      total: '',
-    },
+export function useTestResultsPage() {
+  const testResultsQuery = useGetSelfTestResultsQuery()
+  const optionsQuery = useSuspenseQuery(getOptionsQueryOptions)
+
+  const lastTestResultsModal = useDisclosure()
+  const createTestResultForm = useForm<CreateTestResultData>({
+    defaultValues: createTestResultFormDefaultValue,
     resolver: valibotResolver(CreateTestResultSchema),
   })
 
-  const optionsQuery = useSuspenseQuery(getOptionsQueryOptions)
-  const testResultsQuery = useGetSelfTestResultsQuery()
-
-  const mutationErrorHandler = useMutationErrorHandler()
+  const { t } = useI18n()
   const toast = useToast()
+  const mutationErrorHandler = useMutationErrorHandler()
 
   const deleteTestResultMutation = useDeleteTestResultMutation({
     options: {
@@ -44,15 +44,15 @@ export function useTestResultsPage() {
       onSuccess: () => {
         toast.success(t('message.created-test-result'))
         queryClient.invalidateQueries({ queryKey: ['getSelfTestResults'] })
-        form.reset()
+        createTestResultForm.reset()
       },
       onError: mutationErrorHandler,
     },
   })
 
-  const onSubmit = form.handleSubmit((body) => {
+  const onSubmit = createTestResultForm.handleSubmit((body) => {
     if (!optionsQuery.data?.data.pcbNames.includes(body.pcbName)) {
-      return form.setError('pcbName', {
+      return createTestResultForm.setError('pcbName', {
         type: 'manual',
         message: t('error.invalid-board-name'),
       })
@@ -74,20 +74,17 @@ export function useTestResultsPage() {
   const onDelete = (id: number) => deleteTestResultMutation.mutate({ payload: { params: { id } } })
 
   return {
-    form,
     actions: {
       onSubmit,
       onDelete,
     },
-    data: {
+    queries: {
       options: optionsQuery,
       testResults: testResultsQuery,
     },
-    ui: {
-      modal: {
-        isOpen,
-        setIsOpen,
-      },
+    state: {
+      lastTestResultsModal,
+      createTestResultForm,
     },
   }
 }

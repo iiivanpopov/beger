@@ -6,7 +6,7 @@ import { useLoginPage } from './hooks/useLoginPage'
 import styles from './LoginPage.module.css'
 
 export function LoginPage() {
-  const { form, actions, ui } = useLoginPage()
+  const { state, actions } = useLoginPage()
   const { t } = useI18n()
 
   return (
@@ -14,7 +14,7 @@ export function LoginPage() {
       <Typography variant="subheading" tag="h2">
         <I18nText>unauthorized</I18nText>
       </Typography>
-      <Modal isOpen={ui.modal.isOpen} setIsOpen={ui.modal.setIsOpen}>
+      <Modal isOpen={state.loginModal.isOpen} setIsOpen={state.loginModal.setIsOpen}>
         <Modal.Trigger asChild>
           <Button>
             <I18nText>action.login</I18nText>
@@ -27,7 +27,7 @@ export function LoginPage() {
             </Typography>
             <Form onSubmit={actions.onSubmit}>
               <Controller
-                control={form.control}
+                control={state.loginForm.control}
                 name="userName"
                 render={({ field, fieldState }) => (
                   <Form.Field>
@@ -49,7 +49,7 @@ export function LoginPage() {
                 )}
               />
               <Controller
-                control={form.control}
+                control={state.loginForm.control}
                 name="password"
                 render={({ field, fieldState }) => (
                   <Form.Field {...fieldState}>

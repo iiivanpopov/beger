@@ -1,35 +1,14 @@
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { useSearch } from '@tanstack/react-router'
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
-import { getUsersQueryOptions, useDeleteUserMutation } from '@/api'
 import { I18nText } from '@/components'
-import { queryClient } from '@/providers'
-import { useI18n, useMutationErrorHandler, usePagination, useToast } from '@/shared/hooks'
+import { useI18n } from '@/shared/hooks'
 import { Typography } from '@/shared/ui'
+import { useUsersSection } from './hooks/useUsersSection'
 import { UserCard } from './UserCard'
 import styles from './UsersSection.module.css'
 
 export function UsersSection() {
-  const search = useSearch({ from: '/(admin)/users' })
+  const { actions, state, queries } = useUsersSection()
   const { t } = useI18n()
-
-  const usersQuery = useSuspenseQuery(getUsersQueryOptions({ query: { limit: 5, page: search.page } }))
-
-  const pagination = usePagination(usersQuery.data.data.meta.pages)
-  const mutationHandler = useMutationErrorHandler()
-  const toast = useToast()
-
-  const deleteUserMutation = useDeleteUserMutation({
-    options: {
-      onSuccess: () => {
-        toast.success(t('message.deleted-user'))
-        queryClient.invalidateQueries({ queryKey: ['getUsers'] })
-      },
-      onError: mutationHandler,
-    },
-  })
-
-  const onDelete = (id: number) => deleteUserMutation.mutate({ payload: { params: { id } } })
 
   return (
     <section className={styles.section}>
@@ -43,8 +22,8 @@ export function UsersSection() {
               type="button"
               title={t('aria-label.current-page')}
               aria-label={t('aria-label.current-page')}
-              hidden={search.page === 1 || pagination.pages === 0}
-              onClick={pagination.onPrevPage}
+              hidden={state.search.page === 1 || state.pagination.pages === 0}
+              onClick={state.pagination.onPrevPage}
             >
               <ArrowLeftIcon />
             </button>
@@ -53,9 +32,9 @@ export function UsersSection() {
           <div>
             <span
               aria-label={t('aria-label.current-page')}
-              hidden={pagination.pages === 1 || pagination.pages === 0}
+              hidden={state.pagination.pages === 1 || state.pagination.pages === 0}
             >
-              {search.page}
+              {state.search.page}
             </span>
           </div>
 
@@ -64,8 +43,8 @@ export function UsersSection() {
               type="button"
               title={t('aria-label.next-page')}
               aria-label={t('aria-label.next-page')}
-              hidden={search.page === pagination.pages || pagination.pages === 0}
-              onClick={pagination.onNextPage}
+              hidden={state.search.page === state.pagination.pages || state.pagination.pages === 0}
+              onClick={state.pagination.onNextPage}
             >
               <ArrowRightIcon />
             </button>
@@ -74,14 +53,14 @@ export function UsersSection() {
       </div>
 
       <div className={styles.users}>
-        {!usersQuery.data.data?.users.length && (
+        {!queries.users.data.data?.users.length && (
           <Typography>
             <I18nText>message.no-users</I18nText>
           </Typography>
         )}
-        {usersQuery.data.data?.users.map((user, i) => (
+        {queries.users.data.data?.users.map((user, i) => (
           <UserCard
-            onDelete={onDelete}
+            onDelete={actions.onDelete}
             key={user.id}
             user={user}
             i={i + 1}

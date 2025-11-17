@@ -1,55 +1,23 @@
-import { valibotResolver } from '@hookform/resolvers/valibot'
-import { Controller, useForm } from 'react-hook-form'
-import * as v from 'valibot'
-import { useRegisterMutation } from '@/api'
+import { Controller } from 'react-hook-form'
 import { I18nText } from '@/components'
-import { queryClient } from '@/providers'
-import { useI18n, useMutationErrorHandler, useToast } from '@/shared/hooks'
+import { useI18n } from '@/shared/hooks'
 import { Button, Form, Input, Typography } from '@/shared/ui'
-import { fullNameValidator, passwordValidator, userNameValidator } from '@/shared/utils/validators'
+import { useNewUserSection } from './hooks/useNewUserSection'
 import styles from './NewUserSection.module.css'
 
-const CreateUserSchema = v.object({
-  userName: userNameValidator,
-  fullName: fullNameValidator,
-  password: passwordValidator,
-})
-
-type CreateUserData = v.InferOutput<typeof CreateUserSchema>
-
 export function NewUserSection() {
+  const { actions, state } = useNewUserSection()
   const { t } = useI18n()
-
-  const form = useForm<CreateUserData>({
-    defaultValues: { fullName: '', userName: '', password: '' },
-    resolver: valibotResolver(CreateUserSchema),
-  })
-
-  const toast = useToast()
-  const mutationHandler = useMutationErrorHandler()
-
-  const registerMutation = useRegisterMutation({
-    options: {
-      onSuccess: async () => {
-        toast.success(t('message.created-user'))
-        form.reset()
-        queryClient.invalidateQueries({ queryKey: ['getUsers'] })
-      },
-      onError: mutationHandler,
-    },
-  })
-
-  const onSubmit = form.handleSubmit(body => registerMutation.mutate({ payload: { body } }))
 
   return (
     <section className={styles.section}>
       <Typography tag="h2" variant="subheading">
         <I18nText>title.new-user</I18nText>
       </Typography>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={actions.onSubmit}>
         <Controller
           name="userName"
-          control={form.control}
+          control={state.createUserForm.control}
           render={({ field, fieldState }) => (
             <Form.Field>
               <Form.Label>
@@ -69,7 +37,7 @@ export function NewUserSection() {
         />
         <Controller
           name="fullName"
-          control={form.control}
+          control={state.createUserForm.control}
           render={({ field, fieldState }) => (
             <Form.Field>
               <Form.Label>
@@ -89,7 +57,7 @@ export function NewUserSection() {
         />
         <Controller
           name="password"
-          control={form.control}
+          control={state.createUserForm.control}
           render={({ field, fieldState }) => (
             <Form.Field>
               <Form.Label>

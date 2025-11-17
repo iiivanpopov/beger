@@ -1,73 +1,22 @@
-import type { UpdateUserPayload, User } from '@/api'
-import { valibotResolver } from '@hookform/resolvers/valibot'
+import type { User } from '@/api'
 import { EditIcon } from 'lucide-react'
-import { useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
-import * as v from 'valibot'
-import { useUpdateUserMutation } from '@/api'
+import { Controller } from 'react-hook-form'
 import { I18nText } from '@/components'
-import { queryClient } from '@/providers'
-import { useI18n, useMutationErrorHandler, useToast } from '@/shared/hooks'
+import { useI18n } from '@/shared/hooks'
 import { Button, Form, Input, Modal, Typography } from '@/shared/ui'
-import { fullNameValidator, passwordValidator, userNameValidator } from '@/shared/utils'
 import styles from './EditUserModal.module.css'
-
-const UpdateUserSchema = v.object({
-  userName: userNameValidator,
-  fullName: fullNameValidator,
-  password: v.union([v.pipe(v.string(), v.empty()), passwordValidator]),
-})
-
-type UpdateUserData = v.InferOutput<typeof UpdateUserSchema>
+import { useEditUserModal } from './hooks/useEditUserModal'
 
 export interface EditUserModalProps {
   user: User
 }
 
 export function EditUserModal({ user }: EditUserModalProps) {
-  const [isOpen, setIsOpen] = useState(false)
+  const { state, actions } = useEditUserModal(user)
   const { t } = useI18n()
 
-  const form = useForm<UpdateUserData>({
-    defaultValues: { fullName: user.fullName, userName: user.userName, password: '' },
-    resolver: valibotResolver(UpdateUserSchema),
-  })
-
-  const toast = useToast()
-  const mutationErrorHandler = useMutationErrorHandler()
-
-  const updateUserMutation = useUpdateUserMutation({
-    options: {
-      onSuccess: () => {
-        toast.success(t('message.updated-user'))
-        queryClient.invalidateQueries({ queryKey: ['getUsers'] })
-        setIsOpen(false)
-      },
-      onError: mutationErrorHandler,
-    },
-  })
-
-  const onSubmit = form.handleSubmit((body) => {
-    const updateData: UpdateUserPayload['body'] = {
-      fullName: body.fullName,
-      userName: body.userName,
-    }
-
-    if (body.password)
-      updateData.password = body.password
-
-    updateUserMutation.mutate({
-      payload: {
-        body: updateData,
-        params: {
-          id: user.id,
-        },
-      },
-    })
-  })
-
   return (
-    <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+    <Modal isOpen={state.editUserModal.isOpen} setIsOpen={state.editUserModal.setIsOpen}>
       <Modal.Trigger asChild>
         <Button
           icon
@@ -83,10 +32,10 @@ export function EditUserModal({ user }: EditUserModalProps) {
         <Typography variant="subheading" tag="h2">
           <I18nText>title.update-user</I18nText>
         </Typography>
-        <Form onSubmit={onSubmit}>
+        <Form onSubmit={actions.onSubmit}>
           <Controller
             name="userName"
-            control={form.control}
+            control={state.editUserForm.control}
             render={({ field, fieldState }) => (
               <Form.Field>
                 <Form.Label>
@@ -106,7 +55,7 @@ export function EditUserModal({ user }: EditUserModalProps) {
           />
           <Controller
             name="fullName"
-            control={form.control}
+            control={state.editUserForm.control}
             render={({ field, fieldState }) => (
               <Form.Field>
                 <Form.Label>
@@ -126,7 +75,7 @@ export function EditUserModal({ user }: EditUserModalProps) {
           />
           <Controller
             name="password"
-            control={form.control}
+            control={state.editUserForm.control}
             render={({ field, fieldState }) => (
               <Form.Field>
                 <Form.Label>

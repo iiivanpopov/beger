@@ -9,7 +9,7 @@ export function ErrorPage() {
     <Layout>
       <div className={styles.page}>
         <Typography variant="heading">
-          <I18nText>Unexpected Error</I18nText>
+          <I18nText>unexpected.error</I18nText>
         </Typography>
         <Button component={Link} to="/">
           <I18nText>link.home</I18nText>

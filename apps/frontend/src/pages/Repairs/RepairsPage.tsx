@@ -7,7 +7,7 @@ import { useRepairsPage } from './hooks/useRepairsPage'
 import styles from './RepairsPage.module.css'
 
 export function RepairsPage() {
-  const { form, actions, data, ui } = useRepairsPage()
+  const { actions, queries, state } = useRepairsPage()
   const { t } = useI18n()
 
   return (
@@ -16,7 +16,7 @@ export function RepairsPage() {
         <Typography tag="h2" variant="subheading">
           <I18nText>action.new-repair</I18nText>
         </Typography>
-        <Modal isOpen={ui.modal.isOpen} setIsOpen={ui.modal.setIsOpen}>
+        <Modal isOpen={state.lastRepairsModal.isOpen} setIsOpen={state.lastRepairsModal.setIsOpen}>
           <Modal.Trigger asChild>
             <Button size="small">
               <I18nText>action.view-last</I18nText>
@@ -28,13 +28,13 @@ export function RepairsPage() {
                 <I18nText>title.repairs</I18nText>
               </Typography>
             </Modal.Header>
-            {!data.repairs.data?.data.length && (
+            {!queries.repairs.data?.data.length && (
               <Typography>
                 <I18nText>message.no-records</I18nText>
               </Typography>
             )}
             <div className={styles.cards}>
-              {data.repairs.data?.data.map((repair, i) => (
+              {queries.repairs.data?.data.map((repair, i) => (
                 <RepairCard
                   onDelete={actions.onDelete}
                   key={repair.id}
@@ -49,7 +49,7 @@ export function RepairsPage() {
       <Form onSubmit={actions.onSubmit} className={styles.form}>
         <Controller
           name="pcbName"
-          control={form.control}
+          control={state.createRepairForm.control}
           render={({ field, fieldState }) => (
             <Form.Field className={styles.pcb}>
               <Form.Label>
@@ -58,7 +58,7 @@ export function RepairsPage() {
               <Autocomplete {...field}>
                 <Autocomplete.Trigger placeholder={t('placeholder.pcb-name')} />
                 <Autocomplete.Items>
-                  {data.options.data?.data.pcbNames.map(pcb => (
+                  {queries.options.data?.data.pcbNames.map(pcb => (
                     <Autocomplete.Item key={pcb} value={pcb}>
                       {pcb}
                     </Autocomplete.Item>
@@ -75,7 +75,7 @@ export function RepairsPage() {
         />
         <Controller
           name="defect"
-          control={form.control}
+          control={state.createRepairForm.control}
           render={({ field, fieldState }) => (
             <Form.Field className={styles.defect}>
               <Form.Label>
@@ -84,7 +84,7 @@ export function RepairsPage() {
               <Autocomplete {...field}>
                 <Autocomplete.Trigger placeholder={t('placeholder.defect')} />
                 <Autocomplete.Items>
-                  {data.options.data?.data.defects.map(pcb => (
+                  {queries.options.data?.data.defects.map(pcb => (
                     <Autocomplete.Item key={pcb} value={pcb}>
                       {pcb}
                     </Autocomplete.Item>
@@ -101,7 +101,7 @@ export function RepairsPage() {
         />
         <Controller
           name="date"
-          control={form.control}
+          control={state.createRepairForm.control}
           render={({ field }) => (
             <Form.Field className={styles.date}>
               <Form.Label>
@@ -113,7 +113,7 @@ export function RepairsPage() {
         />
         <Controller
           name="note"
-          control={form.control}
+          control={state.createRepairForm.control}
           render={({ field }) => (
             <Form.Field className={styles.note}>
               <Form.Label>

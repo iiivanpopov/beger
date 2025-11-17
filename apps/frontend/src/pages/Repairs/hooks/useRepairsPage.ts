@@ -1,41 +1,32 @@
+import type { CreateRepairData } from '../schemas/CreateRepairSchema'
 import { valibotResolver } from '@hookform/resolvers/valibot'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import * as v from 'valibot'
 import { getOptionsQueryOptions, useCreateRepairMutation, useDeleteRepairMutation, useGetSelfRepairsQuery } from '@/api'
 import { queryClient } from '@/providers'
-import { useI18n, useMutationErrorHandler, useToast } from '@/shared/hooks'
-import { pcbNameValidator } from '@/shared/utils'
+import { useDisclosure, useI18n, useMutationErrorHandler, useToast } from '@/shared/hooks'
+import { CreateRepairSchema } from '../schemas/CreateRepairSchema'
 
-const CreateRepairSchema = v.object({
-  pcbName: pcbNameValidator,
-  defect: v.pipe(v.string(), v.nonEmpty('error.required')),
-  note: v.optional(v.string()),
-  date: v.date(),
-})
-
-type CreateRepairData = v.InferOutput<typeof CreateRepairSchema>
+const createRepairFormDefaultValues = {
+  pcbName: '',
+  date: new Date(),
+  defect: '',
+  note: '',
+}
 
 export function useRepairsPage() {
-  const [isOpen, setIsOpen] = useState(false)
-  const { t } = useI18n()
+  const repairsQuery = useGetSelfRepairsQuery()
+  const optionsQuery = useSuspenseQuery(getOptionsQueryOptions)
 
-  const form = useForm<CreateRepairData>({
-    defaultValues: {
-      pcbName: '',
-      date: new Date(),
-      defect: '',
-      note: '',
-    },
+  const lastRepairsModal = useDisclosure()
+  const createRepairForm = useForm<CreateRepairData>({
+    defaultValues: createRepairFormDefaultValues,
     resolver: valibotResolver(CreateRepairSchema),
   })
 
-  const optionsQuery = useSuspenseQuery(getOptionsQueryOptions)
-  const repairsQuery = useGetSelfRepairsQuery()
-
-  const mutationErrorHandler = useMutationErrorHandler()
+  const { t } = useI18n()
   const toast = useToast()
+  const mutationErrorHandler = useMutationErrorHandler()
 
   const deleteRepairMutation = useDeleteRepairMutation({
     options: {
@@ -52,22 +43,22 @@ export function useRepairsPage() {
       onSuccess: () => {
         toast.success(t('message.created-repair'))
         queryClient.invalidateQueries({ queryKey: ['getSelfRepairs'] })
-        form.reset()
+        createRepairForm.reset()
       },
       onError: mutationErrorHandler,
     },
   })
 
-  const onSubmit = form.handleSubmit((body) => {
+  const onSubmit = createRepairForm.handleSubmit((body) => {
     if (!optionsQuery.data?.data.pcbNames.includes(body.pcbName)) {
-      return form.setError('pcbName', {
+      return createRepairForm.setError('pcbName', {
         type: 'manual',
         message: t('error.invalid-board-name'),
       })
     }
 
     if (!optionsQuery.data?.data.defects.includes(body.defect)) {
-      return form.setError('defect', {
+      return createRepairForm.setError('defect', {
         type: 'manual',
         message: t('error.invalid-defect'),
       })
@@ -79,18 +70,15 @@ export function useRepairsPage() {
   const onDelete = (id: number) => deleteRepairMutation.mutate({ payload: { params: { id } } })
 
   return {
-    form,
-    ui: {
-      modal: {
-        isOpen,
-        setIsOpen,
-      },
+    state: {
+      lastRepairsModal,
+      createRepairForm,
     },
     actions: {
       onDelete,
       onSubmit,
     },
-    data: {
+    queries: {
       options: optionsQuery,
       repairs: repairsQuery,
     },

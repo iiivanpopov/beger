@@ -1,6 +1,7 @@
 export * from './useClickOn'
 export * from './useClickOutside'
 export * from './useControllableState'
+export * from './useDisclosure'
 export * from './useFloatingPosition'
 export * from './useI18n'
 export * from './useMutationErrorHandler'
