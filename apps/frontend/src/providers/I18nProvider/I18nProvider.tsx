@@ -19,7 +19,7 @@ export function I18nProvider({ defaultLocale, defaultMessages, children }: I18nP
   const contextValue = useMemo(() => ({
     locale,
     setLocale: async (newLocale: Locale) => {
-      const newMessages = await loadLocale(locale)
+      const newMessages = await loadLocale(newLocale)
       localStorage.setItem(storageKeys.locale, newLocale)
       setMessages(newMessages)
       setLocale(newLocale)
