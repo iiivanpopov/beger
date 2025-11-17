@@ -4,14 +4,14 @@ import clsx from 'clsx'
 import { LoaderCircle } from 'lucide-react'
 import styles from './Button.module.css'
 
-type Variant = 'contained' | 'ghost'
-type Color = 'primary' | 'white'
-type Size = 'small' | 'medium'
+export type ButtonVariant = 'contained' | 'ghost'
+export type ButtonColor = 'primary' | 'white'
+export type ButtonSize = 'small' | 'medium'
 
 export type ButtonProps<C extends Element = 'button'> = {
-  variant?: Variant
-  color?: Color
-  size?: Size
+  variant?: ButtonVariant
+  color?: ButtonColor
+  size?: ButtonSize
   icon?: boolean
   loading?: boolean
   children?: ReactNode

@@ -2,16 +2,16 @@ import type { ComponentProps, ReactNode } from 'react'
 import clsx from 'clsx'
 import styles from './Typography.module.css'
 
-type Tag = 'h1' | 'h2' | 'div'
-type Variant = 'heading' | 'subheading' | 'body' | 'caption'
+export type TypographyTag = 'h1' | 'h2' | 'div'
+export type TypographyVariant = 'heading' | 'subheading' | 'body' | 'caption'
 
-export type TypographyProps<T extends Tag = 'div'> = ComponentProps<T> & {
+export type TypographyProps<T extends TypographyTag = 'div'> = ComponentProps<T> & {
   tag?: T
-  variant?: Variant
+  variant?: TypographyVariant
   children: ReactNode
 }
 
-export function Typography<T extends Tag = 'div'>({
+export function Typography<T extends TypographyTag = 'div'>({
   tag,
   children,
   className,

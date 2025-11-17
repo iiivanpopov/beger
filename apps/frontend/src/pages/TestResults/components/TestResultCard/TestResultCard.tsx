@@ -50,6 +50,7 @@ export function TestResultCard({ testResult, i, onDelete }: TestResultCardProps)
             {new Date(testResult.date).toLocaleDateString()}
           </Typography>
           <ConfirmableButton
+            label={t('button.confirm')}
             icon
             variant="ghost"
             size="small"

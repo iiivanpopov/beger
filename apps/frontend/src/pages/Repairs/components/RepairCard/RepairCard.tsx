@@ -43,6 +43,7 @@ export function RepairCard({ repair, i, onDelete }: RepairCardProps) {
             <I18nDate>{repair.date}</I18nDate>
           </Typography>
           <ConfirmableButton
+            label={t('button.confirm')}
             icon
             variant="ghost"
             size="small"

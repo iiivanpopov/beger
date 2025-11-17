@@ -35,6 +35,7 @@ export function UserCard({ user, i, onDelete }: UserCardProps) {
             <EditUserModal user={user} />
             <ConfirmableButton
               icon
+              label={t('button.confirm')}
               variant="ghost"
               size="small"
               aria-label={t('aria-label.delete-user')}

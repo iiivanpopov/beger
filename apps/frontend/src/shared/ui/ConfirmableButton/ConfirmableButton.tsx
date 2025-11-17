@@ -6,9 +6,10 @@ import { Button } from '@/shared/ui/Button/Button'
 
 export interface ConfirmableButtonProps extends ButtonProps {
   children: ReactNode
+  label: ReactNode
 }
 
-export function ConfirmableButton({ children, onClick, ...props }: ConfirmableButtonProps) {
+export function ConfirmableButton({ children, onClick, label, ...props }: ConfirmableButtonProps) {
   const [isConfirming, setIsConfirming] = useState(false)
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>(null!)
 
@@ -26,7 +27,7 @@ export function ConfirmableButton({ children, onClick, ...props }: ConfirmableBu
         }}
       >
         {props.icon && <CheckIcon />}
-        {!props.icon && 'Confirm?'}
+        {!props.icon && label}
       </Button>
     )
   }

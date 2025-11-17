@@ -2,11 +2,14 @@ import type { ReactNode } from 'react'
 import clsx from 'clsx'
 import styles from './Badge.module.css'
 
+export type BadeColor = 'accent' | 'black' | 'white'
+export type BadgeSize = 'small' | 'medium'
+
 export interface BadgeProps {
   children: ReactNode
   className?: string
-  color: 'accent' | 'black' | 'white'
-  size: 'small' | 'medium'
+  color: BadeColor
+  size: BadgeSize
 }
 
 export function Badge({ children, className, color, size }: BadgeProps) {
